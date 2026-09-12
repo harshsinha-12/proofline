@@ -6,6 +6,9 @@ export type ErrorCode =
   | "not_implemented"
   | "rate_limited"
   | "validation_failed"
+  | "not_found"
+  | "approval_not_allowed"
+  | "read_only"
   | "internal_error";
 
 export class AppError extends Error {

@@ -1,0 +1,32 @@
+import fixture from "../../fixtures/demo-run.json";
+import { z } from "zod";
+import { researchRunSchema, executionEventSchema } from "@/schemas/run";
+import { claimSchema } from "@/schemas/claim";
+import { sourceSchema } from "@/schemas/source";
+import { auditDiagnostic } from "@/lib/diagnostic-audit";
+import { redactSecrets } from "@/lib/errors";
+import { sanitizeEventData } from "@/lib/store-utils";
+
+export const DEMO_RUN_ID = "demo";
+const demoFixtureSchema = z.object({
+  run: researchRunSchema,
+  sources: z.array(sourceSchema),
+  claims: z.array(claimSchema),
+  events: z.array(executionEventSchema).max(500),
+});
+
+export function parseDemoFixture(value: unknown) {
+  const parsed = demoFixtureSchema.safeParse(value);
+  if (!parsed.success || parsed.data.run.id !== DEMO_RUN_ID) return null;
+  const data = parsed.data;
+  if (redactSecrets(JSON.stringify(data)) !== JSON.stringify(data) || data.events.some((event) =>
+    JSON.stringify(event.data) !== JSON.stringify(sanitizeEventData(event.data)))) return null;
+  if (!data.run.diagnostic || data.run.diagnostic.reviewStatus !== "approved" ||
+    !auditDiagnostic(data.run.diagnostic, data.claims.filter((claim) => claim.status === "verified" && claim.humanDecision === "approved")).valid) return null;
+  return data;
+}
+
+export function getDemoFixture() {
+  // The Phase 0 placeholder is deliberately not a fabricated completed research run.
+  return parseDemoFixture(fixture);
+}
