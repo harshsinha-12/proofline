@@ -158,6 +158,8 @@ Keep prompt-output schemas separate from persisted domain schemas when the shape
 
 ## Phase 1 — Integrity core
 
+**Status: complete (2026-09-12).** Steps 1.1–1.4 are implemented and covered by 80 offline tests plus two local Redis socket integration tests. Lint, TypeScript, and the Webpack production build pass. The loader rejects the placeholder fixture; the evidence-backed golden fixture is still Phase 4 work. The audit enforces a text budget, with rendered one-page verification reserved for Phase 3. No provider calls or research stages were implemented in Phase 1.
+
 Build this before search, LLMs, or UI. These rules must remain code, not prompt requests.
 
 ### Step 1.1 — Redis stores

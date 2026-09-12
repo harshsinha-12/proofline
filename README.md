@@ -12,7 +12,17 @@ Sprint 1 is complete. Duration: 10 minutes.
 
 Sprint 1 delivered the implementation plan, Next.js scaffold, Zod schemas, Redis TCP wiring, deterministic primitives, GPT 5.5 model config, and Phase 0 tests.
 
-Sprint 2 will start next, later. It covers the integrity core: Redis stores, claim classification, the eligibility firewall, and diagnostic audit tests.
+Phase 1 is complete: Redis run/source/claim stores, bounded execution events, resumable checkpoints, token-owned locks, deterministic classification, the writer eligibility firewall, claim-review approval guards, and diagnostic audits with one recorded retry.
+
+Verification: 80 offline tests pass. Two additional integration tests pass against temporary Redis over a local Unix socket. Lint, TypeScript, and the production build using `npm run build -- --webpack` pass. Turbopack encountered a local port-binding permission error in this environment.
+
+The fixture loader supports validated, read-only demo data, but `fixtures/demo-run.json` remains the explicit placeholder until real evidence is collected in Phase 4. No completed research run has been fabricated. The 650-word / 5,000-character audit budget is a text guard; printed A4 layout still requires Phase 3 verification.
+
+Phase 2 is next: provider adapters and the bounded research pipeline. Search, model calls, intake, diagnostic generation routes, and export remain unimplemented.
+
+Integrity checks
+
+Run `npm test` for the offline suite. Redis integration checks are opt-in: start a disposable Redis instance with TCP disabled and a private Unix socket, then run `REDIS_TEST_SOCKET=/path/to/redis.sock npm test`. The integration tests isolate and delete their own run keys and never use the project's Redis credentials.
 
 Recommended project name
 
@@ -1837,4 +1847,3 @@ The deterministic classification function and tests.
 Then implement vertically until one claim can travel from source discovery through two checks, human approval, and diagnostic inclusion. After that, generalize to multiple claims and finish the UI.
 
 Do not claim completion until the end-to-end path, refusal path, resume path, and diagnostic audit have all been tested.
-
