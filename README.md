@@ -6,6 +6,14 @@ Proofline is an evidence-constrained reputation research system for founders, CE
 
 This project is being built for Growpido's September 2026 AI and Automation Engineer assessment, Track B: Prospect to Diagnostic.
 
+Sprint status
+
+Sprint 1 is complete. Duration: 10 minutes.
+
+Sprint 1 delivered the implementation plan, Next.js scaffold, Zod schemas, Redis TCP wiring, deterministic primitives, GPT 5.5 model config, and Phase 0 tests.
+
+Sprint 2 will start next, later. It covers the integrity core: Redis stores, claim classification, the eligibility firewall, and diagnostic audit tests.
+
 Recommended project name
 
 Proofline is the recommended name.
@@ -1784,7 +1792,7 @@ Actual one-page diagnostic.
 
 One honest limitations paragraph.
 
-Exact hours from start to finish.
+Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2 not started.
 
 Email subject: TASK - Harsh Sinha.
 
