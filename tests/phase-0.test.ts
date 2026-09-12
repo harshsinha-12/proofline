@@ -117,7 +117,7 @@ describe("claim schema", () => {
   });
 
   it("rejects a claim missing statusReason", () => {
-    const { statusReason: _statusReason, ...invalid } = validClaim;
+    const invalid = { ...validClaim, statusReason: undefined };
     expect(claimSchema.safeParse(invalid).success).toBe(false);
   });
 });
