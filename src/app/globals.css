@@ -133,3 +133,23 @@
     font-family: var(--font-newsreader), ui-serif, Georgia, serif;
   }
 }
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .diagnostic-sheet {
+    box-shadow: none !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}
