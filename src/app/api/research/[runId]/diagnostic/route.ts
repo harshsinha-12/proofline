@@ -16,7 +16,7 @@ export async function POST(request: Request, context: RouteContext<"/api/researc
   }
   try {
     const { runId } = await context.params;
-    const result = await generateReviewDiagnostic(runId, parsed.data.roleLimitation);
+    const result = await generateReviewDiagnostic(runId, parsed.data.roleLimitation, request.signal);
     if (result.status !== "ok") {
       return NextResponse.json({ status: result.status, reason: result.reason }, { headers: { "Cache-Control": "no-store" } });
     }

@@ -139,6 +139,32 @@
   margin: 14mm;
 }
 
+.citation-marks a {
+  color: var(--accent);
+  margin-right: 0.15em;
+}
+
+.print-page .diagnostic-sheet {
+  max-width: 182mm;
+  padding: 0 !important;
+  font-size: 10.5pt;
+  line-height: 1.3;
+}
+.print-page .diagnostic-sheet header { padding-bottom: 3mm; }
+.print-page .diagnostic-sheet h1 { font-size: 18pt !important; line-height: 1.15 !important; }
+.print-page .diagnostic-sheet section { margin-top: 3.5mm; }
+.print-page .diagnostic-sheet p,
+.print-page .diagnostic-sheet li { font-size: 10.5pt !important; line-height: 1.3 !important; }
+.print-page .diagnostic-sheet ol > li + li { margin-top: 1.5mm; }
+.print-page .diagnostic-sheet footer { margin-top: 3mm; padding-top: 2mm; font-size: 8pt !important; }
+.print-page .diagnostic-sheet footer p,
+.print-page .diagnostic-sheet footer li { font-size: 8pt !important; line-height: 1.25 !important; }
+.print-page .diagnostic-sheet footer ol { margin-top: 2mm; }
+.print-page .diagnostic-sheet footer ol > li + li { margin-top: 0.5mm; }
+.print-page .diagnostic-sheet h2 { font-size: 8.5pt !important; letter-spacing: 0.12em; }
+.print-page .diagnostic-sheet a { overflow-wrap: anywhere; }
+.print-page .diagnostic-sheet li { break-inside: avoid; }
+
 @media print {
   .no-print {
     display: none !important;
@@ -152,4 +178,6 @@
     max-width: none !important;
     padding: 0 !important;
   }
+  .print-page { padding: 0 !important; background: white !important; }
+  .print-page .diagnostic-sheet { color: black; background: white; }
 }

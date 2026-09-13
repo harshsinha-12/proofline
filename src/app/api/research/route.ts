@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createRun } from "@/lib/run-store";
 import { apiError } from "@/lib/api";
+import { validatePublicUrl } from "@/providers/public-http";
 
 const inputSchema = z.object({
   linkedInUrl: z.string().min(1).max(2_000),
@@ -19,6 +20,7 @@ export async function POST(request: Request) {
     );
   }
   try {
+    validatePublicUrl(parsed.data.linkedInUrl.trim());
     const hints = parsed.data.nameHint || parsed.data.companyHint
       ? { name: parsed.data.nameHint, company: parsed.data.companyHint }
       : undefined;
