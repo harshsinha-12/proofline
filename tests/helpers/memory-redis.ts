@@ -28,6 +28,14 @@ export class MemoryRedis {
     return this.expiries.has(key) ? Math.ceil((this.expiries.get(key)! - Date.now()) / 1000) : -1;
   }
   async eval(script: string, _keyCount: number, key: string, token: string, commandsJson?: string) {
+    if (script.includes("redis.call('INCR'")) {
+      const count = Number(await this.get(key) ?? 0) + 1;
+      const expiry = this.expiries.get(key);
+      this.values.set(key, String(count));
+      if (count === 1) this.expiries.set(key, Date.now() + Number(token) * 1000);
+      else if (expiry) this.expiries.set(key, expiry);
+      return count;
+    }
     if (await this.get(key) !== token) return 0;
     if (!commandsJson) { this.values.delete(key); this.expiries.delete(key); return 1; }
     for (const command of JSON.parse(commandsJson) as (string | number)[][]) {

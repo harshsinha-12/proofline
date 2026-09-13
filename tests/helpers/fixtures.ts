@@ -3,24 +3,27 @@ import type { Source } from "@/schemas/source";
 import type { VerificationCheck } from "@/schemas/verification";
 import type { Diagnostic } from "@/schemas/diagnostic";
 
-export const now = "2026-09-12T00:00:00.000Z";
+export function currentTimestamp(): string {
+  return new Date().toISOString();
+}
 
 export function makeSource(id = "source_a", overrides: Partial<Source> = {}): Source {
   return { id, url: `https://${id}.example/about`, canonicalUrl: `https://${id}.example/about`, title: "Public record",
-    retrievedAt: now, fetchStatus: "fetched", sourceKind: "institutional_first_party", textExcerpt: "Alex founded Example.",
+    retrievedAt: currentTimestamp(), fetchStatus: "fetched", sourceKind: "institutional_first_party", textExcerpt: "Alex founded Example.",
     discoveryQuery: "Alex Example", isPublic: true, notes: [], ...overrides };
 }
 
 export function makeCheck(pass: 1 | 2, source: Source, statement = "Alex founded Example.", overrides: Partial<VerificationCheck> = {}): VerificationCheck {
   return { id: `check_${pass}`, pass, verdict: "supported", evidence: [{ sourceId: source.id, url: source.url, title: source.title,
     excerpt: source.textExcerpt!, supportsExactly: statement }], sourceAuthorityForClaim: "qualifying",
-    independenceFromOtherCheck: "independent", reasoning: "The public record directly supports the proposition.", limitations: [], checkedAt: now, ...overrides };
+    independenceFromOtherCheck: "independent", reasoning: "The public record directly supports the proposition.", limitations: [], checkedAt: currentTimestamp(), ...overrides };
 }
 
 export function makeClaim(overrides: Partial<Claim> = {}): Claim {
+  const timestamp = currentTimestamp();
   return { id: "claim_a", subjectId: "subject_a", statement: "Alex founded Example.", category: "company", materiality: "low",
     containsNumber: false, timeSensitive: false, originSourceIds: ["source_a"], status: "pending", statusReason: "Awaiting checks.",
-    humanDecision: "pending", createdAt: now, updatedAt: now, ...overrides };
+    humanDecision: "pending", createdAt: timestamp, updatedAt: timestamp, ...overrides };
 }
 
 export function verifiedClaims(): Claim[] {
@@ -30,7 +33,7 @@ export function verifiedClaims(): Claim[] {
 }
 
 export function makeDiagnostic(overrides: Partial<Diagnostic> = {}): Diagnostic {
-  return { subjectName: "Alex", roleLine: "Example leader", generatedAt: now, currentPositioning: "Alex leads Example.",
+  return { subjectName: "Alex", roleLine: "Example leader", generatedAt: currentTimestamp(), currentPositioning: "Alex leads Example.",
     credibilitySignals: [{ text: "Example was founded in 2020.", claimIds: ["company"] }],
     gaps: [0, 1, 2].map((index) => ({ id: `gap_${index}`, title: "Positioning opportunity", observation: "The sample offers a limited view.",
       whyItMatters: "Clear positioning may help readers.", recommendation: "Explain the public record.", supportingClaimIds: ["role"],
