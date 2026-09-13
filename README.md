@@ -14,15 +14,27 @@ Sprint 1 delivered the implementation plan, Next.js scaffold, Zod schemas, Redis
 
 Phase 1 is complete: Redis run/source/claim stores, bounded execution events, resumable checkpoints, token-owned locks, deterministic classification, the writer eligibility firewall, claim-review approval guards, and diagnostic audits with one recorded retry.
 
-Verification: 80 offline tests pass. Two additional integration tests pass against temporary Redis over a local Unix socket. Lint, TypeScript, and the production build using `npm run build -- --webpack` pass. Turbopack encountered a local port-binding permission error in this environment.
+Sprint 2 completed Phase 1 in approximately 13 minutes.
+
+Sprint 3 implements Phase 2. Verification results are recorded below.
+
+Sprint 3 delivered Phase 2 provider adapters, the bounded research pipeline, and approved-fact gap analysis and audited drafting functions. Public source discovery uses GPT 5.5 through the OpenAI Responses API `web_search` tool (`tools: [{ type: "web_search" }]`). Tavily remains an optional fallback. Model id stays in `src/lib/model-config.ts`. Intake UI, diagnostic generation routes, and export remain for Phase 3.
+
+Phase 3 is next: the review product, human approval flow, and print export.
+
+The live Phase 2 slice reached human review using my configured Redis: seven sources discovered, one page extracted, one atomic claim, both checks, and 72 execution events. Five pages timed out and one was blocked. The accessible page was secondary evidence, so the claim remained unverified and the writer returned `insufficient_evidence`. Independent verified inclusion and contradictory exclusion are tested offline; this live run proves the conservative refusal and checkpoint-resume path.
+
+Verification: 107 tests pass, including two Redis socket integration tests. Lint, TypeScript, and the Webpack production build pass. The suite covers classification, provider caching and JSON repair, both evidence checks, contradiction, checkpoint recovery, locks, approval filtering, and diagnostic audit retry. Live verification uses the existing OpenAI key and configured Redis in an isolated key prefix; results are saved in `artifacts/phase-2-vertical-slice.json`.
 
 The fixture loader supports validated, read-only demo data, but `fixtures/demo-run.json` remains the explicit placeholder until real evidence is collected in Phase 4. No completed research run has been fabricated. The 650-word / 5,000-character audit budget is a text guard; printed A4 layout still requires Phase 3 verification.
-
-Phase 2 is next: provider adapters and the bounded research pipeline. Search, model calls, intake, diagnostic generation routes, and export remain unimplemented.
 
 Integrity checks
 
 Run `npm test` for the offline suite. Redis integration checks are opt-in: start a disposable Redis instance with TCP disabled and a private Unix socket, then run `REDIS_TEST_SOCKET=/path/to/redis.sock npm test`. The integration tests isolate and delete their own run keys and never use the project's Redis credentials.
+
+Run the single-claim live check with `node --conditions=react-server --import tsx scripts/verify-phase-2.ts "https://www.linkedin.com/in/manarm" "Manar Mahmassani" "Stake"`. It uses the configured Redis and OpenAI key, retains source failures, and writes an evidence report. An eligible claim may be approved for this local check; it does not approve a diagnostic for export. To resume, supply the logged prefix and run ID through `VERIFICATION_REDIS_PREFIX` and `VERIFICATION_RUN_ID`.
+
+Redis uses the existing TCP credentials in `.env.local`. `REDIS_TLS` explicitly selects the endpoint's transport; leaving it empty defaults to TLS for remote hosts. The configured endpoint was verified with authenticated `PING` and requires `REDIS_TLS=false`.
 
 Recommended project name
 
@@ -237,15 +249,15 @@ Enforces structured model and API outputs
 
 AI
 
-OpenAI Responses API or Anthropic
+OpenAI Responses API with GPT 5.5
 
-Structured extraction, verification, analysis, and writing
+Structured extraction, verification, analysis, and writing. Model id is code-configured, not an env var.
 
 Search
 
-Tavily, Exa, Brave Search, or equivalent
+OpenAI Responses API `web_search` tool, with Tavily as an optional fallback
 
-Public source discovery with URLs and snippets
+Public source discovery with URLs and snippets. Default `SEARCH_PROVIDER=openai`.
 
 Extraction
 
@@ -1588,11 +1600,13 @@ proofline/
 Environment variables
 
 OPENAI_API_KEY=
-OPENAI_MODEL=
 SEARCH_API_KEY=
-SEARCH_PROVIDER=tavily
-UPSTASH_REDIS_REST_URL=
-UPSTASH_REDIS_REST_TOKEN=
+SEARCH_PROVIDER=openai
+REDIS_USERNAME=
+REDIS_PASSWORD=
+REDIS_HOST=
+REDIS_PORT=6379
+REDIS_TLS=
 REDIS_KEY_PREFIX=proofline:dev
 APP_URL=http://localhost:3000
 MAX_SOURCES_PER_RUN=18
@@ -1788,7 +1802,7 @@ State the real limitations: bounded search cannot prove absence, source-origin d
 
 Honest limitations paragraph draft
 
-The weakest part of Proofline is not claim extraction but evidence completeness. Public LinkedIn access is inconsistent, some authoritative sources are difficult to parse, and two pages that look independent can still derive from the same supplied biography or press release. I therefore designed the system to record access failures, treat repeated wording cautiously, and exclude claims when independence or scope remains unclear. With more time, I would improve provenance clustering, add source-specific extractors for regulator and PDF records, and build an evaluation set of supported, overstated, stale, and contradictory claims to measure verifier precision. The current system is deliberately conservative: it may omit a useful fact, but it should not quietly convert weak evidence into a client-facing claim.
+Evidence completeness was the main limitation in my live Phase 2 check. Of seven discovered sources, five timed out, one was blocked, and only one secondary page could be extracted. Its claim stayed unverified because qualifying primary evidence and independent confirmation were unavailable. The writer therefore returned insufficient evidence. Search also exhausted an initial output budget; I increased that bound and resumed the saved Redis checkpoint. LinkedIn is used only as an identity input, PDF extraction is unsupported, and source-origin assessment still needs human review. The verified inclusion and diagnostic retry paths pass offline tests, but this live run establishes refusal rather than a complete client-ready diagnostic. Review UI, printed A4 layout, a golden fixture, and deployment still need verification in later phases.
 
 Revise this paragraph after implementation so it reflects what genuinely broke. Do not submit a prewritten limitation that the build did not actually reveal.
 
@@ -1802,7 +1816,7 @@ Actual one-page diagnostic.
 
 One honest limitations paragraph.
 
-Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2 not started.
+Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2: approximately 30 minutes. Record the measured Sprint 3 duration before submission.
 
 Email subject: TASK - Harsh Sinha.
 

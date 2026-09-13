@@ -10,6 +10,8 @@ When requirements compete, keep the integrity boundary. Never relax an evidence 
 
 ---
 
+
+
 ## How to use this plan
 
 1. Complete steps in order. Do not skip ahead to UI polish or diagnostic writing before the integrity core and a vertical slice exist.
@@ -21,26 +23,32 @@ When requirements compete, keep the integrity boundary. Never relax an evidence 
 
 ---
 
+
+
 ## Package choices
 
 Use these packages. Do not add an ORM, Postgres, Pinecone, BullMQ, or a vector database.
 
-| Package | Why it is necessary |
-| --- | --- |
-| Next.js App Router + TypeScript | UI and server endpoints in one deployable app |
-| Tailwind CSS + shadcn/ui | Product UI without spending the assessment on CSS |
-| Zod | Runtime source of truth for API, Redis, and LLM JSON |
-| OpenAI Responses API (`openai`) | Structured extraction, verification, analysis, writing. Model is `gpt-5.5` in `src/lib/model-config.ts`, not an env var. |
-| Tavily (`@tavily/core` or REST) | Public source discovery with URLs and snippets |
-| Cheerio + `@mozilla/readability` + `jsdom` | Deterministic page parsing with typed failures |
-| `ioredis` | TCP Redis for checkpoints, caches, locks, rate limits, and run persistence |
-| `p-limit` | Cap concurrent network calls |
-| Vitest | Unit and pipeline-rule tests |
-| Node `crypto` | URL, query, content, and snapshot hashing |
+
+| Package                                    | Why it is necessary                                                                                                                                                                      |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Next.js App Router + TypeScript            | UI and server endpoints in one deployable app                                                                                                                                            |
+| Tailwind CSS + shadcn/ui                   | Product UI without spending the assessment on CSS                                                                                                                                        |
+| Zod                                        | Runtime source of truth for API, Redis, and LLM JSON                                                                                                                                     |
+| OpenAI Responses API (`openai`)            | Structured extraction, verification, analysis, writing. Model is `gpt-5.5` in `src/lib/model-config.ts`, not an env var. Default public search uses the Responses API `web_search` tool. |
+| Tavily REST (optional fallback)            | Alternate public source discovery if `SEARCH_PROVIDER=tavily`                                                                                                                            |
+| Cheerio + `@mozilla/readability` + `jsdom` | Deterministic page parsing with typed failures                                                                                                                                           |
+| `ioredis`                                  | TCP Redis for checkpoints, caches, locks, rate limits, and run persistence                                                                                                               |
+| `p-limit`                                  | Cap concurrent network calls                                                                                                                                                             |
+| Vitest                                     | Unit and pipeline-rule tests                                                                                                                                                             |
+| Node `crypto`                              | URL, query, content, and snapshot hashing                                                                                                                                                |
+
 
 Fallback search providers (Exa, Brave) may be added behind the same `search.ts` adapter later. Do not implement multiple providers in Phase 1.
 
 ---
+
+
 
 ## Redis key strategy
 
@@ -73,7 +81,11 @@ Store normalized excerpts, not raw HTML. Cap extracted text per page before send
 
 ---
 
+
+
 ## Phase 0 — Scaffold and contracts
+
+
 
 ### Step 0.1 — Create the Next.js app
 
@@ -156,6 +168,8 @@ Keep prompt-output schemas separate from persisted domain schemas when the shape
 
 ---
 
+
+
 ## Phase 1 — Integrity core
 
 **Status: complete (2026-09-12).** Steps 1.1–1.4 are implemented and covered by 80 offline tests plus two local Redis socket integration tests. Lint, TypeScript, and the Webpack production build pass. The loader rejects the placeholder fixture; the evidence-backed golden fixture is still Phase 4 work. The audit enforces a text budget, with rendered one-page verification reserved for Phase 3. No provider calls or research stages were implemented in Phase 1.
@@ -191,7 +205,7 @@ Build this before search, LLMs, or UI. These rules must remain code, not prompt 
 
 **Rules to implement exactly:**
 
-**`verified`** only when all are true:
+`verified` only when all are true:
 
 - Check 1 supports the exact claim
 - Check 2 independently supports the exact claim
@@ -201,17 +215,17 @@ Build this before search, LLMs, or UI. These rules must remain code, not prompt 
 - Time-sensitive wording includes an as-of date
 - Any number has an explicitly attributable qualifying source
 
-**`partially_verified`** when the core proposition has credible support but scope, staleness, date, first-party-only numbers, weak independence, or incomplete decomposition remains.
+`partially_verified` when the core proposition has credible support but scope, staleness, date, first-party-only numbers, weak independence, or incomplete decomposition remains.
 
-**`unverified`** when there is no qualifying evidence, only repeating secondaries, inaccessible pages with no replacement, vague evidence, or unresolved identity ambiguity.
+`unverified` when there is no qualifying evidence, only repeating secondaries, inaccessible pages with no replacement, vague evidence, or unresolved identity ambiguity.
 
-**`rejected`** when credible evidence contradicts, wording overstates, a quantitative claim has no defensible attribution, opinion is merged with fact, or the model invented a detail.
+`rejected` when credible evidence contradicts, wording overstates, a quantitative claim has no defensible attribution, opinion is merged with fact, or the model invented a detail.
 
-**`conflict`** when credible sources disagree and recency or authority cannot safely resolve it.
+`conflict` when credible sources disagree and recency or authority cannot safely resolve it.
 
 Also set a human-readable `statusReason`. Do not invent numerical confidence scores.
 
-**Tests (`tests/classification.test.ts`):**
+**Tests (**`tests/classification.test.ts`**):**
 
 - Two independent qualifying supports → `verified`
 - Two articles repeating one press release → not `verified`
@@ -219,6 +233,8 @@ Also set a human-readable `statusReason`. Do not invent numerical confidence sco
 - Regulator record overrides an old secondary role when dates are clear
 - Credible unresolved disagreement → `conflict`
 - Contradicted material claim → `rejected`
+
+
 
 ### Step 1.3 — Eligibility firewall
 
@@ -242,13 +258,15 @@ Reject `PATCH` approval unless `status === "verified"`.
 
 Any claim change after diagnostic approval invalidates `reviewStatus` and clears export.
 
-**Tests (`tests/eligibility-firewall.test.ts`, `tests/numeric-claim.test.ts`, `tests/source-independence.test.ts`):**
+**Tests (**`tests/eligibility-firewall.test.ts`**,** `tests/numeric-claim.test.ts`**,** `tests/source-independence.test.ts`**):**
 
 - Only verified + human-approved claims reach the writer
 - Approval of a partial claim is rejected
 - Editing an approved claim invalidates diagnostic approval
 - Rejected claim text cannot appear in writer input
 - Repeated-origin checks are visible and block `verified`
+
+
 
 ### Step 1.4 — Diagnostic output audit
 
@@ -267,7 +285,7 @@ Audit must:
 
 On failure: display it, retry once when safe, keep the failed event in the execution log.
 
-**Tests (`tests/diagnostic-audit.test.ts`):**
+**Tests (**`tests/diagnostic-audit.test.ts`**):**
 
 - Unknown citation IDs block approval
 - A new number not in approved claims blocks approval
@@ -279,7 +297,11 @@ On failure: display it, retry once when safe, keep the failed event in the execu
 
 ---
 
+
+
 ## Phase 2 — Research pipeline
+
+**Status: implemented and verified (2026-09-13).** Provider adapters, all nine prompt contracts, bounded checkpointed stages, create/get/advance APIs, and approved-fact gap/draft functions are implemented. The suite passes 107 tests, including two real Redis socket checks; lint, TypeScript, Webpack build, and dependency audit pass. The live run used the existing OpenAI key and configured Redis, discovered seven sources, extracted one page and one claim, recorded both checks and 72 events, and stopped at human review. Its claim stayed unverified because only secondary support was accessible and no independent second source could be fetched; the writer explicitly returned insufficient evidence. Independent verified inclusion, contradictory exclusion, checkpoint recovery, replay, and audited writer retry are covered offline. Review UI, generation/approval endpoints, print layout, and deployment remain Phase 3–4 work.
 
 Implement providers, then stages, then the advance loop. After the first few stages, pause and complete the vertical slice in Step 2.8 before generalizing.
 
@@ -325,7 +347,7 @@ Implement providers, then stages, then the advance loop. After the first few sta
 
 ### Step 2.2 — Prompt contracts
 
-**Files under `src/prompts/`:** implement all nine README prompts verbatim in intent:
+**Files under** `src/prompts/`**:** implement all nine README prompts verbatim in intent:
 
 1. Identity resolver
 2. Research planner
@@ -475,7 +497,11 @@ Only after this slice, process batches of sources/claims per advance call.
 
 ---
 
+
+
 ## Phase 3 — Review product
+
+**Status: implemented (2026-09-13).** Intake, live execution polling, review tabs, claim/diagnostic approval APIs, snapshot hashing, and print export are in place. The golden demo fixture is still Phase 4, so `/research/demo` is empty until that file is a real approved run.
 
 ### Step 3.1 — New research page (`/`)
 
@@ -541,6 +567,8 @@ Flow:
 8. `Approve diagnostic` stores immutable snapshot hash + timestamp
 9. Any later claim change invalidates approval and requires reapproval
 
+
+
 ### Step 3.5 — Print and export
 
 **Route:** `GET /research/:runId/print` (page `src/app/research/[runId]/print/page.tsx`)
@@ -555,7 +583,11 @@ Diagnostic structure from the README: header, current positioning, three credibi
 
 ---
 
+
+
 ## Phase 4 — Harden the demo
+
+
 
 ### Step 4.1 — Golden fixture
 
@@ -586,6 +618,8 @@ Add or run tests/manual checks for:
 - Writer adding an unknown fact or number fails audit
 - Too few verified claims → `insufficient_evidence`
 
+
+
 ### Step 4.4 — Reliability tests file
 
 `tests/` should cover classification, eligibility, numeric claims, source independence, diagnostic audit, and reliability (locks, cache, resume, JSON retry).
@@ -600,6 +634,8 @@ Add or run tests/manual checks for:
 - Confirm fixture fallback by pointing at a missing run ID for the demo
 - Record the Loom only after the deployed link works
 
+
+
 ### Step 4.6 — README and submission
 
 - Revise the honest-limitations paragraph to match what actually broke
@@ -607,6 +643,8 @@ Add or run tests/manual checks for:
 - Keep the README's integrity rules accurate
 
 ---
+
+
 
 ## UI and copy constraints
 
@@ -616,6 +654,8 @@ Add or run tests/manual checks for:
 - Memorable demo idea: Proofline can write polished copy, but its value is knowing when not to write something
 
 ---
+
+
 
 ## Out of scope
 
@@ -630,6 +670,8 @@ Do not implement:
 - A general-purpose autonomous research platform
 
 ---
+
+
 
 ## Definition of done
 
@@ -668,6 +710,8 @@ Unit tests pass.
 The README explains limitations honestly.
 
 ---
+
+
 
 ## Suggested implementation order for a single agent session sequence
 

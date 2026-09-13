@@ -1,0 +1,1174 @@
+{
+  "checkedAt": "2026-09-12T18:51:58.348Z",
+  "run": {
+    "id": "run_74a52595d4214110885dfcb6",
+    "linkedInUrl": "https://www.linkedin.com/in/manarm",
+    "stage": "awaiting_human_review",
+    "subject": {
+      "fullName": "Manar Mahmassani",
+      "currentRole": "co-founders",
+      "organization": "Stake",
+      "canonicalLinkedInUrl": "https://www.linkedin.com/in/manarm",
+      "aliases": [],
+      "identityEvidence": [
+        {
+          "sourceId": "src_dde222a0ae352343",
+          "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+          "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+          "excerpt": "Gaining a foothold on the property ladder can be cash-intensive and complicated.A demanding combination of a considerable deposit and estate agency fees can prove a deterrent for many.Realising these factors, digital platforms are emerging in the UAE that vow to make those property ladder rungs less formidable to climb.Using models pioneered in the US and UK, they harness the power of crowdfunding to finance purchases across a cross-section of addresses, making property investment cheaper for the masses.Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake, say their platform motivates investors to get on the property ladder by reducing entry prices. Photo: Pawan Singh / The NationalShow caption: Manar Mahmassani and Rami Tabbara, co-founders of digital re…Stake, one of the latest Dubai players, provides a less intensive route to adding brick-and-mortar assets to your portfolio.Described as a “digital-first property investme",
+          "supportsExactly": "Manar Mahmassani"
+        }
+      ],
+      "ambiguityNotes": []
+    },
+    "createdAt": "2026-09-12T18:39:51.528Z",
+    "updatedAt": "2026-09-12T18:51:16.802Z",
+    "progress": {
+      "sourcesDiscovered": 7,
+      "sourcesFetched": 1,
+      "claimsExtracted": 1,
+      "checksCompleted": 2,
+      "verifiedClaims": 0,
+      "excludedClaims": 1
+    },
+    "warnings": [
+      {
+        "code": "linkedin_not_fetched",
+        "message": "Identity was resolved from public sources; LinkedIn was not scraped.",
+        "createdAt": "2026-09-12T18:41:14.944Z"
+      },
+      {
+        "code": "provider_unavailable",
+        "message": "Web search did not complete.",
+        "createdAt": "2026-09-12T18:43:09.271Z"
+      },
+      {
+        "code": "provider_unavailable",
+        "message": "Web search did not complete.",
+        "createdAt": "2026-09-12T18:43:33.091Z"
+      },
+      {
+        "code": "provider_unavailable",
+        "message": "Web search did not complete.",
+        "createdAt": "2026-09-12T18:43:57.413Z"
+      }
+    ],
+    "completedStageKeys": [
+      "run:started",
+      "identity:discovery:3d6b25b3c2bd51a8f9302a544edcaf117b40f4a9addc21b1c0caaefc7370df91",
+      "identity:fetch:src_1242342c2495cf89",
+      "identity:fetch:src_217c6bb36277aa7c",
+      "identity:fetch:src_dde222a0ae352343",
+      "identity:resolved:3d6b25b3c2bd51a8f9302a544edcaf117b40f4a9addc21b1c0caaefc7370df91",
+      "research:plan",
+      "discovery:0",
+      "discovery:1",
+      "discovery:2",
+      "discovery:3",
+      "discovery:4",
+      "discovery:5",
+      "discovery:6",
+      "discovery:7",
+      "discovery:complete",
+      "source:extracted:src_1242342c2495cf89",
+      "source:extracted:src_17a15fcda4fb5e9f",
+      "source:extracted:src_217c6bb36277aa7c",
+      "source:extracted:src_cd090160637ab534",
+      "source:extracted:src_dde222a0ae352343",
+      "sources:complete",
+      "claims:extracted:src_dde222a0ae352343",
+      "claims:complete",
+      "authority:1:clm_4683ad5d3e7905ca",
+      "check1:clm_4683ad5d3e7905ca",
+      "check1:complete",
+      "adversarial:clm_4683ad5d3e7905ca",
+      "adversarial:complete",
+      "check2:search:clm_4683ad5d3e7905ca:0",
+      "check2:search:clm_4683ad5d3e7905ca:1",
+      "check2:search:clm_4683ad5d3e7905ca:2",
+      "check2:fetch:clm_4683ad5d3e7905ca:src_1ac9130fc89e8929",
+      "check2:fetch:clm_4683ad5d3e7905ca:src_c21e0c9d1d5f01e6",
+      "check2:clm_4683ad5d3e7905ca",
+      "check2:complete",
+      "classified:clm_4683ad5d3e7905ca",
+      "classification:complete",
+      "gaps:deferred_to_review",
+      "draft:deferred_to_review"
+    ],
+    "hints": {
+      "name": "Manar Mahmassani",
+      "company": "Stake"
+    },
+    "identityStatus": "resolved",
+    "identityFieldEvidence": {
+      "fullName": [
+        "src_dde222a0ae352343"
+      ],
+      "currentRole": [
+        "src_dde222a0ae352343"
+      ],
+      "organization": [
+        "src_dde222a0ae352343"
+      ],
+      "location": []
+    },
+    "pipeline": {
+      "identityCandidateIds": [],
+      "queries": [
+        {
+          "query": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+          "purpose": "Confirm subject identity, current co-founder role, and official leadership description from Stake’s own site.",
+          "preferredSourceType": "company_first_party",
+          "domainHint": "getstake.com"
+        },
+        {
+          "query": "site:getstake.com Manar Mahmassani Rami Tabbara leadership team Stake",
+          "purpose": "Find Stake team/leadership pages or press releases naming co-founders and clarifying current executive titles.",
+          "preferredSourceType": "company_first_party",
+          "domainHint": "getstake.com"
+        },
+        {
+          "query": "site:dfsa.ae Stake real estate crowdfunding Manar Mahmassani OR \"Stake Properties\" OR \"Stake\"",
+          "purpose": "Check Dubai Financial Services Authority records/news for regulatory status, licensing, warnings, or permissions related to Stake and the subject.",
+          "preferredSourceType": "regulator_or_government",
+          "domainHint": "dfsa.ae"
+        },
+        {
+          "query": "site:vara.ae Stake Manar Mahmassani OR \"Stake\" fintech property investment Dubai",
+          "purpose": "Check relevant Dubai regulator/government sources for registration, licensing, or official mentions, especially if Stake has tokenized/fintech offerings.",
+          "preferredSourceType": "regulator_or_government",
+          "domainHint": "vara.ae"
+        },
+        {
+          "query": "site:difc.ae Stake Manar Mahmassani property investment crowdfunding",
+          "purpose": "Locate DIFC company, innovation hub, or regulatory sandbox references to Stake and its founders.",
+          "preferredSourceType": "regulator_or_government",
+          "domainHint": "difc.ae"
+        },
+        {
+          "query": "\"Manar Mahmassani\" \"Stake\" interview OR podcast OR \"Q&A\" OR \"founder\"",
+          "purpose": "Find original interviews or podcasts capturing the subject’s own statements, career history, and public positioning.",
+          "preferredSourceType": "subject_first_party"
+        },
+        {
+          "query": "\"Manar Mahmassani\" \"Stake\" funding OR raised OR Series A OR seed OR investors",
+          "purpose": "Gather material company metrics such as fundraising, valuation, investor names, and growth milestones tied to Stake’s leadership.",
+          "preferredSourceType": "reputable_secondary"
+        },
+        {
+          "query": "\"Manar Mahmassani\" career before Stake OR \"Deutsche Bank\" OR \"private equity\" OR \"investment\"",
+          "purpose": "Research career/history before founding Stake using interviews, biographies, and reputable profiles, without relying on LinkedIn access.",
+          "preferredSourceType": "reputable_secondary"
+        }
+      ],
+      "attempts": {
+        "discovering_sources": 3
+      },
+      "adversarialPlans": {
+        "clm_4683ad5d3e7905ca": {
+          "queries": [
+            {
+              "query": "Manar Mahmassani Stake co-founder official company profile OR press release",
+              "intent": "independent_primary"
+            },
+            {
+              "query": "Manar Mahmassani Stake founder Rami Tabbara founded date company leadership recent announcement",
+              "intent": "contradiction_or_recency"
+            },
+            {
+              "query": "Stake real estate investment Dubai co-founders Manar Mahmassani Rami Tabbara",
+              "intent": "scope"
+            }
+          ]
+        }
+      },
+      "verificationCandidates": {
+        "clm_4683ad5d3e7905ca": [
+          "src_1242342c2495cf89",
+          "src_1ac9130fc89e8929",
+          "src_17a15fcda4fb5e9f",
+          "src_c21e0c9d1d5f01e6"
+        ]
+      },
+      "authorityDecisions": {
+        "authority:1:clm_4683ad5d3e7905ca": {
+          "sourceAuthorityForClaim": "qualifying",
+          "suspectedSharedOrigin": false,
+          "derivationNote": "The excerpt is a journalistic article by The National that directly states Stake was co-founded by Rami Tabbara and Manar Mahmassani, and identifies them as co-founders in the photo caption and body text.",
+          "reasoning": "For the specific claim that Manar Mahmassani is a co-founder of Stake, the source provides direct, explicit support in independent secondary coverage. The claim is not a material performance number and does not require regulator confirmation. No evidence in the excerpt indicates the co-founder statement is merely copied from a press release, though it may be based partly on interviews."
+        }
+      },
+      "secondChecks": {},
+      "eventSequence": 72
+    }
+  },
+  "sources": [
+    {
+      "id": "src_1242342c2495cf89",
+      "url": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "canonicalUrl": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "title": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "retrievedAt": "2026-09-12T18:40:17.897Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity current company founder",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_17a15fcda4fb5e9f",
+      "url": "https://getstake.com/about-us",
+      "canonicalUrl": "https://getstake.com/about-us",
+      "title": "https://getstake.com/about-us",
+      "retrievedAt": "2026-09-12T18:46:30.051Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_1ac9130fc89e8929",
+      "url": "https://blog.getstake.com/wp-content/uploads/2024/07/H1_2024_Report_Stake_.pdf",
+      "canonicalUrl": "https://blog.getstake.com/wp-content/uploads/2024/07/H1_2024_Report_Stake_.pdf",
+      "title": "https://blog.getstake.com/wp-content/uploads/2024/07/H1_2024_Report_Stake_.pdf",
+      "retrievedAt": "2026-09-12T18:49:44.593Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "Manar Mahmassani Stake co-founder official company profile OR press release",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_217c6bb36277aa7c",
+      "url": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "canonicalUrl": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "title": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "retrievedAt": "2026-09-12T18:40:49.008Z",
+      "fetchStatus": "blocked",
+      "sourceKind": "unknown",
+      "discoveryQuery": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity current company founder",
+      "isPublic": true,
+      "notes": [
+        "Page access is restricted. No bypass was attempted."
+      ]
+    },
+    {
+      "id": "src_c21e0c9d1d5f01e6",
+      "url": "https://getstake.com/content-hub/blog/articles/why-we-built-stakeone",
+      "canonicalUrl": "https://getstake.com/content-hub/blog/articles/why-we-built-stakeone",
+      "title": "https://getstake.com/content-hub/blog/articles/why-we-built-stakeone",
+      "retrievedAt": "2026-09-12T18:50:15.767Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "Manar Mahmassani Stake founder Rami Tabbara founded date company leadership recent announcement",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_cd090160637ab534",
+      "url": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "canonicalUrl": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "title": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "retrievedAt": "2026-09-12T18:47:05.834Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_dde222a0ae352343",
+      "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+      "canonicalUrl": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+      "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+      "retrievedAt": "2026-09-12T18:40:57.811Z",
+      "fetchStatus": "fetched",
+      "sourceKind": "reputable_secondary",
+      "textExcerpt": "Gaining a foothold on the property ladder can be cash-intensive and complicated.A demanding combination of a considerable deposit and estate agency fees can prove a deterrent for many.Realising these factors, digital platforms are emerging in the UAE that vow to make those property ladder rungs less formidable to climb.Using models pioneered in the US and UK, they harness the power of crowdfunding to finance purchases across a cross-section of addresses, making property investment cheaper for the masses.Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake, say their platform motivates investors to get on the property ladder by reducing entry prices. Photo: Pawan Singh / The NationalShow caption: Manar Mahmassani and Rami Tabbara, co-founders of digital re…Stake, one of the latest Dubai players, provides a less intensive route to adding brick-and-mortar assets to your portfolio.Described as a “digital-first property investment and asset management company”, Stake was co-founded last year by Rami Tabbara, former senior vice president of sales at developer Damac and founding member of The First Group, and Manar Mahmassani, former Falcon Group managing director and former Deutsche Bank vice president.They pledged to fix the problems of property ownership \"by democratising property investment”, at a time when Dubai prices are softer.QuoteInvesting through Stake opens up this asset class to people who were always hesitant about putting money into real estate, or could not afford to“Investing through Stake opens up this asset class to people who were always hesitant about putting money into real estate, or could not afford to,” says Mr Tabbara.“By reducing the entry price lower than the market has ever seen, our platform motivates investors to get on the property investment ladder much sooner than before.”Stake identifies competitively priced apartments in prime locations with high demand on the secondary market – avoiding potential new-build delays. It enables members to invest from Dh2,000.Investors receive regular “dividends” from rental income, in addition to expected long-term capital appreciation.Stake takes several cues from the more mature US property crowd-investing market and has the co-founder of Fundrise – a platform founded in 2012 with more than 150,00 active investors, according to its website – on its advisory board.“The main advantages Stake provides versus outright property ownership is lower risk through lower capital requirements, lower vacancy risk, a best-in-class and transparent asset-selection process and instant ability to diversify across different properties with the same amount, instead of concentrating all your capital into one asset,” says Mr Tabbara.Stake charges a 1.5 per cent fee at the time of acquisition and 1 per cent yearly administration fee. At the end of the investment term, it applies a 2.5 per cent exit fee. If the platform manages to sell the property for more than the total funding target, it takes 15 per cent of the profit.Real Share, another fractional ownership platform, was launched by Dubai’s Lootah Real Estate Development in December to make the “tangible asset” of property more accessible.It initially offered one of LRED’s new properties via SmartCrowd – a Dubai-based platform founded in 2017 by chief executive Siddiq Farid.SmartCrowd selects popular residential area units that are usually below market price and have good rental yields with upside capital potential – essentially “hands off” ownership without purchasing hurdles and operational headaches such as service charges, insurance and maintenance.It focuses primarily on smaller secondary market units “because returns are often more attractive”, but includes some town houses for variety, says Mr Farid.“The key thing we want is for people to build their property portfolios across affordable, balanced and prime assets,” he says.“By lowering the barriers to entry, SmartCrowd allows regular people to get a piece of that action – in our case, for a minimum of Dh5,000. Typically, when asset prices are lower, only those with deep pockets can take advantage.”SmartCrowd also claims a 1.5 per cent fee after unit acquisition. Its annual administration fee is 0.5 per cent of an investor’s total investment and 2.5 per cent is deducted at the time of exit from the investment.Citing an investor base ranging from career newcomers to high-net-worth people, the goal is to have each decide whether to allocate funds towards budget-friendlier addresses or more expensive units that “typically generate lower returns but have the biggest potential for capital appreciation”.Siddiq Farid, chief executive and founder of property crowdfunding platform SmartCrowd, says their investor base ranges from career newcomers to high-net-worth individuals. Photo: Antonie Robertson / The NationalShow caption: Siddiq Farid, chief executive and founder of property crowdf…“This way, investors have the flexibility of managing risk according to their personal goals.”Some featured property units have been fully funded within 24 hours, even amid economic challenges posed by Covid-19.The crisis made people more aware of the importance of financial well-being, says Mr Farid.“Regular people are becoming ever more comfortable making investment decisions on their own,” he says.QuoteAs more people become educated about the benefits of property crowdfunding, we expect this to continue, especially when overall market sentiment improves“We believe property crowdfunding is going to go through – if it has not already started to ride – this trend. As more people become educated about the benefits of property crowdfunding, we expect this to continue, especially when overall market sentiment improves.”Property investment gains may seem slow compared with cryptocurrencies but, as with gold, the asset class is often regarded as a stable haven for cash in a low interest rate era.Joe Dooley, 23, recognised there were “smarter ways to save money than a bank savings account” and began to research on investment avenues, including property opportunities in Dubai and his English home city of Leeds.“I am particularly drawn to the regular returns that can be made from property investment, as well as the increase in share value as housing prices rise,” he says.“As such, I was actively looking for property crowdfunding opportunities and managed to find Stake just before their investment platform went live.”Joe Dooley says real estate investments make up the majority of his portfolio. Mr Dooley is now a shareholder in Dubai Marina and Downtown Dubai studios. Photo: Courtesy Joe DooleyShow caption: Joe Dooley says real estate investments make up the majority…Mr Dooley, a musician and facilities support officer, previously bought into buildings via a UK flexible property investment platform but says domestic regulatory changes “made this type of crowdfunding very difficult”, leading him to seek similar opportunities abroad.“I have also invested in start-up companies and cryptocurrencies, but real estate investments make up the majority of my portfolio,” says Mr Dooley, now a shareholder in Dubai Marina and Downtown Dubai studios.Independent financial adviser Keren Bobker says property is one of the main asset classes and part of a balanced investment portfolio, alongside cash and equities.She also agrees it could potentially be “a sensible time” to invest in UAE property – but investors must be clear about the risks.“Property values go up and down like any asset, more so here than in older markets,” she says. “There are no guarantees you will make money and anyone that promises high returns should be avoided at all costs.”QuoteIt is a new area of investment in the UAE, so you must ensure you only deal with companies that are properly regulated and fully transparent regarding their propositionAlthough crowdfunding platforms seek to make the asset and process more attainable, Ms Bobker urges caution when considering this route.“It is a new area of investment in the UAE, so you must ensure you only deal with companies that are properly regulated and fully transparent regarding their proposition,” she says.Ms Bobker cited potential inability to sell and fixed holding periods as downsides, although SmartCrowd members can sell shares to others.“You may not get back what is invested and may not be able to sell when you want as there needs to be a buyer ... lack of liquidity is why it [property] should only form part of a portfolio,” she says.“Crowdfunded property, although now regulated in the UAE, should only ever be considered as a small percentage of a person’s investments and I strongly advise against using these as the sole investment vehicle.”The platforms are confident that they will deliver both regular passive income and capital gain.“In terms of effectiveness, real estate has one of the highest risk-adjusted returns of all asset classes, as measured over centuries,” says Stake’s Mr Mahmassani, deeming it a safe store of wealth and “very effective hedge” against inflation and currency depreciation.He also says that by offering investors the ability to diversify risk using small amounts, Stake enables anyone to invest “more safely, preserve their capital and make attractive returns”.“Having said that, we are strongly of the view our investors should not put all their eggs into one basket or asset class.”That also goes for your choice of platform.“Competition in any market is healthy and the force behind innovation and market acceptance,” says Mr Farid when asked about SmartCrowd’s peers.“We are extremely happy that the sole responsibility of educating people about property crowdfunding no longer rests on our shoulders. With more players in the market, people are bound to get more curious, ask questions and become comfortable using a product that does not have a monopoly.”With Dubai’s housing market currently at cyclical lows and some analysts predicting a near-future upswing, Mr Farid expects his sector to broaden.“The industry in the region is still nascent but with support from regulators, additional market players and overall better awareness, we expect property crowdfunding to become a recurring topic of discussion among those interested in financial well-being,” he says.Meanwhile, Stake says the market “bottom is near ... meaning very limited downside\" to investing in Dubai property.Mr Tabbara says the “long-term fundamentals will be a strong driver of capital appreciation from today’s decade-low price point”.Stake also predicts “fast-pace” growth for digital property investing.“The format may change over time. However, more adoption in this region will take place and increasingly more people will change the way they invest in real estate,” says Mr Mahmassani.",
+      "contentHash": "67c146b695375d16800563c207b57c225ecac0cfcc0b46b90fa77b42ec479443",
+      "discoveryQuery": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity current company founder",
+      "isPublic": true,
+      "notes": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm_4683ad5d3e7905ca",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "Manar Mahmassani is a co-founder of Stake.",
+      "category": "career",
+      "materiality": "high",
+      "containsNumber": false,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_dde222a0ae352343"
+      ],
+      "check1": {
+        "id": "chk_clm_4683ad5d3e7905ca_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_dde222a0ae352343",
+            "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+            "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+            "excerpt": "Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake",
+            "supportsExactly": "Manar Mahmassani is a co-founder of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "The excerpt directly identifies Manar Mahmassani as one of the co-founders of the company Stake. The claim's singular wording is entailed by the plural co-founder description.",
+        "limitations": [],
+        "checkedAt": "2026-09-12T18:48:19.322Z"
+      },
+      "check2": {
+        "id": "chk_clm_4683ad5d3e7905ca_2",
+        "pass": 2,
+        "verdict": "no_evidence",
+        "evidence": [],
+        "sourceAuthorityForClaim": "not_qualifying",
+        "independenceFromOtherCheck": "unknown",
+        "reasoning": "No accessible replacement source established an independent second check within the source budget.",
+        "limitations": [
+          "No accessible replacement source established an independent second check within the source budget."
+        ],
+        "checkedAt": "2026-09-12T18:50:46.933Z"
+      },
+      "status": "unverified",
+      "statusReason": "Only secondary or non-qualifying support is available.",
+      "humanDecision": "pending",
+      "createdAt": "2026-09-12T18:47:50.997Z",
+      "updatedAt": "2026-09-12T18:50:58.536Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_a2678adff4c4c86a",
+      "at": "2026-09-12T18:39:54.987Z",
+      "stage": "created",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "created",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_1e4f18b867519881",
+      "at": "2026-09-12T18:40:06.590Z",
+      "stage": "resolving_identity",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity current company founder",
+        "count": 3,
+        "latencyMs": 8931
+      }
+    },
+    {
+      "id": "evt_fb8b43a7587a87e8",
+      "at": "2026-09-12T18:40:14.857Z",
+      "stage": "resolving_identity",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "resolving_identity",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_6030859357235243",
+      "at": "2026-09-12T18:40:29.703Z",
+      "stage": "resolving_identity",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_018fac7f48f39d9e",
+      "at": "2026-09-12T18:40:41.461Z",
+      "stage": "resolving_identity",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_d35b1e16196e1583",
+      "at": "2026-09-12T18:40:46.760Z",
+      "stage": "resolving_identity",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "resolving_identity",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_dd83e5524ead0b96",
+      "at": "2026-09-12T18:40:55.409Z",
+      "stage": "resolving_identity",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "resolving_identity",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_704dffbf2c61a816",
+      "at": "2026-09-12T18:41:00.401Z",
+      "stage": "resolving_identity",
+      "type": "page_fetched",
+      "message": "Extracted bounded public-page text.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_13daa48c53a83230",
+      "at": "2026-09-12T18:41:06.456Z",
+      "stage": "resolving_identity",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "resolving_identity",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_f531322f83534a4f",
+      "at": "2026-09-12T18:41:13.932Z",
+      "stage": "resolving_identity",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "identity",
+        "latencyMs": 3849,
+        "attempt": 1,
+        "inputTokens": 2825,
+        "outputTokens": 221
+      }
+    },
+    {
+      "id": "evt_bad322bf758091ec",
+      "at": "2026-09-12T18:41:17.760Z",
+      "stage": "resolving_identity",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "resolving_identity",
+        "stage": "planning_research"
+      }
+    },
+    {
+      "id": "evt_a0e8b0a38f527456",
+      "at": "2026-09-12T18:41:26.976Z",
+      "stage": "planning_research",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "research_plan",
+        "latencyMs": 6614,
+        "attempt": 1,
+        "inputTokens": 591,
+        "outputTokens": 504
+      }
+    },
+    {
+      "id": "evt_04934c76d0a63f1f",
+      "at": "2026-09-12T18:41:30.544Z",
+      "stage": "planning_research",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "planning_research",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_3441dff189e3be33",
+      "at": "2026-09-12T18:41:41.277Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+        "count": 3,
+        "latencyMs": 8463
+      }
+    },
+    {
+      "id": "evt_3a1e3eb9f6fd53b5",
+      "at": "2026-09-12T18:41:47.326Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_2a0f0152a7cf35cf",
+      "at": "2026-09-12T18:41:56.285Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "site:getstake.com Manar Mahmassani Rami Tabbara leadership team Stake",
+        "count": 3,
+        "latencyMs": 6682
+      }
+    },
+    {
+      "id": "evt_50df91effaaa7bd1",
+      "at": "2026-09-12T18:42:00.343Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_e8cf8620fa4444a9",
+      "at": "2026-09-12T18:42:10.600Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "site:dfsa.ae Stake real estate crowdfunding Manar Mahmassani OR \"Stake Properties\" OR \"Stake\"",
+        "count": 3,
+        "latencyMs": 7991
+      }
+    },
+    {
+      "id": "evt_0da80f80f2f04349",
+      "at": "2026-09-12T18:42:14.642Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_aaf11c0a1080aa1f",
+      "at": "2026-09-12T18:42:22.288Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "site:vara.ae Stake Manar Mahmassani OR \"Stake\" fintech property investment Dubai",
+        "count": 3,
+        "latencyMs": 5358
+      }
+    },
+    {
+      "id": "evt_5ae286a7b42e4703",
+      "at": "2026-09-12T18:42:26.621Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_89eba280bbe7b9a4",
+      "at": "2026-09-12T18:42:35.514Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "site:difc.ae Stake Manar Mahmassani property investment crowdfunding",
+        "count": 3,
+        "latencyMs": 6303
+      }
+    },
+    {
+      "id": "evt_78fbd08af4c573ca",
+      "at": "2026-09-12T18:42:39.563Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_5b0f17306b53d216",
+      "at": "2026-09-12T18:42:51.444Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "\"Manar Mahmassani\" \"Stake\" interview OR podcast OR \"Q&A\" OR \"founder\"",
+        "count": 3,
+        "latencyMs": 9611
+      }
+    },
+    {
+      "id": "evt_091b7a1fde862db6",
+      "at": "2026-09-12T18:42:55.500Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_0d5002a7509e65b3",
+      "at": "2026-09-12T18:43:09.526Z",
+      "stage": "discovering_sources",
+      "type": "stage_failed",
+      "message": "Web search did not complete.",
+      "data": {
+        "attempt": 1,
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_9488adfacd15a953",
+      "at": "2026-09-12T18:43:33.387Z",
+      "stage": "discovering_sources",
+      "type": "stage_failed",
+      "message": "Web search did not complete.",
+      "data": {
+        "attempt": 2,
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_d6096c8a3cc4bdbb",
+      "at": "2026-09-12T18:43:57.668Z",
+      "stage": "discovering_sources",
+      "type": "stage_failed",
+      "message": "Web search did not complete.",
+      "data": {
+        "attempt": 3,
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_b6db77994894194a",
+      "at": "2026-09-12T18:45:56.865Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "\"Manar Mahmassani\" \"Stake\" funding OR raised OR Series A OR seed OR investors",
+        "count": 3,
+        "latencyMs": 12160
+      }
+    },
+    {
+      "id": "evt_97b6e16f97e43307",
+      "at": "2026-09-12T18:46:00.829Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_8a5bc2d31d45e26c",
+      "at": "2026-09-12T18:46:14.097Z",
+      "stage": "discovering_sources",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "\"Manar Mahmassani\" career before Stake OR \"Deutsche Bank\" OR \"private equity\" OR \"investment\"",
+        "count": 3,
+        "latencyMs": 11050
+      }
+    },
+    {
+      "id": "evt_8e90c97638b976df",
+      "at": "2026-09-12T18:46:18.078Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "discovering_sources"
+      }
+    },
+    {
+      "id": "evt_ea8b57fda975f270",
+      "at": "2026-09-12T18:46:22.859Z",
+      "stage": "discovering_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "discovering_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_bee75b39c8d3dc58",
+      "at": "2026-09-12T18:46:27.831Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_8b2035fb6bda494e",
+      "at": "2026-09-12T18:46:41.320Z",
+      "stage": "extracting_sources",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_f7b1ddecb8f58eae",
+      "at": "2026-09-12T18:46:53.057Z",
+      "stage": "extracting_sources",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_90b528ce253de757",
+      "at": "2026-09-12T18:46:58.027Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_965eb2d9c3ca0fd6",
+      "at": "2026-09-12T18:47:03.156Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_09a55adb7f8526f3",
+      "at": "2026-09-12T18:47:17.100Z",
+      "stage": "extracting_sources",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_16a467cd3e880a6f",
+      "at": "2026-09-12T18:47:28.842Z",
+      "stage": "extracting_sources",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_6023391a404d022b",
+      "at": "2026-09-12T18:47:34.306Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_0934d5d916814882",
+      "at": "2026-09-12T18:47:39.010Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_sources"
+      }
+    },
+    {
+      "id": "evt_f58e4d322ea77c2b",
+      "at": "2026-09-12T18:47:43.706Z",
+      "stage": "extracting_sources",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_sources",
+        "stage": "extracting_claims"
+      }
+    },
+    {
+      "id": "evt_703945519267943c",
+      "at": "2026-09-12T18:47:49.985Z",
+      "stage": "extracting_claims",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "claim_extraction",
+        "latencyMs": 2482,
+        "attempt": 1,
+        "inputTokens": 2842,
+        "outputTokens": 120
+      }
+    },
+    {
+      "id": "evt_6687c9cab9c57233",
+      "at": "2026-09-12T18:47:54.746Z",
+      "stage": "extracting_claims",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_claims",
+        "stage": "extracting_claims"
+      }
+    },
+    {
+      "id": "evt_52418946d1c68673",
+      "at": "2026-09-12T18:48:00.637Z",
+      "stage": "extracting_claims",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "extracting_claims",
+        "stage": "verifying_pass_1"
+      }
+    },
+    {
+      "id": "evt_977a8e8f1415587f",
+      "at": "2026-09-12T18:48:07.343Z",
+      "stage": "verifying_pass_1",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "source_authority",
+        "latencyMs": 3001,
+        "attempt": 1,
+        "inputTokens": 2788,
+        "outputTokens": 162
+      }
+    },
+    {
+      "id": "evt_858751f1c3921dec",
+      "at": "2026-09-12T18:48:12.292Z",
+      "stage": "verifying_pass_1",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_1",
+        "stage": "verifying_pass_1"
+      }
+    },
+    {
+      "id": "evt_80400dace43dab8f",
+      "at": "2026-09-12T18:48:18.330Z",
+      "stage": "verifying_pass_1",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "verification_one",
+        "latencyMs": 1747,
+        "attempt": 1,
+        "inputTokens": 2799,
+        "outputTokens": 107
+      }
+    },
+    {
+      "id": "evt_3f489d88e3960f79",
+      "at": "2026-09-12T18:48:23.259Z",
+      "stage": "verifying_pass_1",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_1",
+        "stage": "verifying_pass_1"
+      }
+    },
+    {
+      "id": "evt_a67b0eae68800e81",
+      "at": "2026-09-12T18:48:29.021Z",
+      "stage": "verifying_pass_1",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_1",
+        "stage": "planning_adversarial_checks"
+      }
+    },
+    {
+      "id": "evt_81f93e88b896c470",
+      "at": "2026-09-12T18:48:34.700Z",
+      "stage": "planning_adversarial_checks",
+      "type": "model_request",
+      "message": "Structured model request completed.",
+      "data": {
+        "purpose": "adversarial_plan",
+        "latencyMs": 2635,
+        "attempt": 1,
+        "inputTokens": 786,
+        "outputTokens": 93
+      }
+    },
+    {
+      "id": "evt_58fb92911d8849ad",
+      "at": "2026-09-12T18:48:38.526Z",
+      "stage": "planning_adversarial_checks",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "planning_adversarial_checks",
+        "stage": "planning_adversarial_checks"
+      }
+    },
+    {
+      "id": "evt_a5d282bdf2e296da",
+      "at": "2026-09-12T18:48:43.550Z",
+      "stage": "planning_adversarial_checks",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "planning_adversarial_checks",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_8ddeb64ffd92bc41",
+      "at": "2026-09-12T18:48:57.339Z",
+      "stage": "verifying_pass_2",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "Manar Mahmassani Stake co-founder official company profile OR press release",
+        "count": 2,
+        "latencyMs": 10486
+      }
+    },
+    {
+      "id": "evt_3116aa3775790c7a",
+      "at": "2026-09-12T18:49:03.557Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_5380d2efe4fc5902",
+      "at": "2026-09-12T18:49:20.478Z",
+      "stage": "verifying_pass_2",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "Manar Mahmassani Stake founder Rami Tabbara founded date company leadership recent announcement",
+        "count": 2,
+        "latencyMs": 13959
+      }
+    },
+    {
+      "id": "evt_1a3112c8da43388f",
+      "at": "2026-09-12T18:49:25.743Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_8c00825e2ae315c5",
+      "at": "2026-09-12T18:49:37.408Z",
+      "stage": "verifying_pass_2",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "Stake real estate investment Dubai co-founders Manar Mahmassani Rami Tabbara",
+        "count": 2,
+        "latencyMs": 8707
+      }
+    },
+    {
+      "id": "evt_a5578af891b1c272",
+      "at": "2026-09-12T18:49:41.627Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_7671ad7b8e208895",
+      "at": "2026-09-12T18:49:55.868Z",
+      "stage": "verifying_pass_2",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_8ed46a4f779851ce",
+      "at": "2026-09-12T18:50:07.605Z",
+      "stage": "verifying_pass_2",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_68c980bfdc026767",
+      "at": "2026-09-12T18:50:12.793Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_0a84cc61c016d0ce",
+      "at": "2026-09-12T18:50:27.038Z",
+      "stage": "verifying_pass_2",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 1
+      }
+    },
+    {
+      "id": "evt_279dfc618f5f431b",
+      "at": "2026-09-12T18:50:38.778Z",
+      "stage": "verifying_pass_2",
+      "type": "page_fetch_failed",
+      "message": "Public page extraction failed.",
+      "data": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_fc8b6bb50afb6303",
+      "at": "2026-09-12T18:50:43.960Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_cb3e2fd0e7eaa6da",
+      "at": "2026-09-12T18:50:50.640Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "verifying_pass_2"
+      }
+    },
+    {
+      "id": "evt_9fb21758599b2a38",
+      "at": "2026-09-12T18:50:55.569Z",
+      "stage": "verifying_pass_2",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "verifying_pass_2",
+        "stage": "classifying_claims"
+      }
+    },
+    {
+      "id": "evt_3735df45e71894ff",
+      "at": "2026-09-12T18:51:02.466Z",
+      "stage": "classifying_claims",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "classifying_claims",
+        "stage": "classifying_claims"
+      }
+    },
+    {
+      "id": "evt_4dc93377d864d5d6",
+      "at": "2026-09-12T18:51:08.147Z",
+      "stage": "classifying_claims",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "classifying_claims",
+        "stage": "analyzing_gaps"
+      }
+    },
+    {
+      "id": "evt_f2ca173d3c0eca0d",
+      "at": "2026-09-12T18:51:12.341Z",
+      "stage": "analyzing_gaps",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "analyzing_gaps",
+        "stage": "drafting_diagnostic"
+      }
+    },
+    {
+      "id": "evt_afa7437dc2344161",
+      "at": "2026-09-12T18:51:16.556Z",
+      "stage": "drafting_diagnostic",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "drafting_diagnostic",
+        "stage": "awaiting_human_review"
+      }
+    }
+  ],
+  "writerInput": {
+    "status": "insufficient_evidence",
+    "facts": [],
+    "reason": "At least three approved verified facts, verified identity, and a verified role or explicit role limitation are required, with no unresolved identity conflict."
+  }
+}
