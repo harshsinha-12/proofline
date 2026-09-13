@@ -40,10 +40,11 @@ export function ClaimCard({
       </div>
       <p className="mt-3 text-[1.05rem] leading-6 text-foreground">{claim.statement}</p>
       <p className="mt-3 text-sm leading-6 text-muted-foreground">{claim.statusReason}</p>
+      {claim.asOfDate ? <p className="mt-1 text-xs text-muted-foreground">As of {claim.asOfDate}</p> : null}
       <EvidencePanel claim={claim} />
       {readOnly ? null : (
         <div className="mt-4 space-y-3 border-t border-border pt-4">
-          <Textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder="Reviewer note" rows={2} />
+          <Textarea aria-label={`Reviewer note for ${claim.statement}`} maxLength={2000} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Reviewer note" rows={2} />
           <div className="flex flex-wrap gap-2">
             <Button size="sm" disabled={pending || !canApprove} onClick={() => submit("approved")}>
               Approve for diagnostic
@@ -54,6 +55,7 @@ export function ClaimCard({
             <Button size="sm" variant="ghost" disabled={pending} onClick={() => submit("pending")}>
               Reset
             </Button>
+            <Button size="sm" variant="outline" disabled={pending} onClick={() => submit(claim.humanDecision)}>Save note</Button>
           </div>
           {!canApprove ? (
             <p className="text-xs text-muted-foreground">Only verified claims can be approved for the writer.</p>
@@ -87,20 +89,22 @@ function CheckBlock({
       </div>
     );
   }
-  const excerpt = check.evidence[0];
   return (
     <div className="border border-border px-3 py-3 text-sm">
       <p className="font-mono text-[0.65rem] tracking-[0.16em] text-muted-foreground uppercase">{label}</p>
       <p className="mt-1 text-foreground">{check.verdict.replace(/_/g, " ")} · {check.sourceAuthorityForClaim.replace(/_/g, " ")}</p>
       <p className="mt-1 text-muted-foreground">{check.independenceFromOtherCheck.replace(/_/g, " ")}</p>
-      {excerpt ? (
-        <blockquote className="mt-2 border-l border-accent/40 pl-3 text-foreground/80">
+      {check.evidence.map((excerpt, index) => (
+        <blockquote key={`${excerpt.sourceId}:${index}`} className="mt-2 border-l border-accent/40 pl-3 text-foreground/80">
           {excerpt.excerpt}
           <a className="mt-1 block text-xs text-accent underline-offset-2 hover:underline" href={excerpt.url} target="_blank" rel="noreferrer">
             {excerpt.title}
           </a>
+          <p className="mt-1 text-xs text-muted-foreground">Exact scope: {excerpt.supportsExactly}</p>
         </blockquote>
-      ) : null}
+      ))}
+      <p className="mt-2 text-muted-foreground">{check.reasoning}</p>
+      <p className="mt-2 font-mono text-[0.65rem] text-muted-foreground">Checked {new Date(check.checkedAt).toUTCString()}</p>
       {check.limitations.length > 0 ? (
         <ul className="mt-2 list-disc pl-4 text-xs text-muted-foreground">
           {check.limitations.map((item) => <li key={item}>{item}</li>)}

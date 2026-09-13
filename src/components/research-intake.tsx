@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createResearchRun } from "@/lib/client";
 import { DEMO_LINKEDIN_URL, DEMO_RUN_ID } from "@/lib/demo";
-import { isLinkedInProfileUrl } from "@/lib/urls";
+import { isLinkedInProfileUrl } from "@/lib/profile-url";
 
 export function ResearchIntake() {
   const router = useRouter();

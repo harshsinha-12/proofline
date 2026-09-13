@@ -35,7 +35,7 @@ export function SourceTable({ sources, claims }: { sources: Source[]; claims: Cl
                   ) : null}
                 </td>
                 <td className="px-3 py-3 text-muted-foreground">{source.sourceKind.replace(/_/g, " ")}</td>
-                <td className="px-3 py-3 font-mono text-[0.7rem] uppercase text-muted-foreground">{FETCH_LABELS[source.fetchStatus]}</td>
+                <td className="px-3 py-3 text-muted-foreground"><p className="font-mono text-[0.7rem] uppercase">{FETCH_LABELS[source.fetchStatus]}</p>{source.notes.map((note) => <p key={note} className="mt-1 text-xs">{note}</p>)}</td>
                 <td className="px-3 py-3 text-muted-foreground">{source.discoveryQuery}</td>
                 <td className="px-3 py-3 text-muted-foreground">{linked.length ? linked.map((claim) => claim.id).join(", ") : "None linked"}</td>
               </tr>
