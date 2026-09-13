@@ -1,4 +1,4 @@
-export const OPENAI_MODEL = "gpt-5.5" as const;
+export const OPENAI_MODEL = "gpt-5.6-luna" as const;
 
 export type OpenAIModel = typeof OPENAI_MODEL;
 

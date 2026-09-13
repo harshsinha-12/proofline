@@ -17,8 +17,14 @@ const demoFixtureSchema = z.object({
   events: z.array(executionEventSchema).max(500),
 });
 
+function fixturePayload(value: unknown): unknown {
+  if (value && typeof value === "object" && "run" in value) return value;
+  if (value && typeof value === "object" && "default" in value) return fixturePayload((value as { default: unknown }).default);
+  return value;
+}
+
 export function parseDemoFixture(value: unknown) {
-  const parsed = demoFixtureSchema.safeParse(value);
+  const parsed = demoFixtureSchema.safeParse(fixturePayload(value));
   if (!parsed.success || parsed.data.run.id !== DEMO_RUN_ID) return null;
   const data = parsed.data;
   if (redactSecrets(JSON.stringify(data)) !== JSON.stringify(data) || data.events.some((event) =>
@@ -29,6 +35,5 @@ export function parseDemoFixture(value: unknown) {
 }
 
 export function getDemoFixture() {
-  // The Phase 0 placeholder is deliberately not a fabricated completed research run.
-  return parseDemoFixture(fixture);
+  return parseDemoFixture(fixturePayload(fixture));
 }

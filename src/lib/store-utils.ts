@@ -18,7 +18,7 @@ export function parseStored<T>(value: string, parse: (value: unknown) => T): T {
   }
 }
 
-const EVENT_DATA_KEYS = new Set(["query", "purpose", "latencyMs", "cacheHit", "inputTokens", "outputTokens", "estimatedCost", "sourceId", "claimId", "attempt", "issues", "previousStage", "stage", "count", "fixtureMode"]);
+const EVENT_DATA_KEYS = new Set(["query", "purpose", "latencyMs", "cacheHit", "inputTokens", "outputTokens", "estimatedCost", "sourceId", "claimId", "attempt", "issues", "previousStage", "stage", "count", "fixtureMode", "url", "requestedUrl", "robotsUrl", "model", "provider", "phase", "reason", "fetchStatus"]);
 
 export function sanitizeEventData(data?: Record<string, unknown>): Record<string, unknown> | undefined {
   if (!data) return undefined;

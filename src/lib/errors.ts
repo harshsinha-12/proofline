@@ -40,8 +40,8 @@ export type ClientError = {
 };
 
 const SECRET_PATTERNS = [
-  /sk-[A-Za-z0-9_-]+/g,
-  /Bearer\s+[A-Za-z0-9._-]+/gi,
+  /(?<![A-Za-z])sk-[A-Za-z0-9_-]{8,}/g,
+  /Bearer\s+[A-Za-z0-9._-]{8,}/gi,
   /REDIS_PASSWORD[=:]\s*\S+/gi,
   /password[=:]\s*\S+/gi,
 ];

@@ -6,7 +6,8 @@ import { hashJson } from "@/lib/hashing";
 import { redisKey } from "@/lib/redis";
 import { parseStored, sanitizeEventData, withRedis } from "@/lib/store-utils";
 import { getDemoFixture, DEMO_RUN_ID } from "@/lib/demo-fixture";
-import { normalizeUrl, isLinkedInProfileUrl } from "@/lib/urls";
+import { normalizeUrl } from "@/lib/urls";
+import { isLinkedInProfileUrl } from "@/lib/profile-url";
 import { researchRunSchema, executionEventSchema, type ResearchRun, type ExecutionEvent } from "@/schemas/run";
 
 export const RUN_LOCK_SECONDS = 90;

@@ -85,7 +85,8 @@ export async function getApprovedSnapshot(runId: string): Promise<(ApprovedSnaps
   const raw = await withRedis(async (redis) => redis.get(redisKey("run", runId, "snapshot")));
   if (!raw) return null;
   const snapshot = parseStored(raw, approvedSnapshotSchema.parse);
-  if (snapshot.hash !== hashJson(snapshot.diagnostic) || snapshot.hash !== hashJson(loaded.run.diagnostic) ||
+  const { hash, ...contents } = snapshot;
+  if (hash !== hashJson(contents) || hashJson(snapshot.diagnostic) !== hashJson(loaded.run.diagnostic) ||
     snapshot.approvedAt !== loaded.run.approvedAt || snapshot.approvedBy !== loaded.run.approvedBy) return null;
   return { ...snapshot, fixtureMode: false };
 }
@@ -113,15 +114,15 @@ export async function approveDiagnostic(runId: string, confirmation: boolean, re
     const audit = auditDiagnostic(diagnostic, approvedClaims, run.diagnosticRoleLimitation);
     if (!audit.valid) throw new AppError("validation_failed", audit.issues.join(" "), 422);
     const now = new Date().toISOString();
-    const snapshot: ApprovedSnapshot = {
+    const contents = {
       diagnostic,
       approvedAt: now,
       approvedBy: name,
       claimIds: approvedClaims.map((claim) => claim.id),
-      hash: hashJson(diagnostic),
       claims: approvedClaims,
       sources: await getSources(runId),
     };
+    const snapshot: ApprovedSnapshot = { ...contents, hash: hashJson(contents) };
     const updated = researchRunSchema.parse({
       ...run,
       stage: "approved",
