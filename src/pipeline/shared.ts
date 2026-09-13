@@ -53,6 +53,7 @@ export async function persistCandidates(context: PipelineContext, results: Searc
 }
 
 export async function extractSource(context: PipelineContext, source: Source): Promise<Source> {
+  await context.record?.({ type: "source_fetch_started", message: "Loading an evidence source.", data: { sourceId: source.id, url: source.canonicalUrl } });
   const page = await context.services.fetchPage(source.canonicalUrl, context);
   const all = await getSources(context.run.id);
   const contentHash = page.textExcerpt ? hashContent(page.textExcerpt) : undefined;
@@ -62,6 +63,10 @@ export async function extractSource(context: PipelineContext, source: Source): P
     ...(page.publishedAt ? { publishedAt: page.publishedAt } : {}),
     ...(same ? { suspectedOriginId: same.suspectedOriginId ?? same.id } : {}) };
   await saveSource(context.run.id, updated, context.token);
+  if (page.fetchStatus !== "fetched") await context.record?.({
+    type: "source_unavailable", message: page.notes.join(" ") || "Public source could not be extracted.",
+    data: { sourceId: source.id, url: source.canonicalUrl, fetchStatus: page.fetchStatus },
+  });
   return updated;
 }
 
