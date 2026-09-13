@@ -8,6 +8,7 @@ import {
   OPENAI_MODEL,
 } from "@/lib/model-config";
 import { hashNormalizedUrl, isLinkedInProfileUrl, normalizeUrl } from "@/lib/urls";
+import { redactSecrets } from "@/lib/errors";
 import { claimSchema, type Claim } from "@/schemas/claim";
 
 const redisEnv = {
@@ -46,10 +47,10 @@ describe("parseEnv", () => {
 
 describe("model config", () => {
   it("uses GPT 5.5 for every purpose", () => {
-    expect(OPENAI_MODEL).toBe("gpt-5.5");
-    expect(getOpenAIModel("identity")).toBe("gpt-5.5");
-    expect(getOpenAIModel("diagnostic_writer")).toBe("gpt-5.5");
-    expect(getModelRequest("verification_one").model).toBe("gpt-5.5");
+    expect(OPENAI_MODEL).toBe("gpt-5.6-luna");
+    expect(getOpenAIModel("identity")).toBe("gpt-5.6-luna");
+    expect(getOpenAIModel("diagnostic_writer")).toBe("gpt-5.6-luna");
+    expect(getModelRequest("verification_one").model).toBe("gpt-5.6-luna");
   });
 });
 
@@ -119,5 +120,13 @@ describe("claim schema", () => {
   it("rejects a claim missing statusReason", () => {
     const invalid = { ...validClaim, statusReason: undefined };
     expect(claimSchema.safeParse(invalid).success).toBe(false);
+  });
+});
+
+describe("secret redaction", () => {
+  it("redacts API keys without treating public ask-me URLs as secrets", () => {
+    expect(redactSecrets("Authorization: Bearer abcdefghijk and sk-secret123456")).toContain("[redacted]");
+    const url = "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders";
+    expect(redactSecrets(url)).toBe(url);
   });
 });

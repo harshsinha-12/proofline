@@ -16,7 +16,7 @@ vi.mock("@/providers/public-http", async (original) => ({ ...await original<type
 
 import { requestStructured } from "@/providers/ai";
 import { search } from "@/providers/search";
-import { extractPage, fetchPage, MAX_EXTRACTED_CHARACTERS } from "@/providers/fetch-page";
+import { extractPage, fetchPage, fetchFailureReason, MAX_EXTRACTED_CHARACTERS } from "@/providers/fetch-page";
 import { isPublicAddress, validatePublicUrl } from "@/providers/public-http";
 
 beforeEach(() => { state.redis!.reset(); state.create.mockReset(); state.get.mockReset(); });
@@ -58,6 +58,15 @@ describe("Phase 2 providers", () => {
     await fetchPage("https://public.example/record"); expect(state.get).toHaveBeenCalledTimes(2);
     state.get.mockResolvedValueOnce({ status: 404 }).mockResolvedValueOnce({ status: 403 });
     expect((await fetchPage("https://public.example/blocked")).fetchStatus).toBe("blocked");
+  });
+  it("records safe URL, phase, and DNS diagnostics without leaking raw errors", async () => {
+    state.get.mockRejectedValue(Object.assign(new Error("secret provider details"), { code: "ENOTFOUND" }));
+    const record = vi.fn();
+    const page = await fetchPage("https://public.example/dns", { record });
+    expect(page.notes.join(" ")).toContain("dns_failure");
+    expect(record).toHaveBeenCalledWith(expect.objectContaining({ data: { attempt: 2, url: "https://public.example/dns", phase: "robots", reason: "dns_failure" } }));
+    expect(JSON.stringify(record.mock.calls)).not.toContain("secret provider details");
+    expect(fetchFailureReason(new Error("fetch failed", { cause: { code: "UND_ERR_CONNECT_TIMEOUT" } }))).toBe("timeout");
   });
   it("respects robots exclusions without requesting the page", async () => {
     state.get.mockResolvedValue({ status: 200, body: "User-agent: *\nDisallow: /" });

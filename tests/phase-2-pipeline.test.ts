@@ -60,6 +60,24 @@ export function mockServices(contradict = false): PipelineServices {
 }
 
 describe("single-claim vertical slice", () => {
+  it("discards nonmatching extraction evidence without repeatedly failing the run", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const services = mockServices();
+    const original = services.requestStructured;
+    services.requestStructured = vi.fn(async (contract, input, context) => {
+      const output = await original(contract, input, context);
+      if (contract.purpose === "claim_extraction") return { claims: [{ statement: "Invented claim", category: "company", materiality: "low", containsNumber: false, timeSensitive: false, asOfDate: null, originSourceIds: [(input as { sources: { sourceId: string }[] }).sources[0].sourceId], excerpt: "This quote is not in the page." }] };
+      return output;
+    }) as typeof services.requestStructured;
+    for (let index = 0; index < 80; index++) {
+      const result = await advanceRun(run.id, services);
+      if (!result.canContinue) break;
+    }
+    expect((await getRun(run.id))?.stage).toBe("awaiting_human_review");
+    expect(await getClaims(run.id)).toHaveLength(0);
+    const event = (await getEvents(run.id)).find((event) => event.type === "claim_extraction_rejected");
+    expect(event?.data?.url).toBe("https://company.example/alex");
+  });
   it.each([false, true])("persists both checks and explicit inclusion/exclusion, contradiction=%s", async (contradict) => {
     const run = await createRun("https://www.linkedin.com/in/alex-example");
     const services = mockServices(contradict);
@@ -80,6 +98,36 @@ describe("single-claim vertical slice", () => {
     expect(await getClaims(run.id)).toHaveLength(1); expect(await getSources(run.id)).toHaveLength(2);
     expect(vi.mocked(services.requestStructured).mock.calls.length).toBe(modelCalls);
     expect((await getEvents(run.id)).some((event) => event.type === "stage_checkpoint")).toBe(true);
+  });
+  it("uses broader discovery after failed pages and resolves from fetched fallback evidence", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const services = mockServices();
+    vi.mocked(services.search).mockResolvedValueOnce([{ title: "Unavailable", url: "https://unavailable.example/alex", snippet: "Alex Example" }]);
+    vi.mocked(services.fetchPage).mockResolvedValueOnce({ url: "https://unavailable.example/alex", title: "Unavailable", fetchStatus: "failed", retrievedAt: new Date().toISOString(), notes: ["dns_failure"] });
+    await advanceRun(run.id, services);
+    for (let index = 0; index < 10; index++) {
+      await advanceRun(run.id, services, index === 0 ? { name: "Alex Example", company: "Example" } : undefined);
+      if ((await getRun(run.id))?.identityStatus === "resolved") break;
+    }
+    expect((await getRun(run.id))?.identityStatus).toBe("resolved");
+    expect(services.search).toHaveBeenCalledTimes(2);
+    expect(vi.mocked(services.search).mock.calls[0][0].query).toContain('"Alex Example" "Example"');
+    expect((await getSources(run.id)).find((source) => source.url.includes("unavailable"))?.fetchStatus).toBe("failed");
+  });
+  it("bounds discovery and never promotes search snippets when all pages fail", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const services = mockServices();
+    vi.mocked(services.search).mockImplementation(async ({ query }) => [{ title: "Record", url: `https://public.example/${encodeURIComponent(query)}`, snippet: "Alex Example founder Example" }]);
+    vi.mocked(services.fetchPage).mockImplementation(async (url) => ({ url, title: "Record", fetchStatus: "failed", retrievedAt: new Date().toISOString(), notes: ["timeout"] }));
+    for (let index = 0; index < 20; index++) if (!(await advanceRun(run.id, services)).canContinue) break;
+    expect((await getRun(run.id))?.identityStatus).toBe("insufficient_evidence");
+    expect(services.search).toHaveBeenCalledTimes(3);
+    expect(services.requestStructured).not.toHaveBeenCalled();
+    await advanceRun(run.id, services);
+    expect(services.search).toHaveBeenCalledTimes(3);
+    // A changed hint starts fresh discovery and retries previously examined candidates.
+    await advanceRun(run.id, services, { name: "Alex Example" });
+    expect(services.search).toHaveBeenCalledTimes(4);
   });
   it("returns lock contention without making provider calls", async () => {
     const run = await createRun("linkedin.com/in/alex-example"); const token = await acquireRunLock(run.id); const services = mockServices();

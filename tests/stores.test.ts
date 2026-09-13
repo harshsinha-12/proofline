@@ -118,7 +118,7 @@ describe("Redis evidence stores", () => {
   });
   it("redacts secrets and drops raw page/provider/chain-of-thought payloads from events", async () => {
     const run = await createRun("linkedin.com/in/alex");
-    await appendEvent(run.id, { id: "event", at: currentTimestamp(), stage: "created", type: "error", message: "Bearer abc123", data: { query: "sk-secret123", rawHtml: "RAW", chainOfThought: "PRIVATE", rawProviderPayload: "PAYLOAD", latencyMs: 50 } });
+    await appendEvent(run.id, { id: "event", at: currentTimestamp(), stage: "created", type: "error", message: "Bearer abcdefghijk", data: { query: "sk-secret123", rawHtml: "RAW", chainOfThought: "PRIVATE", rawProviderPayload: "PAYLOAD", latencyMs: 50 } });
     const events = await getEvents(run.id);
     expect(events[0].message).toBe("[redacted]");
     expect(events[0].data).toEqual({ query: "[redacted]", latencyMs: 50 });
