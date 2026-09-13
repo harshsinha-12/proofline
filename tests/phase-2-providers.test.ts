@@ -15,6 +15,8 @@ vi.mock("openai", () => ({ default: class {
 vi.mock("@/providers/public-http", async (original) => ({ ...await original<typeof import("@/providers/public-http")>(), publicGet: state.get }));
 
 import { requestStructured } from "@/providers/ai";
+import { forKnownOrigins } from "@/prompts/source-authority";
+import { validateOutput } from "@/prompts/validate-verification";
 import { search } from "@/providers/search";
 import { extractPage, fetchPage, fetchFailureReason, MAX_EXTRACTED_CHARACTERS } from "@/providers/fetch-page";
 import { isPublicAddress, validatePublicUrl } from "@/providers/public-http";
@@ -24,6 +26,35 @@ beforeEach(() => { state.redis!.reset(); state.create.mockReset(); state.get.moc
 describe("Phase 2 providers", () => {
   const prompt = { purpose: "identity" as const, system: "Return JSON only.", inputSchema: z.object({ query: z.string() }), outputSchema: z.object({ name: z.string() }) };
   const response = (output: string) => ({ status: "completed", output_text: output, output: [], usage: { input_tokens: 10, output_tokens: 5 } });
+  it("rejects a legacy cached fabricated quote and caches only a repaired exact quote", async () => {
+    const contract = { purpose: "verification_one" as const, system: "Verify", inputSchema: z.object({ source: z.object({ textExcerpt: z.string() }) }), outputSchema: z.object({ verdict: z.string(), excerpt: z.string().nullable() }) };
+    const input = { source: { textExcerpt: "Alex founded Example." } };
+    state.create.mockResolvedValueOnce(response(JSON.stringify({ verdict: "supported", excerpt: "Alex leads Example." })));
+    await requestStructured(contract, input);
+    state.create.mockResolvedValueOnce(response(JSON.stringify({ verdict: "supported", excerpt: "Alex leads Example." }))).mockResolvedValueOnce(response(JSON.stringify({ verdict: "supported", excerpt: "Alex founded Example." })));
+    const record = vi.fn();
+    const checked = { ...contract, validateOutput };
+    expect((await requestStructured(checked, input, { record })).excerpt).toBe("Alex founded Example.");
+    expect(record).toHaveBeenCalledWith(expect.objectContaining({ type: "model_cache_rejected" }));
+    await requestStructured(checked, input);
+    expect(state.create).toHaveBeenCalledTimes(3);
+    expect(() => validateOutput({ verdict: "no_evidence", excerpt: "Invented" }, input)).toThrow();
+  });
+  it("repairs an unknown authority origin before caching and reuses only the repaired result", async () => {
+    const contract = { ...prompt, outputSchema: forKnownOrigins([]).outputSchema };
+    const authority = { sourceAuthorityForClaim: "useful_but_insufficient", suspectedSharedOrigin: true, derivationNote: "Origin uncertain", reasoning: "Possibly supplied biography", sourceKind: "unknown", derivedFromSourceId: "invented-origin" };
+    state.create.mockResolvedValueOnce(response(JSON.stringify(authority))).mockResolvedValueOnce(response(JSON.stringify({ ...authority, derivedFromSourceId: null })));
+    expect((await requestStructured(contract, { query: "authority" })).derivedFromSourceId).toBeNull();
+    expect((await requestStructured(contract, { query: "authority" })).suspectedSharedOrigin).toBe(true);
+    expect(state.create).toHaveBeenCalledTimes(2);
+  });
+  it("limits authority origin references to supplied IDs", () => {
+    const field = forKnownOrigins(["src_known"]).outputSchema.shape.derivedFromSourceId;
+    expect(field.safeParse("src_known").success).toBe(true);
+    expect(field.safeParse(null).success).toBe(true);
+    expect(field.safeParse("https://publisher.example").success).toBe(false);
+    expect(field.safeParse("src_unknown").success).toBe(false);
+  });
   it("repairs malformed model JSON exactly once and records validation failure", async () => {
     state.create.mockResolvedValueOnce(response("{" )).mockResolvedValueOnce(response('{"name":"Alex"}'));
     const record = vi.fn();

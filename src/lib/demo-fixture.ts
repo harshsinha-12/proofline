@@ -3,7 +3,7 @@ import { z } from "zod";
 import { researchRunSchema, executionEventSchema } from "@/schemas/run";
 import { claimSchema } from "@/schemas/claim";
 import { sourceSchema } from "@/schemas/source";
-import { auditDiagnostic } from "@/lib/diagnostic-audit";
+import { auditDiagnostic, isEligibleClaim } from "@/lib/diagnostic-audit";
 import { redactSecrets } from "@/lib/errors";
 import { sanitizeEventData } from "@/lib/store-utils";
 import { DEMO_RUN_ID } from "@/lib/demo";
@@ -23,14 +23,22 @@ function fixturePayload(value: unknown): unknown {
   return value;
 }
 
+function isReviewLedger(data: z.infer<typeof demoFixtureSchema>) {
+  return ["awaiting_human_review", "failed"].includes(data.run.stage) && data.claims.length > 0 && data.sources.length > 0;
+}
+
 export function parseDemoFixture(value: unknown) {
   const parsed = demoFixtureSchema.safeParse(fixturePayload(value));
   if (!parsed.success || parsed.data.run.id !== DEMO_RUN_ID) return null;
   const data = parsed.data;
   if (redactSecrets(JSON.stringify(data)) !== JSON.stringify(data) || data.events.some((event) =>
     JSON.stringify(event.data) !== JSON.stringify(sanitizeEventData(event.data)))) return null;
-  if (!data.run.diagnostic || data.run.diagnostic.reviewStatus !== "approved" ||
-    !auditDiagnostic(data.run.diagnostic, data.claims.filter((claim) => claim.status === "verified" && claim.humanDecision === "approved")).valid) return null;
+  const eligible = data.claims.filter(isEligibleClaim);
+  if (data.run.diagnostic?.reviewStatus === "approved") {
+    if (!data.run.approvedAt || !data.run.approvedBy || !auditDiagnostic(data.run.diagnostic, eligible).valid) return null;
+    return data;
+  }
+  if (!isReviewLedger(data)) return null;
   return data;
 }
 

@@ -8,32 +8,29 @@ import { redactSecrets } from "@/lib/errors";
 describe("golden demo fixture", () => {
   const data = getDemoFixture();
 
-  it("loads the committed file as an approved read-only run", () => {
+  it("loads the committed live ledger as a read-only demo run", () => {
     expect(parseDemoFixture(fixture)).not.toBeNull();
     expect(parseDemoFixture({ default: fixture })).not.toBeNull();
     expect(data?.run.id).toBe("demo");
-    expect(data?.run.diagnostic?.reviewStatus).toBe("approved");
-    expect(data?.run.approvedBy).toBe("Harsh Sinha");
+    expect(data?.run.stage).toBe("awaiting_human_review");
+    expect(data?.run.diagnostic).toBeUndefined();
   });
 
   it("keeps stored classifications aligned with the deterministic classifier", () => {
     expect(data).not.toBeNull();
     for (const claim of data!.claims) {
-      expect(classifyClaim(claim, { sources: data!.sources })).toMatchObject({
+      expect(classifyClaim(claim, { sources: data!.sources, identityAmbiguous: data!.run.identityStatus !== "resolved" })).toMatchObject({
         status: claim.status,
         statusReason: claim.statusReason,
       });
     }
   });
 
-  it("lets only verified approved facts reach the writer and keeps a quantitative refusal out", () => {
+  it("refuses the writer because this live run has no verified claims", () => {
     expect(data).not.toBeNull();
-    const input = getWriterInput(data!.claims);
-    expect(input.status).toBe("ok");
-    expect(input.facts).toHaveLength(3);
-    expect(JSON.stringify(input.facts)).not.toContain("$6");
-    expect(data!.claims.some((claim) => claim.containsNumber && claim.status === "partially_verified" && claim.humanDecision === "excluded")).toBe(true);
-    expect(data!.claims.filter(isEligibleClaim).every((claim) => claim.status === "verified")).toBe(true);
+    expect(getWriterInput(data!.claims).status).toBe("insufficient_evidence");
+    expect(data!.claims.filter(isEligibleClaim)).toHaveLength(0);
+    expect(data!.claims.some((claim) => claim.containsNumber && ["rejected", "unverified", "partially_verified"].includes(claim.status))).toBe(true);
   });
 
   it("preserves fetch failures and does not embed secrets or raw HTML documents", () => {

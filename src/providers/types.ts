@@ -13,6 +13,7 @@ export type PromptContract<I extends z.ZodType = z.ZodType, O extends z.ZodType 
   system: string;
   inputSchema: I;
   outputSchema: O;
+  validateOutput?: (output: z.output<O>, input: z.output<I>) => void;
 };
 
 export const searchResultSchema = z.object({

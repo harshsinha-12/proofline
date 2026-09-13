@@ -6,7 +6,8 @@ import { AppError } from "@/lib/errors";
 import { subjectInput, toExcerpt, type PipelineContext } from "@/pipeline/shared";
 
 export async function assessSource(context: PipelineContext, claim: Claim, source: Source, otherSources: Source[], key: string) {
-  const output = await context.services.requestStructured(prompt, { ...subjectInput(context.run), claim: claim.statement, source: toExcerpt(source), otherSources: otherSources.map(toExcerpt) }, context);
+  const contract = prompt.forKnownOrigins(otherSources.map((entry) => entry.id));
+  const output = await context.services.requestStructured(contract, { ...subjectInput(context.run), claim: claim.statement, source: toExcerpt(source), otherSources: otherSources.map(toExcerpt) }, context);
   if (output.derivedFromSourceId && !otherSources.some((entry) => entry.id === output.derivedFromSourceId)) throw new AppError("validation_failed", "Authority assessment cites an unknown origin.", 422);
   await saveSource(context.run.id, { ...source, sourceKind: output.sourceKind,
     ...(output.derivedFromSourceId ? { suspectedOriginId: output.derivedFromSourceId } : {}),

@@ -1,4 +1,5 @@
 import { z } from "zod";
+export { validateOutput } from "@/prompts/validate-verification";
 import { verificationPassTwoOutputSchema, verificationCheckSchema } from "@/schemas/verification";
 import { SECURITY_RULE, subjectInputSchema, excerptSchema } from "@/prompts/shared";
 export const purpose = "verification_two" as const;

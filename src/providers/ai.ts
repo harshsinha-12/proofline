@@ -29,7 +29,17 @@ export async function requestStructured<I extends z.ZodType, O extends z.ZodType
   const format = zodTextFormat(contract.outputSchema, contract.purpose);
   const hash = hashJson({ purpose: contract.purpose, system: contract.system, input: validated, model: getModelRequest(contract.purpose), schema: format.schema });
   const cached = await readCache("model", hash, contract.outputSchema);
+  let cacheValid = cached !== null;
   if (cached !== null) {
+    try {
+      contract.validateOutput?.(contract.outputSchema.parse(cached), validated);
+    } catch (error) {
+      if (!(error instanceof SyntaxError) && !(error instanceof z.ZodError)) throw error;
+      cacheValid = false;
+      await context.record?.({ type: "model_cache_rejected", message: "Cached output failed evidence validation; requesting a fresh response.", data: { purpose: contract.purpose } });
+    }
+  }
+  if (cached !== null && cacheValid) {
     await context.record?.({ type: "model_cache_hit", message: "Reused a validated model result for an identical stage input.", data: { purpose: contract.purpose, cacheHit: true } });
     return contract.outputSchema.parse(cached);
   }
@@ -57,13 +67,15 @@ export async function requestStructured<I extends z.ZodType, O extends z.ZodType
       }
       const parsed = contract.outputSchema.safeParse(JSON.parse(response.output_text || "null"));
       if (response.status !== "completed" || !parsed.success) throw new SyntaxError("Output does not match the contract.");
+      contract.validateOutput?.(parsed.data, validated);
       await writeCache("model", hash, parsed.data);
       return parsed.data;
     } catch (error) {
       if (!(error instanceof SyntaxError) && !(error instanceof z.ZodError)) throw providerError(error);
-      await context.record?.({ type: "model_validation_failed", message: "Model JSON did not match its schema.", data: { purpose: contract.purpose, attempt } });
+      await context.record?.({ type: "model_validation_failed", message: "Model output failed schema or evidence validation.", data: { purpose: contract.purpose, attempt } });
       if (attempt === 2) throw new AppError("validation_failed", "Model output failed schema validation after one repair attempt.", 422);
       repair = "The previous response failed JSON/schema validation. Return a complete valid JSON object matching the supplied schema. Do not add evidence or facts to repair missing information.";
+      if (error instanceof SyntaxError) repair += ` ${error.message}`;
     }
   }
   throw new AppError("validation_failed", "Model output could not be validated.", 422);
