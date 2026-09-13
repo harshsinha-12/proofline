@@ -6,8 +6,10 @@ import { sourceSchema } from "@/schemas/source";
 import { auditDiagnostic } from "@/lib/diagnostic-audit";
 import { redactSecrets } from "@/lib/errors";
 import { sanitizeEventData } from "@/lib/store-utils";
+import { DEMO_RUN_ID } from "@/lib/demo";
 
-export const DEMO_RUN_ID = "demo";
+export { DEMO_RUN_ID, DEMO_LINKEDIN_URL, DEMO_NAME_HINT, DEMO_COMPANY_HINT } from "@/lib/demo";
+
 const demoFixtureSchema = z.object({
   run: researchRunSchema,
   sources: z.array(sourceSchema),

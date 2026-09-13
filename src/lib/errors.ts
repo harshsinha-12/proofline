@@ -9,6 +9,9 @@ export type ErrorCode =
   | "not_found"
   | "approval_not_allowed"
   | "read_only"
+  | "provider_unavailable"
+  | "identity_ambiguous"
+  | "insufficient_evidence"
   | "internal_error";
 
 export class AppError extends Error {

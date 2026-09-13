@@ -100,13 +100,27 @@ export async function runWriteCommands(run: ResearchRun): Promise<RedisCommand[]
   });
 }
 
-export async function createRun(linkedInUrl: string): Promise<ResearchRun> {
-  if (!isLinkedInProfileUrl(linkedInUrl)) throw new AppError("invalid_url", "A public LinkedIn profile URL is required.");
+export async function createRun(
+  linkedInUrl: string,
+  hints?: ResearchRun["hints"],
+  options?: { allowManualUrl?: boolean },
+): Promise<ResearchRun> {
+  const normalized = normalizeUrl(linkedInUrl);
+  if (!options?.allowManualUrl && !isLinkedInProfileUrl(linkedInUrl)) {
+    throw new AppError("invalid_url", "A public LinkedIn profile URL is required.");
+  }
+  if (options?.allowManualUrl) {
+    const parsed = new URL(normalized);
+    if (parsed.protocol !== "https:" && parsed.hostname !== "localhost" && parsed.hostname !== "127.0.0.1") {
+      throw new AppError("invalid_url", "Manual fallback URLs must use HTTPS.");
+    }
+  }
   const now = new Date().toISOString();
   const run: ResearchRun = {
-    id: createRunId(), linkedInUrl: normalizeUrl(linkedInUrl), stage: "created", createdAt: now, updatedAt: now,
+    id: createRunId(), linkedInUrl: normalized, stage: "created", createdAt: now, updatedAt: now,
     progress: { sourcesDiscovered: 0, sourcesFetched: 0, claimsExtracted: 0, checksCompleted: 0, verifiedClaims: 0, excludedClaims: 0 },
     warnings: [], completedStageKeys: [],
+    ...(hints ? { hints } : {}),
   };
   await withRedis(async (redis) => {
     const saved = await redis.set(redisKey("run", run.id), JSON.stringify(run), "EX", runRetentionSeconds(run), "NX");
@@ -145,7 +159,8 @@ export async function appendEvent(runId: string, event: ExecutionEvent, lockToke
   await withRunLock(runId, async (token) => {
     const run = await requirePersistedRun(runId);
     const key = redisKey("run", runId, "events");
-    const updated = { ...run, updatedAt: new Date().toISOString() };
+    const updated = { ...run, updatedAt: new Date().toISOString(),
+      ...(run.pipeline ? { pipeline: { ...run.pipeline, eventSequence: run.pipeline.eventSequence + 1 } } : {}) };
     await commitRunCommands(runId, token, [["RPUSH", key, JSON.stringify(parsed)], ["LTRIM", key, -MAX_RUN_EVENTS, -1], ...await runWriteCommands(updated)]);
   }, lockToken);
 }

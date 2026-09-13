@@ -25,10 +25,15 @@ export function getRedis(): Redis {
     port: env.REDIS_PORT,
     username: env.REDIS_USERNAME,
     password: env.REDIS_PASSWORD,
-    tls: isLocalHost(env.REDIS_HOST) ? undefined : {},
+    tls: (env.REDIS_TLS ?? !isLocalHost(env.REDIS_HOST)) ? {} : undefined,
     maxRetriesPerRequest: 3,
     lazyConnect: true,
     enableReadyCheck: true,
+    connectTimeout: 5_000,
+    retryStrategy: (attempt) => attempt > 2 ? null : Math.min(attempt * 100, 500),
+  });
+  client.on("error", () => {
+    // Store operations surface typed errors without logging credentials or provider payloads.
   });
 
   globalForRedis.prooflineRedis = client;

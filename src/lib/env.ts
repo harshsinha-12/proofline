@@ -8,6 +8,7 @@ export const envSchema = z.object({
   REDIS_PASSWORD: z.string().min(1),
   REDIS_HOST: z.string().min(1),
   REDIS_PORT: z.coerce.number().int().positive(),
+  REDIS_TLS: z.preprocess(emptyToUndefined, z.enum(["true", "false"]).transform((value) => value === "true").optional()),
   REDIS_KEY_PREFIX: z.preprocess(
     emptyToUndefined,
     z.string().min(1).default("proofline:dev"),
@@ -20,7 +21,7 @@ export const envSchema = z.object({
   SEARCH_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
   SEARCH_PROVIDER: z.preprocess(
     emptyToUndefined,
-    z.enum(["tavily", "exa", "brave"]).default("tavily"),
+    z.enum(["openai", "tavily", "exa", "brave"]).default("openai"),
   ),
   MAX_SOURCES_PER_RUN: z.preprocess(
     emptyToUndefined,
