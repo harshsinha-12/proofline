@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { diagnosticSchema } from "@/schemas/diagnostic";
+import { diagnosticSchema, gapFindingSchema } from "@/schemas/diagnostic";
 import { sourceKindSchema } from "@/schemas/source";
-import { evidenceRefSchema } from "@/schemas/verification";
+import { evidenceRefSchema, adversarialPlanOutputSchema, sourceAuthorityOutputSchema, verificationCheckSchema } from "@/schemas/verification";
 
 export const runStageSchema = z.enum([
   "created",
@@ -72,6 +72,22 @@ export const researchRunSchema = z.object({
   fatalError: safeErrorSchema.optional(),
   completedStageKeys: z.array(z.string()),
   diagnostic: diagnosticSchema.optional(),
+  diagnosticRoleLimitation: z.string().max(500).optional(),
+  hints: z.object({ name: z.string().max(150).optional(), company: z.string().max(150).optional() }).optional(),
+  identityStatus: z.enum(["resolved", "ambiguous", "insufficient_evidence"]).optional(),
+  identityFieldEvidence: z.object({ fullName: z.array(z.string()), currentRole: z.array(z.string()), organization: z.array(z.string()), location: z.array(z.string()) }).optional(),
+  gaps: z.array(gapFindingSchema).length(3).optional(),
+  retryAfter: z.string().optional(),
+  pipeline: z.object({
+    identityCandidateIds: z.array(z.string()).max(3).default([]),
+    queries: z.array(z.object({ query: z.string(), purpose: z.string(), preferredSourceType: sourceKindSchema, domainHint: z.string().optional() })).max(12).default([]),
+    attempts: z.record(z.string(), z.number().int()).default({}),
+    adversarialPlans: z.record(z.string(), adversarialPlanOutputSchema).default({}),
+    verificationCandidates: z.record(z.string(), z.array(z.string()).max(6)).default({}),
+    authorityDecisions: z.record(z.string(), sourceAuthorityOutputSchema).default({}),
+    secondChecks: z.record(z.string(), z.array(verificationCheckSchema).max(6)).default({}),
+    eventSequence: z.number().int().nonnegative().default(0),
+  }).optional(),
 });
 
 export const executionEventSchema = z.object({
