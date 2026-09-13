@@ -20,6 +20,8 @@ Sprint 3 implements Phase 2. Duration: 30 minutes. Verification results are reco
 
 Sprint 3 delivered Phase 2 provider adapters, the bounded research pipeline, and approved-fact gap analysis and audited drafting functions. Public source discovery uses GPT 5.5 through the OpenAI Responses API `web_search` tool (`tools: [{ type: "web_search" }]`). Tavily remains an optional fallback. Model id stays in `src/lib/model-config.ts`.
 
+Sprint 4 is the final sprint. Duration: 1 hour. It improved report quality, added the report loading stage, ran and verified the test suite, and fixed bugs found in that pass.
+
 Phase 3 is complete: intake, live execution polling, claim/source/execution review, diagnostic generation from approved facts, snapshot hashing, and print export.
 
 Research now runs up to three independent tasks per advance request for discovery, page fetching, claim extraction, authority/verification, and adversarial planning. Calls use GPT-5.6 Luna. Duplicate searches and page requests within a batch share one request; page fetches are serialized per host. Ledger writes and per-task checkpoints remain ordered. Successful tasks survive sibling failures, and a stage falls back to one task per request after an error. The activity panel reports batch size and refreshes saved progress. Concurrency and partial-failure recovery are tested offline; live end-to-end speedup has not yet been measured.
@@ -1820,7 +1822,7 @@ Actual one-page diagnostic.
 
 One honest limitations paragraph.
 
-Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2: approximately 13 minutes. Sprint 3: 30 minutes.
+Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2: approximately 13 minutes. Sprint 3: 30 minutes. Sprint 4 (final): 1 hour to improve report quality, add the loading stage, run and verify the tests, and fix bugs.
 
 Email subject: TASK - Harsh Sinha.
 
