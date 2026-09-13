@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ClaimCard } from "@/components/claim-card";
 import { DiagnosticSheet } from "@/components/diagnostic-sheet";
 import { ExecutionTimeline } from "@/components/execution-timeline";
+import { ResearchLoader } from "@/components/research-loader";
 import { ResearchProgress } from "@/components/research-progress";
 import { ResearchActivity } from "@/components/research-activity";
 import { PrintFitCheck } from "@/components/print-fit-check";
@@ -199,7 +200,7 @@ export function ResearchWorkspace({ runId }: { runId: string }) {
   }
 
   if (!payload && !error) {
-    return <p className="px-6 py-16 text-sm text-muted-foreground">Loading the evidence ledger.</p>;
+    return <ResearchLoader />;
   }
   if (!payload) {
     return (
