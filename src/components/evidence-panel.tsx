@@ -1,2 +1,1 @@
-/** Phase 0 stub. Implemented in a later phase. */
-export {};
+export { EvidencePanel } from "@/components/claim-card";
