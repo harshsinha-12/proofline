@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getResearchProgress, RESEARCH_STEPS } from "@/lib/research-progress";
+import { getResearchProgress, RESEARCH_STEPS, claimStatusCounts } from "@/lib/research-progress";
+import { makeClaim } from "./helpers/fixtures";
 import { researchRunSchema, type RunStage } from "@/schemas/run";
 
 function run(stage: RunStage) {
@@ -37,5 +38,15 @@ describe("research progress", () => {
     failed.fatalError = { code: "provider_failed", message: "Request failed", createdAt: failed.updatedAt, stage: "verifying_pass_1" };
     expect(getResearchProgress(failed)).toEqual(getResearchProgress(run("verifying_pass_1")));
     expect(getResearchProgress(run("failed")).percent).toBe(0);
+  });
+
+  it("counts classified outcomes rather than a single excluded bucket", () => {
+    expect(claimStatusCounts([
+      makeClaim({ status: "verified" }),
+      makeClaim({ id: "b", status: "partially_verified" }),
+      makeClaim({ id: "c", status: "unverified" }),
+      makeClaim({ id: "d", status: "rejected" }),
+      makeClaim({ id: "e", status: "conflict" }),
+    ])).toEqual({ pending: 0, verified: 1, partiallyVerified: 1, unverified: 1, conflict: 1, rejected: 1 });
   });
 });

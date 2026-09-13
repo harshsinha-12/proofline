@@ -62,7 +62,8 @@ export async function fetchPage(raw: string, context: ProviderContext = {}): Pro
       let phase = "robots";
       try {
         await context.record?.({ type: "page_fetch_started", message: "Checking robots.txt before fetching this public page.", data: { attempt, url: url.toString(), robotsUrl: new URL("/robots.txt", url).toString() } });
-        const signal = AbortSignal.timeout(Math.max(1, Math.min(10_000, deadline - Date.now())));
+        const timeout = AbortSignal.timeout(Math.max(1, Math.min(10_000, deadline - Date.now())));
+        const signal = context.signal ? AbortSignal.any([context.signal, timeout]) : timeout;
         const robotsUrl = new URL("/robots.txt", url).toString();
         const robots = await publicGet(robotsUrl, signal);
         if (robots.status !== 404 && (robots.status !== 200 || robotsParser(robotsUrl, robots.body).isAllowed(url.toString(), USER_AGENT) !== true)) {

@@ -46,6 +46,12 @@ describe("deterministic classification", () => {
   it("secondary-only support remains unverified", () => {
     expect(classifyClaim(claim, { sources: [a, b].map((source) => ({ ...source, sourceKind: "reputable_secondary" })) }).status).toBe("unverified");
   });
+  it("reports source-budget exhaustion separately from missing evidence", () => {
+    const empty = makeClaim({
+      check1: makeCheck(1, a, claim.statement, { verdict: "no_evidence", sourceAuthorityForClaim: "not_qualifying", evidence: [], limitations: ["No accessible replacement source established an independent second check within the source budget."] }),
+    });
+    expect(classifyClaim(empty, { sources: [a] }).statusReason).toContain("Source budget exhausted");
+  });
   it("a missing second check remains partial and a missing evidence set remains unverified", () => {
     expect(classifyClaim({ ...claim, check2: undefined }, { sources: [a, b] }).status).toBe("partially_verified");
     expect(classifyClaim(makeClaim(), { sources: [a, b] }).status).toBe("unverified");

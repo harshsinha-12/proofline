@@ -60,6 +60,72 @@ export function mockServices(contradict = false): PipelineServices {
 }
 
 describe("single-claim vertical slice", () => {
+  it("tries one targeted replacement search then records an inconclusive check without looping", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const source = makeSource(); const claim = makeClaim({ check1: makeCheck(1, source) });
+    await saveSource(run.id, source); await saveClaim(run.id, claim);
+    const services = mockServices();
+    vi.mocked(services.search).mockResolvedValue([]);
+    await withRunLock(run.id, async (token) => {
+      const pipeline = researchRunSchema.shape.pipeline.unwrap().parse({ adversarialPlans: { [claim.id]: { queries: [{ query: "already searched", intent: "independent_primary" }] } } });
+      const context: PipelineContext = { run: { ...run, subject: { fullName: "Alex Example", canonicalLinkedInUrl: run.linkedInUrl, aliases: [], identityEvidence: [], ambiguityNotes: [] }, completedStageKeys: [`check2:search:${claim.id}:0`] }, pipeline, token, services };
+      const result = await verifyPassTwo(context);
+      expect(result.key).toBe(`check2:targeted:${claim.id}`);
+      context.run.completedStageKeys.push(result.key!);
+      await verifyPassTwo(context);
+    });
+    expect(services.search).toHaveBeenCalledTimes(1);
+    expect((await getClaims(run.id))[0].check2?.verdict).toBe("no_evidence");
+  });
+  it("verifies distinct claims concurrently without losing shared source or claim updates", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const services = mockServices();
+    for (let index = 0; index < 40 && (await getRun(run.id))?.stage !== "verifying_pass_1"; index++) await advanceRun(run.id, services);
+    const originalClaim = (await getClaims(run.id))[0];
+    await withRunLock(run.id, async (token) => {
+      for (const id of ["clm_parallel_a", "clm_parallel_b"]) await saveClaim(run.id, { ...originalClaim, id }, token);
+    });
+    const original = services.requestStructured;
+    let active = 0; let peak = 0;
+    services.requestStructured = vi.fn(async (contract, input, context) => {
+      active++; peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      try { return await original(contract, input, context); } finally { active--; }
+    }) as typeof services.requestStructured;
+    await advanceRun(run.id, services); // Three authority assessments.
+    await advanceRun(run.id, services); // Three first-pass checks.
+    expect(peak).toBe(3);
+    expect((await getClaims(run.id)).filter((claim) => claim.check1)).toHaveLength(3);
+    expect((await getRun(run.id))?.progress.checksCompleted).toBe(3);
+  });
+  it("overlaps three discovery calls and checkpoints successful siblings when one is rate limited", async () => {
+    const run = await createRun("https://www.linkedin.com/in/alex-example");
+    const services = mockServices();
+    for (let index = 0; index < 20 && (await getRun(run.id))?.stage !== "discovering_sources"; index++) await advanceRun(run.id, services);
+    let active = 0; let peak = 0;
+    const calls: string[] = [];
+    services.search = vi.fn(async ({ query }) => {
+      calls.push(query); active++; peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, 15));
+      active--;
+      if (query.endsWith(" 1")) throw new AppError("rate_limited", "Retry", 429);
+      return [{ title: query, url: `https://company.example/${query.at(-1)}`, snippet: "" }];
+    });
+    await advanceRun(run.id, services);
+    expect(peak).toBe(3);
+    const saved = (await getRun(run.id))!;
+    expect(saved.completedStageKeys).toEqual(expect.arrayContaining(["discovery:0", "discovery:2"]));
+    expect(saved.completedStageKeys).not.toContain("discovery:1");
+    await withRunLock(run.id, async (token) => { await saveRun({ ...saved, retryAfter: undefined }, token); });
+    services.search = vi.fn(async ({ query }) => { calls.push(query); return []; });
+    await advanceRun(run.id, services);
+    expect(calls.filter((query) => query.endsWith(" 0"))).toHaveLength(1);
+    expect(calls.filter((query) => query.endsWith(" 2"))).toHaveLength(1);
+    expect(services.search).toHaveBeenCalledTimes(1);
+    expect((await getRun(run.id))?.completedStageKeys).toContain("discovery:1");
+    const events = await getEvents(run.id);
+    expect(new Set(events.map((event) => event.id)).size).toBe(events.length);
+  });
   it("discards nonmatching extraction evidence without repeatedly failing the run", async () => {
     const run = await createRun("https://www.linkedin.com/in/alex-example");
     const services = mockServices();

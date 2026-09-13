@@ -45,6 +45,15 @@ export const sourceAuthorityOutputSchema = z.object({
   suspectedSharedOrigin: z.boolean(),
   derivationNote: z.string(),
   reasoning: z.string().min(1),
+  sourceKind: z.enum([
+    "regulator_or_government",
+    "company_first_party",
+    "subject_first_party",
+    "institutional_first_party",
+    "reputable_secondary",
+    "other_secondary",
+    "unknown",
+  ]).optional(),
 });
 
 export const verificationPassOneOutputSchema = z.object({

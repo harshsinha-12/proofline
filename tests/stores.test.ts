@@ -148,7 +148,7 @@ describe("Redis evidence stores", () => {
   });
   it("only uses a validated demo fixture for the demo ID and blocks fixture writes", async () => {
     const run = await createRun("linkedin.com/in/alex");
-    const data = parseDemoFixture({ run: { ...run, id: "demo", stage: "completed", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) },
+    const data = parseDemoFixture({ run: { ...run, id: "demo", stage: "completed", approvedAt: currentTimestamp(), approvedBy: "Harsh Sinha", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) },
       claims: verifiedClaims(), sources: [makeSource()], events: [] });
     expect(data).not.toBeNull();
     vi.mocked(getDemoFixture).mockReturnValue(data);

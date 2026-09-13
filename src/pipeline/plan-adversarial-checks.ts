@@ -4,7 +4,7 @@ import { AppError } from "@/lib/errors";
 import { subjectInput, type PipelineContext, type StageResult } from "@/pipeline/shared";
 
 export async function planAdversarialChecks(context: PipelineContext): Promise<StageResult> {
-  const claim = (await getClaims(context.run.id)).find((claim) => !context.pipeline.adversarialPlans[claim.id]);
+  const claim = (await getClaims(context.run.id)).find((claim) => context.targetId ? claim.id === context.targetId : !context.pipeline.adversarialPlans[claim.id]);
   if (!claim) return { nextStage: "verifying_pass_2", key: "adversarial:complete" };
   const avoidDomains = [...new Set(claim.check1?.evidence.map((ref) => new URL(ref.url).hostname) ?? [])];
   const output = await context.services.requestStructured(prompt, { ...subjectInput(context.run), claim: claim.statement, check1: claim.check1 ?? null, avoidDomains }, context);
