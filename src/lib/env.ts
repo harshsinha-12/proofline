@@ -31,6 +31,7 @@ export const envSchema = z.object({
     emptyToUndefined,
     z.coerce.number().int().positive().default(30),
   ),
+  MAX_VERIFICATION_EXTRA_SOURCES: z.preprocess(emptyToUndefined, z.coerce.number().int().min(0).max(30).default(12)),
   MAX_CONCURRENT_FETCHES: z.preprocess(
     emptyToUndefined,
     z.coerce.number().int().positive().default(3),

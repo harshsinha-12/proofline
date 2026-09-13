@@ -1,12 +1,13 @@
 import "server-only";
+import { batchServices, runBatch, serialQueue } from "@/pipeline/batch";
 import { getEnv } from "@/lib/env";
 import { AppError, toSafeError } from "@/lib/errors";
 import { eventId } from "@/lib/ids";
 import { appendEvent, requirePersistedRun, saveRun, withRunLock } from "@/lib/run-store";
-import { getSources } from "@/lib/source-store";
+import { getSources, saveSource } from "@/lib/source-store";
 import { getClaims, saveClaim } from "@/lib/claim-store";
 import { researchRunSchema, type ResearchRun } from "@/schemas/run";
-import { classifyClaim } from "@/pipeline/classify-claims";
+import { applyClaimClassification } from "@/pipeline/classify-claims";
 import { resolveIdentity } from "@/pipeline/resolve-identity";
 import { planResearch } from "@/pipeline/plan-research";
 import { discoverSources } from "@/pipeline/discover-sources";
@@ -16,6 +17,8 @@ import { verifyPassOne } from "@/pipeline/verify-pass-one";
 import { planAdversarialChecks } from "@/pipeline/plan-adversarial-checks";
 import { verifyPassTwo } from "@/pipeline/verify-pass-two";
 import { defaultServices, type PipelineContext, type PipelineServices, type StageResult } from "@/pipeline/shared";
+import { progressFromLedgers } from "@/lib/research-progress";
+import { stabilizeSourceKind } from "@/lib/source-kind";
 
 export type AdvanceResult = {
   runId: string; previousStage: ResearchRun["stage"]; stage: ResearchRun["stage"]; progress: ResearchRun["progress"];
@@ -30,12 +33,17 @@ function response(run: ResearchRun, previousStage: ResearchRun["stage"], canCont
 }
 
 async function classifyRun(context: PipelineContext): Promise<StageResult> {
+  const organization = context.run.subject?.organization;
+  for (const source of await getSources(context.run.id)) {
+    const sourceKind = stabilizeSourceKind(source, organization);
+    if (sourceKind !== source.sourceKind) await saveSource(context.run.id, { ...source, sourceKind }, context.token);
+  }
   const sources = await getSources(context.run.id);
   const claims = await getClaims(context.run.id);
-  const claim = claims.find((claim) => !context.run.completedStageKeys.includes(`classified:${claim.id}`));
-  if (!claim) return { nextStage: "analyzing_gaps", key: "classification:complete" };
-  await saveClaim(context.run.id, { ...claim, ...classifyClaim(claim, { sources, identityAmbiguous: context.run.identityStatus !== "resolved" }), updatedAt: new Date().toISOString() }, context.token);
-  return { key: `classified:${claim.id}` };
+  for (const claim of claims) {
+    await saveClaim(context.run.id, applyClaimClassification(claim, { sources, identityAmbiguous: context.run.identityStatus !== "resolved" }), context.token);
+  }
+  return { nextStage: "analyzing_gaps", key: "classification:complete" };
 }
 
 const HANDLERS: Partial<Record<ResearchRun["stage"], (context: PipelineContext) => Promise<StageResult>>> = {
@@ -57,12 +65,13 @@ export async function advanceRun(runId: string, services: PipelineServices = def
     } else if (run.identityStatus && run.identityStatus !== "resolved") return response(run, previousStage, false);
     if (run.retryAfter && Date.parse(run.retryAfter) > Date.now()) return response(run, previousStage, false);
     const pipeline = researchRunSchema.shape.pipeline.unwrap().parse(run.pipeline ?? {});
-    const context: PipelineContext = { run, token, services, pipeline, record: async (event) => {
+    const mutate = serialQueue();
+    const context: PipelineContext = { run, token, services: batchServices(services), pipeline, mutate, signal: AbortSignal.timeout(65_000), record: (event) => mutate(async () => {
       const latest = await requirePersistedRun(runId);
       const at = new Date().toISOString();
       await appendEvent(runId, { id: eventId(runId, (latest.pipeline?.eventSequence ?? 0) + 1), at,
         stage: run.stage, type: event.type, message: event.message, data: event.data }, token);
-    } };
+    }) };
     try {
       let result: StageResult;
       if (run.stage === "created") {
@@ -72,7 +81,14 @@ export async function advanceRun(runId: string, services: PipelineServices = def
       else {
         const handler = HANDLERS[run.stage];
         if (!handler) throw new AppError("not_implemented", "This pipeline stage is not available.", 501);
-        result = await handler(context);
+        result = await runBatch(context, handler, (task) => mutate(async () => {
+          if (!task.key) return;
+          const current = await requirePersistedRun(runId);
+          pipeline.eventSequence = current.pipeline?.eventSequence ?? pipeline.eventSequence;
+          const claims = await getClaims(runId);
+          const sources = await getSources(runId);
+          await saveRun({ ...current, pipeline, completedStageKeys: [...new Set([...current.completedStageKeys, task.key])], progress: progressFromLedgers(claims, sources) }, token);
+        }));
       }
       const sources = await getSources(runId); const claims = await getClaims(runId);
       const current = await requirePersistedRun(runId);
@@ -80,10 +96,7 @@ export async function advanceRun(runId: string, services: PipelineServices = def
       const updated = await saveRun({ ...current, ...result.patch, pipeline,
         stage: result.nextStage ?? run.stage, retryAfter: undefined,
         completedStageKeys: [...new Set([...current.completedStageKeys, ...(result.key ? [result.key] : [])])],
-        progress: { sourcesDiscovered: sources.length, sourcesFetched: sources.filter((source) => source.fetchStatus === "fetched").length,
-          claimsExtracted: claims.length, checksCompleted: claims.reduce((total, claim) => total + Number(!!claim.check1) + Number(!!claim.check2), 0),
-          verifiedClaims: claims.filter((claim) => claim.status === "verified").length,
-          excludedClaims: claims.filter((claim) => claim.status !== "pending" && claim.status !== "verified").length },
+        progress: progressFromLedgers(claims, sources),
       }, token);
       await context.record!({ type: "stage_checkpoint", message: "Saved a bounded pipeline checkpoint.", data: { previousStage, stage: updated.stage } });
       return response(updated, previousStage, result.canContinue ?? true);

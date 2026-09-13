@@ -3,7 +3,7 @@ import { AppError } from "@/lib/errors";
 import { getEnv } from "@/lib/env";
 
 export async function discoverSources(context: PipelineContext): Promise<StageResult> {
-  const index = context.pipeline.queries.findIndex((_, index) => !taskDone(context, `discovery:${index}`));
+  const index = context.queryIndex ?? context.pipeline.queries.findIndex((_, index) => !taskDone(context, `discovery:${index}`));
   if (index < 0) return { nextStage: "extracting_sources", key: "discovery:complete" };
   const query = context.pipeline.queries[index];
   const domain = query.domainHint?.replace(/^https?:\/\//, "").split("/")[0];

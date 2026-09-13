@@ -1,10 +1,35 @@
-import type { ResearchRun, RunStage } from "@/schemas/run";
+import type { Claim } from "@/schemas/claim";
+import type { ResearchRun, RunProgress, RunStage } from "@/schemas/run";
+import type { Source } from "@/schemas/source";
 
 export const RESEARCH_STEPS: RunStage[] = [
   "resolving_identity", "planning_research", "discovering_sources", "extracting_sources",
   "extracting_claims", "verifying_pass_1", "planning_adversarial_checks", "verifying_pass_2",
   "classifying_claims", "analyzing_gaps", "drafting_diagnostic",
 ];
+
+export function claimStatusCounts(claims: Claim[]) {
+  return {
+    pending: claims.filter((claim) => claim.status === "pending").length,
+    verified: claims.filter((claim) => claim.status === "verified").length,
+    partiallyVerified: claims.filter((claim) => claim.status === "partially_verified").length,
+    unverified: claims.filter((claim) => claim.status === "unverified").length,
+    conflict: claims.filter((claim) => claim.status === "conflict").length,
+    rejected: claims.filter((claim) => claim.status === "rejected").length,
+  };
+}
+
+export function progressFromLedgers(claims: Claim[], sources: Source[]): RunProgress {
+  const counts = claimStatusCounts(claims);
+  return {
+    sourcesDiscovered: sources.length,
+    sourcesFetched: sources.filter((source) => source.fetchStatus === "fetched").length,
+    claimsExtracted: claims.length,
+    checksCompleted: claims.reduce((total, claim) => total + Number(!!claim.check1) + Number(!!claim.check2), 0),
+    verifiedClaims: counts.verified,
+    excludedClaims: claims.filter((claim) => claim.status !== "pending" && claim.status !== "verified").length,
+  };
+}
 
 export function getResearchProgress(run: ResearchRun) {
   const ready = ["awaiting_human_review", "approved", "completed"].includes(run.stage);
