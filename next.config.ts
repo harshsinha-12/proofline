@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { DEMO_LIVE_RUN_ID } from "./src/lib/demo";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -6,7 +7,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/research/demo",
-        destination: "/research/run_baca2bc42a3947ca84a7e544",
+        destination: `/research/${DEMO_LIVE_RUN_ID}`,
         permanent: false,
       },
     ];
