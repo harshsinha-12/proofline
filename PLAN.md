@@ -35,7 +35,7 @@ Use these packages. Do not add an ORM, Postgres, Pinecone, BullMQ, or a vector d
 | Next.js App Router + TypeScript            | UI and server endpoints in one deployable app                                                                                                                                            |
 | Tailwind CSS + shadcn/ui                   | Product UI without spending the assessment on CSS                                                                                                                                        |
 | Zod                                        | Runtime source of truth for API, Redis, and LLM JSON                                                                                                                                     |
-| OpenAI Responses API (`openai`)            | Structured extraction, verification, analysis, writing. Model is `gpt-5.5` in `src/lib/model-config.ts`, not an env var. Default public search uses the Responses API `web_search` tool. |
+| OpenAI Responses API (`openai`)            | Structured extraction, verification, analysis, writing. Model is `gpt-5.6-luna` in `src/lib/model-config.ts`, not an env var. Default public search uses the Responses API `web_search` tool. |
 | Tavily REST (optional fallback)            | Alternate public source discovery if `SEARCH_PROVIDER=tavily`                                                                                                                            |
 | Cheerio + `@mozilla/readability` + `jsdom` | Deterministic page parsing with typed failures                                                                                                                                           |
 | `ioredis`                                  | TCP Redis for checkpoints, caches, locks, rate limits, and run persistence                                                                                                               |
@@ -501,7 +501,7 @@ Only after this slice, process batches of sources/claims per advance call.
 
 ## Phase 3 — Review product
 
-**Status: implemented (2026-09-13).** Intake, live execution polling, review tabs, claim/diagnostic approval APIs, snapshot hashing, and print export are in place. The golden demo fixture is still Phase 4, so `/research/demo` is empty until that file is a real approved run.
+**Status: implemented (2026-09-13).** Intake, live execution polling, review tabs, claim/diagnostic approval APIs, snapshot hashing, and print export are in place. `/research/demo` now has a sanitized approved golden fixture from Phase 4.
 
 ### Step 3.1 — New research page (`/`)
 
@@ -587,9 +587,12 @@ Diagnostic structure from the README: header, current positioning, three credibi
 
 ## Phase 4 — Harden the demo
 
+**Status: in progress (2026-09-13).** The golden fixture, reliability tests, and limitations rewrite are in. Live end-to-end re-run against current `getstake.com` still cannot fetch first-party HTML from this network. Vercel deploy is not done.
 
 
 ### Step 4.1 — Golden fixture
+
+**Status: implemented.** `fixtures/demo-run.json` is a sanitized approved run. Live Stake pages timed out, so first-party excerpts are public Wayback snapshots of Stake's own HTML, plus The National. Co-CEO and the `$6bn` career-volume claim are present as excluded partials. Secrets, raw HTML, and `pipeline` internals are stripped. Rebuild with `npm run fixture:demo`.
 
 Commit `fixtures/demo-run.json`: a sanitized completed run with sources, claims, both checks, a refusal example, and an approved diagnostic. Strip secrets, raw HTML, and provider keys.
 

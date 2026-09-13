@@ -1,5 +1,720 @@
 {
-  "version": 1,
-  "note": "Sanitized golden-run fixture will be committed in Phase 4. This file is a placeholder so the path exists.",
-  "run": null
+  "run": {
+    "id": "demo",
+    "linkedInUrl": "https://www.linkedin.com/in/manarm",
+    "stage": "approved",
+    "subject": {
+      "fullName": "Manar Mahmassani",
+      "currentRole": "co-founder",
+      "organization": "Stake",
+      "canonicalLinkedInUrl": "https://www.linkedin.com/in/manarm",
+      "aliases": [],
+      "identityEvidence": [
+        {
+          "sourceId": "src_0b44f30c6f8de6f0",
+          "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+          "title": "Stake | Ask me Anything with Stake's Founders",
+          "excerpt": "Manar MahmassaniCo-Founder & Co-CEO",
+          "supportsExactly": "The researched subject is Manar Mahmassani."
+        },
+        {
+          "sourceId": "src_dde222a0ae352343",
+          "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+          "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+          "excerpt": "Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake",
+          "supportsExactly": "The researched subject is Manar Mahmassani."
+        }
+      ],
+      "ambiguityNotes": []
+    },
+    "createdAt": "2026-09-12T18:39:51.528Z",
+    "updatedAt": "2026-09-13T04:18:00.000Z",
+    "completedAt": "2026-09-13T04:18:00.000Z",
+    "approvedAt": "2026-09-13T04:18:00.000Z",
+    "approvedBy": "Harsh Sinha",
+    "progress": {
+      "sourcesDiscovered": 8,
+      "sourcesFetched": 4,
+      "claimsExtracted": 5,
+      "checksCompleted": 10,
+      "verifiedClaims": 3,
+      "excludedClaims": 2
+    },
+    "warnings": [
+      {
+        "code": "linkedin_not_fetched",
+        "message": "Identity was resolved from public sources; LinkedIn was not scraped.",
+        "createdAt": "2026-09-12T18:41:14.944Z"
+      },
+      {
+        "code": "source_timed_out",
+        "message": "Live getstake.com pages timed out. Archived first-party HTML was used where a public snapshot existed.",
+        "createdAt": "2026-09-13T04:08:00.000Z"
+      },
+      {
+        "code": "source_blocked",
+        "message": "Crunchbase was blocked. No access bypass was attempted.",
+        "createdAt": "2026-09-13T04:08:00.000Z"
+      }
+    ],
+    "completedStageKeys": [
+      "run:started",
+      "identity:resolved",
+      "research:plan",
+      "discovery:complete",
+      "sources:complete",
+      "claims:complete",
+      "check1:complete",
+      "adversarial:complete",
+      "check2:complete",
+      "classification:complete",
+      "gaps:deferred_to_review",
+      "draft:deferred_to_review"
+    ],
+    "diagnostic": {
+      "subjectName": "Manar Mahmassani",
+      "roleLine": "Co-founder of Stake",
+      "generatedAt": "2026-09-13T04:18:00.000Z",
+      "currentPositioning": "Public coverage identifies Manar Mahmassani as a co-founder of Stake, with co-founder Rami Tabbara. Later titles and performance figures are not independently confirmed.",
+      "credibilitySignals": [
+        {
+          "text": "Public sources identify the subject as Manar Mahmassani.",
+          "claimIds": [
+            "clm_4cb087b2e8f33a79"
+          ]
+        },
+        {
+          "text": "Manar Mahmassani is a co-founder of Stake.",
+          "claimIds": [
+            "clm_4683ad5d3e7905ca"
+          ]
+        },
+        {
+          "text": "Stake has a second named co-founder, Rami Tabbara.",
+          "claimIds": [
+            "clm_ed486abe65287e77"
+          ]
+        }
+      ],
+      "gaps": [
+        {
+          "id": "gap_b98ded00b15bdae4",
+          "title": "Title beyond co-founder is unconfirmed",
+          "observation": "Company pages use a broader leadership title. The independent newspaper extract confirms co-founder only.",
+          "whyItMatters": "Upgrading the title in client copy would outrun the independent record.",
+          "recommendation": "Keep the public line at co-founder until a second independent source confirms any later title.",
+          "supportingClaimIds": [
+            "clm_4683ad5d3e7905ca"
+          ],
+          "sampledSourceIds": [
+            "src_0b44f30c6f8de6f0",
+            "src_dde222a0ae352343"
+          ],
+          "limitation": "This sample cannot prove a broader title is false, only that it is unconfirmed."
+        },
+        {
+          "id": "gap_2913c693cc5ec951",
+          "title": "Career volume is first-party only",
+          "observation": "A career-volume figure appears on Stake's page and is repeated on an event biography. The newspaper extract does not contain it.",
+          "whyItMatters": "Repeating a first-party number as audited evidence would overstate the record.",
+          "recommendation": "Omit the volume figure until a qualifying independent record confirms it.",
+          "supportingClaimIds": [
+            "clm_4683ad5d3e7905ca"
+          ],
+          "sampledSourceIds": [
+            "src_0b44f30c6f8de6f0",
+            "src_dde222a0ae352343"
+          ],
+          "limitation": "Absence from this sample is not proof that no independent record exists."
+        },
+        {
+          "id": "gap_ad2e09ba8cdab6ef",
+          "title": "Live first-party pages often failed",
+          "observation": "Live Stake pages timed out. Crunchbase was blocked. LinkedIn was not scraped. Working first-party evidence came from a public archive.",
+          "whyItMatters": "Hiding fetch failures would make the diagnostic look more complete than the collection was.",
+          "recommendation": "Keep timeouts visible and treat archived company pages as retrieved copies.",
+          "supportingClaimIds": [
+            "clm_4cb087b2e8f33a79",
+            "clm_4683ad5d3e7905ca"
+          ],
+          "sampledSourceIds": [
+            "src_17a15fcda4fb5e9f",
+            "src_217c6bb36277aa7c"
+          ],
+          "limitation": "A timeout does not distinguish a down site from a blocked path."
+        }
+      ],
+      "narrativeOpportunity": "The defensible line is the co-founder role at Stake with Rami Tabbara. Keep later titles and performance numbers out until independent records confirm them.",
+      "integritySummary": {
+        "evaluated": 5,
+        "verified": 3,
+        "partiallyVerified": 2,
+        "unverified": 0,
+        "rejected": 0,
+        "conflicts": 0
+      },
+      "citationClaimIds": [
+        "clm_4cb087b2e8f33a79",
+        "clm_4683ad5d3e7905ca",
+        "clm_ed486abe65287e77"
+      ],
+      "reviewStatus": "approved"
+    },
+    "hints": {
+      "name": "Manar Mahmassani",
+      "company": "Stake"
+    },
+    "identityStatus": "resolved",
+    "identityFieldEvidence": {
+      "fullName": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "currentRole": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "organization": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "location": []
+    },
+    "gaps": [
+      {
+        "id": "gap_b98ded00b15bdae4",
+        "title": "Title beyond co-founder is unconfirmed",
+        "observation": "Company pages use a broader leadership title. The independent newspaper extract confirms co-founder only.",
+        "whyItMatters": "Upgrading the title in client copy would outrun the independent record.",
+        "recommendation": "Keep the public line at co-founder until a second independent source confirms any later title.",
+        "supportingClaimIds": [
+          "clm_4683ad5d3e7905ca"
+        ],
+        "sampledSourceIds": [
+          "src_0b44f30c6f8de6f0",
+          "src_dde222a0ae352343"
+        ],
+        "limitation": "This sample cannot prove a broader title is false, only that it is unconfirmed."
+      },
+      {
+        "id": "gap_2913c693cc5ec951",
+        "title": "Career volume is first-party only",
+        "observation": "A career-volume figure appears on Stake's page and is repeated on an event biography. The newspaper extract does not contain it.",
+        "whyItMatters": "Repeating a first-party number as audited evidence would overstate the record.",
+        "recommendation": "Omit the volume figure until a qualifying independent record confirms it.",
+        "supportingClaimIds": [
+          "clm_4683ad5d3e7905ca"
+        ],
+        "sampledSourceIds": [
+          "src_0b44f30c6f8de6f0",
+          "src_dde222a0ae352343"
+        ],
+        "limitation": "Absence from this sample is not proof that no independent record exists."
+      },
+      {
+        "id": "gap_ad2e09ba8cdab6ef",
+        "title": "Live first-party pages often failed",
+        "observation": "Live Stake pages timed out. Crunchbase was blocked. LinkedIn was not scraped. Working first-party evidence came from a public archive.",
+        "whyItMatters": "Hiding fetch failures would make the diagnostic look more complete than the collection was.",
+        "recommendation": "Keep timeouts visible and treat archived company pages as retrieved copies.",
+        "supportingClaimIds": [
+          "clm_4cb087b2e8f33a79",
+          "clm_4683ad5d3e7905ca"
+        ],
+        "sampledSourceIds": [
+          "src_17a15fcda4fb5e9f",
+          "src_217c6bb36277aa7c"
+        ],
+        "limitation": "A timeout does not distinguish a down site from a blocked path."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "src_dde222a0ae352343",
+      "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+      "canonicalUrl": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+      "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+      "publisher": "The National",
+      "retrievedAt": "2026-09-12T18:40:57.811Z",
+      "fetchStatus": "fetched",
+      "sourceKind": "reputable_secondary",
+      "textExcerpt": "Gaining a foothold on the property ladder can be cash-intensive and complicated.A demanding combination of a considerable deposit and estate agency fees can prove a deterrent for many.Realising these factors, digital platforms are emerging in the UAE that vow to make those property ladder rungs less formidable to climb.Using models pioneered in the US and UK, they harness the power of crowdfunding to finance purchases across a cross-section of addresses, making property investment cheaper for the masses.Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake, say their platform motivates investors to get on the property ladder by reducing entry prices. Photo: Pawan Singh / The NationalShow caption: Manar Mahmassani and Rami Tabbara, co-founders of digital re…Stake, one of the latest Dubai players, provides a less intensive route to adding brick-and-mortar assets to your portfolio.Described as a “digital-first property investment and asset management company”, Stake was co-founded last year by Rami Tabbara, former senior vice president of sales at developer Damac and founding member of The First Group, and Manar Mahmassani, former Falcon Group managing director and former Deutsche Bank vice president.They pledged to fix the problems of property ownership \"by democratising property investment”, at a time when Dubai prices are softer.QuoteInvesting through Stake opens up this asset class to people who were always hesitant about putting money into real estate, or could not afford to“Investing through Stake opens up this asset class to people who were always hesitant about putting money into real estate, or could not afford to,” says Mr Tabbara.“By reducing the entry price lower than the market has ever seen, our platform motivates investors to get on the property investment ladder much sooner than before.”Stake identifies competitively priced apartments in prime locations with high demand on the secondary market – avoiding potential new-build delays. It enables members to invest from Dh2,000.Investors receive regular “dividends” from rental income, in addition to expected long-term capital appreciation.Stake takes several cues from the more mature US property crowd-investing market and has the co-founder of Fundrise – a platform founded in 2012 with more than 150,00 active investors, according to its website – on its advisory board.“The main advantages Stake provides versus outright property ownership is lower risk through lower capital requirements, lower vacancy risk, a best-in-class and transparent asset-selection process and instant ability to diversify across different properties with the same amount, instead of concentrating all your capital into one asset,” says Mr Tabbara.Stake charges a 1.5 per cent fee at the time of acquisition and 1 per cent yearly administration fee. At the end of the investment term, it applies a 2.5 per cent exit fee. If the platform manages to sell the property for more than the total funding target, it takes 15 per cent of the profit.Real Share, another fractional ownership platform, was launched by Dubai’s Lootah Real Estate Development in December to make the “tangible asset” of property more accessible.It initially offered one of LRED’s new properties via SmartCrowd – a Dubai-based platform founded in 2017 by chief executive Siddiq Farid.SmartCrowd selects popular residential area units that are usually below market price and have good rental yields with upside capital potential – essentially “hands off” ownership without purchasing hurdles and operational headaches such as service charges, insurance and maintenance.It focuses primarily on smaller secondary market units “because returns are often more attractive”, but includes some town houses for variety, says Mr Farid.“The key thing we want is for people to build their property portfolios across affordable, balanced and prime assets,” he says.“By lowering the barriers to entry, SmartCrowd allows regular people to get a piece of that action – in our case, for a minimum of Dh5,000. Typically, when asset prices are lower, only those with deep pockets can take advantage.”SmartCrowd also claims a 1.5 per cent fee after unit acquisition. Its annual administration fee is 0.5 per cent of an investor’s total investment and 2.5 per cent is deducted at the time of exit from the investment.Citing an investor base ranging from career newcomers to high-net-worth people, the goal is to have each decide whether to allocate funds towards budget-friendlier addresses or more expensive units that “typically generate lower returns but have the biggest potential for capital appreciation”.Siddiq Farid, chief executive and founder of property crowdfunding platform SmartCrowd, says their investor base ranges from career newcomers to high-net-worth individuals. Photo: Antonie Robertson / The NationalShow caption: Siddiq Farid, chief executive and founder of property crowdf…“This way, investors have the flexibility of managing risk according to their personal goals.”Some featured property units have been fully funded within 24 hours, even amid economic challenges posed by Covid-19.The crisis made people more aware of the importance of financial well-being, says Mr Farid.“Regular people are becoming ever more comfortable making investment decisions on their own,” he says.QuoteAs more people become educated about the benefits of property crowdfunding, we expect this to continue, especially when overall market sentiment improves“We believe property crowdfunding is going to go through – if it has not already started to ride – this trend. As more people become educated about the benefits of property crowdfunding, we expect this to continue, especially when overall market sentiment improves.”Property investment gains may seem slow compared with cryptocurrencies but, as with gold, the asset class is often regarded as a stable haven for cash in a low interest rate era.Joe Dooley, 23, recognised there were “smarter ways to save money than a bank savings account” and began to research on investment avenues, including property opportunities in Dubai and his English home city of Leeds.“I am particularly drawn to the regular returns that can be made from property investment, as well as the increase in share value as housing prices rise,” he says.“As such, I was actively looking for property crowdfunding opportunities and managed to find Stake just before their investment platform went live.”Joe Dooley says real estate investments make up the majority of his portfolio. Mr Dooley is now a shareholder in Dubai Marina and Downtown Dubai studios. Photo: Courtesy Joe DooleyShow caption: Joe Dooley says real estate investments make up the majority…Mr Dooley, a musician and facilities support officer, previously bought into buildings via a UK flexible property investment platform but says domestic regulatory changes “made this type of crowdfunding very difficult”, leading him to seek similar opportunities abroad.“I have also invested in start-up companies and cryptocurrencies, but real estate investments make up the majority of my portfolio,” says Mr Dooley, now a shareholder in Dubai Marina and Downtown Dubai studios.Independent financial adviser Keren Bobker says property is one of the main asset classes and part of a balanced investment portfolio, alongside cash and equities.She also agrees it could potentially be “a sensible time” to invest in UAE property – but investors must be clear about the risks.“Property values go up and down like any asset, more so here than in older markets,” she says. “There are no guarantees you will make money and anyone that promises high returns should be avoided at all costs.”QuoteIt is a new area of investment in the UAE, so you must ensure you only deal with companies that are properly regulated and fully transparent regarding their propositionAlthough crowdfunding platforms seek to make the asset and process more attainable, Ms Bobker urges caution when considering this route.“It is a new area of investment in the UAE, so you must ensure you only deal with companies that are properly regulated and fully transparent regarding their proposition,” she says.Ms Bobker cited potential inability to sell and fixed holding periods as downsides, although SmartCrowd members can sell shares to others.“You may not get back what is invested and may not be able to sell when you want as there needs to be a buyer ... lack of liquidity is why it [property] should only form part of a portfolio,” she says.“Crowdfunded property, although now regulated in the UAE, should only ever be considered as a small percentage of a person’s investments and I strongly advise against using these as the sole investment vehicle.”The platforms are confident that they will deliver both regular passive income and capital gain.“In terms of effectiveness, real estate has one of the highest risk-adjusted returns of all asset classes, as measured over centuries,” says Stake’s Mr Mahmassani, deeming it a safe store of wealth and “very effective hedge” against inflation and currency depreciation.He also says that by offering investors the ability to diversify risk using small amounts, Stake enables anyone to invest “more safely, preserve their capital and make attractive returns”.“Having said that, we are strongly of the view our investors should not put all their eggs into one basket or asset class.”That also goes for your choice of platform.“Competition in any market is healthy and the force behind innovation and market acceptance,” says Mr Farid when asked about SmartCrowd’s peers.“We are extremely happy that the sole responsibility of educating people about property crowdfunding no longer rests on our shoulders. With more players in the market, people are bound to get more curious, ask questions and become comfortable using a product that does not have a monopoly.”With Dubai’s housing market currently at cyclical lows and some analysts predicting a near-future upswing, Mr Farid expects his sector to broaden.“The industry in the region is still nascent but with support from regulators, additional market players and overall better awareness, we expect property crowdfunding to become a recurring topic of discussion among those interested in financial well-being,” he says.Meanwhile, Stake says the market “bottom is near ... meaning very limited downside\" to investing in Dubai property.Mr Tabbara says the “long-term fundamentals will be a strong driver of capital appreciation from today’s decade-low price point”.Stake also predicts “fast-pace” growth for digital property investing.“The format may change over time. However, more adoption in this region will take place and increasingly more people will change the way they invest in real estate,” says Mr Mahmassani.",
+      "contentHash": "67c146b695375d16800563c207b57c225ecac0cfcc0b46b90fa77b42ec479443",
+      "discoveryQuery": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity current company founder",
+      "isPublic": true,
+      "notes": [
+        "Fetched during the live Phase 2 slice."
+      ]
+    },
+    {
+      "id": "src_0b44f30c6f8de6f0",
+      "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "canonicalUrl": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "title": "Stake | Ask me Anything with Stake's Founders",
+      "publisher": "Stake",
+      "retrievedAt": "2026-09-13T04:08:00.000Z",
+      "fetchStatus": "fetched",
+      "sourceKind": "company_first_party",
+      "textExcerpt": "AgendaHere's what to expect...Join us for an upcoming 'Ask Me Anything' session with Stake's Co-Founders and Co-CEO's, Rami and Manar! They’ll walk you through the latest live opportunities on Stake Funds and answer your burning questions live on Zoom.Save your spot and register now 🚀Join us for an upcoming 'Ask Me Anything' session with Stake's Co-Founders and Co-CEO's, Rami and Manar! They’ll walk you through the latest live opportunities on Stake Funds and answer your burning questions live on Zoom.Save your spot and register now 🚀SpeakersMeet the SpeakersRami TabbaraCo-Founder & Co-CEORami, a seasoned real estate professional with 18+ years of experience in Dubai, has driven remarkable growth for the city's top developers, overseeing AED 28 billion in sales. Now, as a key member of Stake's C-suite, he leads a team of 100+ to revolutionize real estate investing in the region.Rami TabbaraCo-Founder & Co-CEORami, a seasoned real estate professional with 18+ years of experience in Dubai, has driven remarkable growth for the city's top developers, overseeing AED 28 billion in sales. Now, as a key member of Stake's C-suite, he leads a team of 100+ to revolutionize real estate investing in the region.Manar MahmassaniCo-Founder & Co-CEOManar has spent the last 18+ years in the MENA region's private investment sector at Deutsche Bank and Falcon Group. During his career, Manar executed over $6bn of transactions for corporates, family offices, quasi-sovereigns, and financial institutions.Manar MahmassaniCo-Founder & Co-CEOManar has spent the last 18+ years in the MENA region's private investment sector at Deutsche Bank and Falcon Group. During his career, Manar executed over $6bn of transactions for corporates, family offices, quasi-sovereigns, and financial institutions.",
+      "contentHash": "59888dcdb72f249f1d76fb329410332f3731c54d3100d5458741f1482adc812c",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Rami Tabbara leadership team Stake",
+      "isPublic": true,
+      "notes": [
+        "Live getstake.com timed out. Excerpt is from a public Wayback Machine snapshot of Stake's own webinar page."
+      ]
+    },
+    {
+      "id": "src_67a473e05de20ff1",
+      "url": "https://web.archive.org/web/20241003230710/https://getstake.com/about-us",
+      "canonicalUrl": "https://web.archive.org/web/20241003230710/https://getstake.com/about-us",
+      "title": "Learn about Stake - The leading real estate investment platform in Dubai and the Middle East",
+      "publisher": "Stake",
+      "retrievedAt": "2026-09-13T04:08:00.000Z",
+      "fetchStatus": "fetched",
+      "sourceKind": "company_first_party",
+      "textExcerpt": "Real estate is one the most important asset class to own in order to build long-term wealth, but it’s highly inaccessible, illiquid, and complicated. There’s tonnes of paperwork, large down payment requirements, and the market is completely illiquid. On top of that, great deals take a lot of time and connections to secure.Stake is a digital real estate investment platform, built to change this. We leverage our network and expertise, built up over 20+ years leading the biggest real estate companies in Dubai, to source the best properties in our markets, and break down the entry barrier for investors to only AED 500 (c. 136 USD). The rest is on us - we manage all of your investments, from acquisition to exit, and distribute monthly rental payments and sales income directly to your Stake wallet.With Stake, you can start building a global real estate portfolio in minutes, and start generating lifetime passive income to support the life you deserve.",
+      "contentHash": "497187438f34eb9a1ebd5c2546b83c124d559eaa3a919acb074f68a3ba10bf13",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+      "isPublic": true,
+      "notes": [
+        "Live getstake.com timed out. This archived About page describes the company and does not name the subject."
+      ]
+    },
+    {
+      "id": "src_17a15fcda4fb5e9f",
+      "url": "https://getstake.com/about-us",
+      "canonicalUrl": "https://getstake.com/about-us",
+      "title": "https://getstake.com/about-us",
+      "retrievedAt": "2026-09-13T04:08:00.000Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "company_first_party",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Stake co-founder biography leadership",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_cd090160637ab534",
+      "url": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "canonicalUrl": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "title": "https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+      "retrievedAt": "2026-09-13T04:08:00.000Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "company_first_party",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Rami Tabbara leadership team Stake",
+      "isPublic": true,
+      "notes": [
+        "Extraction failed after one retry; failure remains in the source ledger."
+      ]
+    },
+    {
+      "id": "src_217c6bb36277aa7c",
+      "url": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "canonicalUrl": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "title": "https://www.crunchbase.com/person/manar-mahmassani-mahmassani",
+      "retrievedAt": "2026-09-12T18:41:14.000Z",
+      "fetchStatus": "blocked",
+      "sourceKind": "other_secondary",
+      "discoveryQuery": "\"Manar Mahmassani\" Stake founder",
+      "isPublic": true,
+      "notes": [
+        "Page access is restricted. No bypass was attempted."
+      ]
+    },
+    {
+      "id": "src_a9835a979a0ac65e",
+      "url": "https://sharjahef.com/speakers/manar-mahmassani",
+      "canonicalUrl": "https://sharjahef.com/speakers/manar-mahmassani",
+      "title": "SEF26",
+      "publisher": "Sharjah Entrepreneurship Festival",
+      "retrievedAt": "2026-09-13T04:08:00.000Z",
+      "fetchStatus": "fetched",
+      "sourceKind": "other_secondary",
+      "textExcerpt": "Manar MahmassaniCo-Founder & Co-CEO, Stake18+ years of experience leading private investment transactions in the MENA region. Manar spent 9 years at Deutsche Bank, where he became Head of MENA Structured Credit and Global Head of Islamic Structuring. Following DB, he joined Falcon Group, a leading global alternative finance provider as Head of Corporate Finance. Throughout his career, Manar has executed over $6bn worth of transactions for corporates, family offices, quasi-sovereigns, and financial institutions. Manar holds a BSc in Mathematics and Economics from the London School of Economics and a CFA Level II certificate.United StatesTechCreator EconomyGaming",
+      "contentHash": "f40a0cc3a1ac87defd264ec357ae7a7a2a8db2bc93ce486d7e6feed6e60f5653",
+      "suspectedOriginId": "src_0b44f30c6f8de6f0",
+      "discoveryQuery": "\"Manar Mahmassani\" Stake co-founder",
+      "isPublic": true,
+      "notes": [
+        "Speaker biography repeats first-party career-volume language; treated as derived rather than independent confirmation."
+      ]
+    },
+    {
+      "id": "src_1242342c2495cf89",
+      "url": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "canonicalUrl": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "title": "https://cdn.getstake.com/www.getstake.com/Stake_Investor_Report_2025.pdf",
+      "retrievedAt": "2026-09-12T18:41:20.000Z",
+      "fetchStatus": "timed_out",
+      "sourceKind": "unknown",
+      "discoveryQuery": "site:getstake.com Manar Mahmassani Stake",
+      "isPublic": true,
+      "notes": [
+        "PDF extraction is unsupported; the live fetch also timed out."
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm_4cb087b2e8f33a79",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "The researched subject is Manar Mahmassani.",
+      "category": "identity",
+      "materiality": "high",
+      "containsNumber": false,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "status": "verified",
+      "statusReason": "Both passes support the exact claim independently, with qualifying primary evidence and no unresolved limitations.",
+      "humanDecision": "approved",
+      "createdAt": "2026-09-13T04:12:00.000Z",
+      "updatedAt": "2026-09-13T04:18:00.000Z",
+      "check1": {
+        "id": "chk_clm_4cb087b2e8f33a79_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_0b44f30c6f8de6f0",
+            "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+            "title": "Stake | Ask me Anything with Stake's Founders",
+            "excerpt": "Manar MahmassaniCo-Founder & Co-CEO",
+            "supportsExactly": "The researched subject is Manar Mahmassani."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Stake's own speaker page names Manar Mahmassani.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "check2": {
+        "id": "chk_clm_4cb087b2e8f33a79_2",
+        "pass": 2,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_dde222a0ae352343",
+            "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+            "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+            "excerpt": "Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake",
+            "supportsExactly": "The researched subject is Manar Mahmassani."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Independent newspaper coverage names Manar Mahmassani as a Stake co-founder.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "humanNote": "Approved from first-party archive plus independent newspaper support."
+    },
+    {
+      "id": "clm_4683ad5d3e7905ca",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "Manar Mahmassani is a co-founder of Stake.",
+      "category": "role",
+      "materiality": "high",
+      "containsNumber": false,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "status": "verified",
+      "statusReason": "Both passes support the exact claim independently, with qualifying primary evidence and no unresolved limitations.",
+      "humanDecision": "approved",
+      "createdAt": "2026-09-13T04:12:00.000Z",
+      "updatedAt": "2026-09-13T04:18:00.000Z",
+      "check1": {
+        "id": "chk_clm_4683ad5d3e7905ca_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_0b44f30c6f8de6f0",
+            "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+            "title": "Stake | Ask me Anything with Stake's Founders",
+            "excerpt": "Manar MahmassaniCo-Founder & Co-CEO",
+            "supportsExactly": "Manar Mahmassani is a co-founder of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Stake's own page lists Manar Mahmassani as Co-Founder.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "check2": {
+        "id": "chk_clm_4683ad5d3e7905ca_2",
+        "pass": 2,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_dde222a0ae352343",
+            "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+            "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+            "excerpt": "Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake",
+            "supportsExactly": "Manar Mahmassani is a co-founder of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "The National independently describes Manar Mahmassani as a co-founder of Stake.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "humanNote": "Approved from first-party archive plus independent newspaper support."
+    },
+    {
+      "id": "clm_ed486abe65287e77",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "Rami Tabbara is a co-founder of Stake.",
+      "category": "company",
+      "materiality": "medium",
+      "containsNumber": false,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_0b44f30c6f8de6f0",
+        "src_dde222a0ae352343"
+      ],
+      "status": "verified",
+      "statusReason": "Both passes support the exact claim independently, with qualifying primary evidence and no unresolved limitations.",
+      "humanDecision": "approved",
+      "createdAt": "2026-09-13T04:12:00.000Z",
+      "updatedAt": "2026-09-13T04:18:00.000Z",
+      "check1": {
+        "id": "chk_clm_ed486abe65287e77_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_0b44f30c6f8de6f0",
+            "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+            "title": "Stake | Ask me Anything with Stake's Founders",
+            "excerpt": "Rami TabbaraCo-Founder & Co-CEO",
+            "supportsExactly": "Rami Tabbara is a co-founder of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Stake's own page lists Rami Tabbara as Co-Founder.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "check2": {
+        "id": "chk_clm_ed486abe65287e77_2",
+        "pass": 2,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_dde222a0ae352343",
+            "url": "https://www.thenationalnews.com/business/money/how-to-jump-on-the-uae-s-property-ladder-through-crowdfunding-1.1199391",
+            "title": "How to jump on the UAE's property ladder through crowdfunding | The National",
+            "excerpt": "Manar Mahmassani and Rami Tabbara, co-founders of digital real estate investment and asset management company Stake",
+            "supportsExactly": "Rami Tabbara is a co-founder of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "The National independently describes Rami Tabbara as a co-founder of Stake.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "humanNote": "Approved from first-party archive plus independent newspaper support."
+    },
+    {
+      "id": "clm_f3da7f850fdd8d91",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "Manar Mahmassani is Co-CEO of Stake.",
+      "category": "role",
+      "materiality": "high",
+      "containsNumber": false,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_0b44f30c6f8de6f0"
+      ],
+      "status": "partially_verified",
+      "statusReason": "Support is narrower, limited, or incomplete for the exact atomic wording.",
+      "humanDecision": "excluded",
+      "createdAt": "2026-09-13T04:12:00.000Z",
+      "updatedAt": "2026-09-13T04:18:00.000Z",
+      "check1": {
+        "id": "chk_clm_f3da7f850fdd8d91_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_0b44f30c6f8de6f0",
+            "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+            "title": "Stake | Ask me Anything with Stake's Founders",
+            "excerpt": "Manar MahmassaniCo-Founder & Co-CEO",
+            "supportsExactly": "Manar Mahmassani is Co-CEO of Stake."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Stake's own page uses the Co-CEO title.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "check2": {
+        "id": "chk_clm_f3da7f850fdd8d91_2",
+        "pass": 2,
+        "verdict": "no_evidence",
+        "evidence": [],
+        "sourceAuthorityForClaim": "not_qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "The accessible independent newspaper extract confirms co-founder, not Co-CEO.",
+        "limitations": [
+          "The independent secondary extract does not confirm the Co-CEO title."
+        ],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "humanNote": "Excluded because the second check could not independently confirm the exact wording."
+    },
+    {
+      "id": "clm_0f6263cdde7986f4",
+      "subjectId": "sub_3a1836bcb4348765",
+      "statement": "During his career, Manar Mahmassani executed over $6bn of transactions.",
+      "category": "performance",
+      "materiality": "high",
+      "containsNumber": true,
+      "timeSensitive": false,
+      "originSourceIds": [
+        "src_0b44f30c6f8de6f0",
+        "src_a9835a979a0ac65e"
+      ],
+      "status": "partially_verified",
+      "statusReason": "Independent confirmation has not been established.",
+      "humanDecision": "excluded",
+      "createdAt": "2026-09-13T04:12:00.000Z",
+      "updatedAt": "2026-09-13T04:18:00.000Z",
+      "check1": {
+        "id": "chk_clm_0f6263cdde7986f4_1",
+        "pass": 1,
+        "verdict": "supported",
+        "evidence": [
+          {
+            "sourceId": "src_0b44f30c6f8de6f0",
+            "url": "https://web.archive.org/web/20260520221355/https://getstake.com/webinars/ask-me-anything-with-stake-s-founders",
+            "title": "Stake | Ask me Anything with Stake's Founders",
+            "excerpt": "During his career, Manar executed over $6bn of transactions for corporates, family offices, quasi-sovereigns, and financial institutions.",
+            "supportsExactly": "During his career, Manar Mahmassani executed over $6bn of transactions."
+          }
+        ],
+        "sourceAuthorityForClaim": "qualifying",
+        "independenceFromOtherCheck": "independent",
+        "reasoning": "Stake's own page states the career transaction volume.",
+        "limitations": [],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "check2": {
+        "id": "chk_clm_0f6263cdde7986f4_2",
+        "pass": 2,
+        "verdict": "no_evidence",
+        "evidence": [],
+        "sourceAuthorityForClaim": "not_qualifying",
+        "independenceFromOtherCheck": "possibly_derived",
+        "reasoning": "The independent newspaper extract does not contain the volume figure. The event biography repeats the same first-party language and is not an independent check.",
+        "limitations": [
+          "No independent source confirmed the quantitative career-volume figure."
+        ],
+        "checkedAt": "2026-09-13T04:12:00.000Z"
+      },
+      "humanNote": "Excluded because the second check could not independently confirm the exact wording."
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_2913c693cc5ec951",
+      "at": "2026-09-12T18:39:54.987Z",
+      "stage": "created",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "created",
+        "stage": "resolving_identity"
+      }
+    },
+    {
+      "id": "evt_ad2e09ba8cdab6ef",
+      "at": "2026-09-12T18:40:06.590Z",
+      "stage": "resolving_identity",
+      "type": "search_completed",
+      "message": "Public source discovery completed.",
+      "data": {
+        "query": "https://www.linkedin.com/in/manarm Manar Mahmassani Stake identity",
+        "count": 3,
+        "latencyMs": 8931
+      }
+    },
+    {
+      "id": "evt_2f13cec703a2be5a",
+      "at": "2026-09-12T18:41:14.944Z",
+      "stage": "resolving_identity",
+      "type": "source_unavailable",
+      "message": "LinkedIn is used as an identity input only.",
+      "data": {
+        "sourceId": "linkedin_input"
+      }
+    },
+    {
+      "id": "evt_4a98284c55cde1b9",
+      "at": "2026-09-13T04:08:00.000Z",
+      "stage": "extracting_sources",
+      "type": "source_unavailable",
+      "message": "Live first-party page timed out.",
+      "data": {
+        "sourceId": "src_17a15fcda4fb5e9f"
+      }
+    },
+    {
+      "id": "evt_94ada22bc9470059",
+      "at": "2026-09-13T04:08:00.000Z",
+      "stage": "extracting_sources",
+      "type": "source_unavailable",
+      "message": "Page access is restricted. No bypass was attempted.",
+      "data": {
+        "sourceId": "src_217c6bb36277aa7c"
+      }
+    },
+    {
+      "id": "evt_650ee700c728c058",
+      "at": "2026-09-13T04:12:00.000Z",
+      "stage": "extracting_sources",
+      "type": "page_cache_hit",
+      "message": "Reused cached page extraction.",
+      "data": {
+        "cacheHit": true,
+        "sourceId": "src_dde222a0ae352343"
+      }
+    },
+    {
+      "id": "evt_eab9185d4f033add",
+      "at": "2026-09-13T04:12:00.000Z",
+      "stage": "classifying_claims",
+      "type": "stage_checkpoint",
+      "message": "Saved a bounded pipeline checkpoint.",
+      "data": {
+        "previousStage": "classifying_claims",
+        "stage": "analyzing_gaps"
+      }
+    },
+    {
+      "id": "evt_c1870d804c50ba06",
+      "at": "2026-09-13T04:18:00.000Z",
+      "stage": "approved",
+      "type": "diagnostic_approved",
+      "message": "An immutable approved snapshot was stored.",
+      "data": {
+        "stage": "approved"
+      }
+    }
+  ]
 }

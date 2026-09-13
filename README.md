@@ -14,19 +14,19 @@ Sprint 1 delivered the implementation plan, Next.js scaffold, Zod schemas, Redis
 
 Phase 1 is complete: Redis run/source/claim stores, bounded execution events, resumable checkpoints, token-owned locks, deterministic classification, the writer eligibility firewall, claim-review approval guards, and diagnostic audits with one recorded retry.
 
-Sprint 2 completed Phase 1 in approximately 13 minutes.
+Sprint 2 completed Phase 1 in approximately 30 minutes.
 
-Sprint 3 implements Phase 2. Verification results are recorded below.
+Sprint 3 implements Phase 2. Duration: 30 minutes. Verification results are recorded below.
 
-Sprint 3 delivered Phase 2 provider adapters, the bounded research pipeline, and approved-fact gap analysis and audited drafting functions. Public source discovery uses GPT 5.5 through the OpenAI Responses API `web_search` tool (`tools: [{ type: "web_search" }]`). Tavily remains an optional fallback. Model id stays in `src/lib/model-config.ts`. Intake UI, diagnostic generation routes, and export remain for Phase 3.
+Sprint 3 delivered Phase 2 provider adapters, the bounded research pipeline, and approved-fact gap analysis and audited drafting functions. Public source discovery uses GPT 5.5 through the OpenAI Responses API `web_search` tool (`tools: [{ type: "web_search" }]`). Tavily remains an optional fallback. Model id stays in `src/lib/model-config.ts`.
 
-Phase 3 is next: the review product, human approval flow, and print export.
+Phase 3 is complete: intake, live execution polling, claim/source/execution review, diagnostic generation from approved facts, snapshot hashing, and print export.
 
-The live Phase 2 slice reached human review using my configured Redis: seven sources discovered, one page extracted, one atomic claim, both checks, and 72 execution events. Five pages timed out and one was blocked. The accessible page was secondary evidence, so the claim remained unverified and the writer returned `insufficient_evidence`. Independent verified inclusion and contradictory exclusion are tested offline; this live run proves the conservative refusal and checkpoint-resume path.
+Phase 4 is in progress: `fixtures/demo-run.json` is now a sanitized approved golden run. Live `getstake.com` pages still time out, so first-party excerpts come from public Wayback snapshots plus The National. Vercel deploy is not done in this pass.
 
-Verification: 107 tests pass, including two Redis socket integration tests. Lint, TypeScript, and the Webpack production build pass. The suite covers classification, provider caching and JSON repair, both evidence checks, contradiction, checkpoint recovery, locks, approval filtering, and diagnostic audit retry. Live verification uses the existing OpenAI key and configured Redis in an isolated key prefix; results are saved in `artifacts/phase-2-vertical-slice.json`.
+Verification: offline tests cover classification, eligibility, numeric claims, source independence, diagnostic audit, provider JSON repair and cache, pipeline resume, locks, the committed demo fixture, and fetch-failure preservation. Live verification uses the existing OpenAI key and configured Redis in an isolated key prefix; results are saved in `artifacts/phase-2-vertical-slice.json`.
 
-The fixture loader supports validated, read-only demo data, but `fixtures/demo-run.json` remains the explicit placeholder until real evidence is collected in Phase 4. No completed research run has been fabricated. The 650-word / 5,000-character audit budget is a text guard; printed A4 layout still requires Phase 3 verification.
+The fixture loader now serves the committed golden run as a read-only fallback for `/research/demo` when Redis has no live demo run. No provider keys or raw HTML documents are stored in that file. The 650-word / 5,000-character audit budget remains a text guard.
 
 Integrity checks
 
@@ -1802,7 +1802,7 @@ State the real limitations: bounded search cannot prove absence, source-origin d
 
 Honest limitations paragraph draft
 
-Evidence completeness was the main limitation in my live Phase 2 check. Of seven discovered sources, five timed out, one was blocked, and only one secondary page could be extracted. Its claim stayed unverified because qualifying primary evidence and independent confirmation were unavailable. The writer therefore returned insufficient evidence. Search also exhausted an initial output budget; I increased that bound and resumed the saved Redis checkpoint. LinkedIn is used only as an identity input, PDF extraction is unsupported, and source-origin assessment still needs human review. The verified inclusion and diagnostic retry paths pass offline tests, but this live run establishes refusal rather than a complete client-ready diagnostic. Review UI, printed A4 layout, a golden fixture, and deployment still need verification in later phases.
+Public collection is the main limitation. Live `getstake.com` pages, including About and founder webinar URLs, timed out from this network after a retry, and Crunchbase was blocked with no bypass attempted. LinkedIn is an identity input only and is never scraped. The live Phase 2 slice therefore extracted one secondary page, The National, and classified its co-founder claim as unverified because qualifying primary evidence was missing. For the golden demo fixture I retrieved public Wayback snapshots of Stake's own pages plus the Sharjah Entrepreneurship Festival speaker page. That first-party archive plus The National is enough to verify the co-founder facts. It is not enough to verify Co-CEO or the first-party career-volume figure of over $6bn, which stays partially verified and excluded. PDF investor reports remain unsupported. Search can exhaust an output budget; the Phase 2 run resumed from the Redis checkpoint after that bound was increased. Source-origin detection still needs human review: the event biography repeats first-party volume language and is treated as derived. Bounded search cannot prove absence. Deployment to Vercel is still outstanding.
 
 Revise this paragraph after implementation so it reflects what genuinely broke. Do not submit a prewritten limitation that the build did not actually reveal.
 
@@ -1816,7 +1816,7 @@ Actual one-page diagnostic.
 
 One honest limitations paragraph.
 
-Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2: approximately 30 minutes. Record the measured Sprint 3 duration before submission.
+Exact hours from start to finish. Sprint 1: 10 minutes. Sprint 2: approximately 13 minutes. Sprint 3: 30 minutes.
 
 Email subject: TASK - Harsh Sinha.
 
