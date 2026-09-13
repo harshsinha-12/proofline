@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { auditDiagnostic, auditWithRetry, isEligibleClaim, type WriterInput } from "@/lib/diagnostic-audit";
+import { auditDiagnostic, auditWithRetry, getWriterInput, isEligibleClaim, type WriterInput } from "@/lib/diagnostic-audit";
 import { getClaims } from "@/lib/claim-store";
+import { getSources } from "@/lib/source-store";
 import { getDemoFixture } from "@/lib/demo-fixture";
 import { AppError } from "@/lib/errors";
 import { hashJson, shortHash } from "@/lib/hashing";
@@ -17,7 +18,9 @@ import {
   saveRun,
   withRunLock,
 } from "@/lib/run-store";
-import { diagnosticSchema, type Diagnostic } from "@/schemas/diagnostic";
+import { diagnosticSchema } from "@/schemas/diagnostic";
+import { claimSchema } from "@/schemas/claim";
+import { sourceSchema } from "@/schemas/source";
 import { executionEventSchema, researchRunSchema } from "@/schemas/run";
 
 /** Provider-independent boundary: audit before persisting, and retain every failed attempt. */
@@ -41,7 +44,7 @@ export async function generateAuditedDraft(
     if (result.status === "ok") {
       const current = await requirePersistedRun(runId);
       const diagnostic = { ...result.diagnostic, reviewStatus: "draft" as const };
-      await saveRun({ ...current, diagnostic }, token);
+      await saveRun({ ...current, diagnostic, diagnosticRoleLimitation: roleLimitation?.trim() || undefined }, token);
       return { status: "ok" as const, diagnostic };
     }
     return result;
@@ -54,6 +57,8 @@ export const approvedSnapshotSchema = z.object({
   approvedBy: z.string().min(1),
   claimIds: z.array(z.string().min(1)),
   hash: z.string().min(1),
+  claims: z.array(claimSchema).default([]),
+  sources: z.array(sourceSchema).default([]),
 });
 
 export type ApprovedSnapshot = z.infer<typeof approvedSnapshotSchema>;
@@ -71,12 +76,18 @@ export async function getApprovedSnapshot(runId: string): Promise<(ApprovedSnaps
       approvedBy: demo.run.approvedBy,
       claimIds: demo.claims.filter(isEligibleClaim).map((claim) => claim.id),
       hash: hashJson(diagnostic),
+      claims: demo.claims.filter(isEligibleClaim),
+      sources: demo.sources,
       fixtureMode: true,
     };
   }
+  if (!["approved", "completed"].includes(loaded.run.stage) || loaded.run.diagnostic?.reviewStatus !== "approved") return null;
   const raw = await withRedis(async (redis) => redis.get(redisKey("run", runId, "snapshot")));
   if (!raw) return null;
-  return { ...parseStored(raw, approvedSnapshotSchema.parse), fixtureMode: false };
+  const snapshot = parseStored(raw, approvedSnapshotSchema.parse);
+  if (snapshot.hash !== hashJson(snapshot.diagnostic) || snapshot.hash !== hashJson(loaded.run.diagnostic) ||
+    snapshot.approvedAt !== loaded.run.approvedAt || snapshot.approvedBy !== loaded.run.approvedBy) return null;
+  return { ...snapshot, fixtureMode: false };
 }
 
 export async function approveDiagnostic(runId: string, confirmation: boolean, reviewerName: string) {
@@ -95,9 +106,11 @@ export async function approveDiagnostic(runId: string, confirmation: boolean, re
       throw new AppError("approval_not_allowed", "Generate a draft from approved claims before export approval.", 409);
     }
     const claims = await getClaims(runId);
+    const writerInput = getWriterInput(claims, run.diagnosticRoleLimitation);
+    if (writerInput.status !== "ok") throw new AppError("insufficient_evidence", writerInput.reason, 422);
     const approvedClaims = claims.filter(isEligibleClaim);
     const diagnostic = diagnosticSchema.parse({ ...run.diagnostic, reviewStatus: "approved" });
-    const audit = auditDiagnostic(diagnostic, approvedClaims);
+    const audit = auditDiagnostic(diagnostic, approvedClaims, run.diagnosticRoleLimitation);
     if (!audit.valid) throw new AppError("validation_failed", audit.issues.join(" "), 422);
     const now = new Date().toISOString();
     const snapshot: ApprovedSnapshot = {
@@ -106,6 +119,8 @@ export async function approveDiagnostic(runId: string, confirmation: boolean, re
       approvedBy: name,
       claimIds: approvedClaims.map((claim) => claim.id),
       hash: hashJson(diagnostic),
+      claims: approvedClaims,
+      sources: await getSources(runId),
     };
     const updated = researchRunSchema.parse({
       ...run,
