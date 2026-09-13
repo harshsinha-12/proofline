@@ -19,7 +19,9 @@ export function isPublicAddress(address: string): boolean {
 }
 
 export function validatePublicUrl(raw: string): URL {
-  const url = new URL(raw);
+  let url: URL;
+  try { url = new URL(raw); }
+  catch { throw new AppError("invalid_url", "A valid public HTTPS URL is required.", 400); }
   const hostname = url.hostname.replace(/^\[|\]$/g, "");
   if (url.protocol !== "https:" || url.username || url.password || (url.port && url.port !== "443") ||
     hostname === "localhost" || hostname.endsWith(".localhost") || hostname.endsWith(".local") ||

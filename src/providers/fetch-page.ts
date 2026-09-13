@@ -28,6 +28,19 @@ export function extractPage(html: string, url: string): Pick<PageResult, "title"
   } finally { dom.window.close(); }
 }
 
+export function fetchFailureReason(error: unknown): string {
+  const failure = error instanceof Error ? error : undefined;
+  const cause = failure?.cause as { code?: string } | undefined;
+  const code = cause?.code ?? (failure as Error & { code?: string } | undefined)?.code;
+  if (code && /ENOTFOUND|EAI_AGAIN/.test(code)) return "dns_failure";
+  if (/timeout|abort/i.test((failure?.name ?? "") + (failure?.message ?? "")) || code?.includes("TIMEOUT")) return "timeout";
+  if (code && /ECONN|ENET|EHOST|UND_ERR_SOCKET/.test(code)) return "connection_failure";
+  if (code && /CERT|TLS|SSL/.test(code)) return "tls_failure";
+  if (failure?.message.includes("no readable")) return "empty_content";
+  if (failure?.message.includes("size budget")) return "size_limit";
+  return "request_or_extraction_failure";
+}
+
 export async function fetchPage(raw: string, context: ProviderContext = {}): Promise<PageResult> {
   const initial: PageResult = { url: raw, title: raw, fetchStatus: "failed", retrievedAt: new Date().toISOString(), notes: [] };
   let url: URL;
@@ -39,38 +52,44 @@ export async function fetchPage(raw: string, context: ProviderContext = {}): Pro
   const hash = hashNormalizedUrl(raw);
   const cached = await readCache("page", hash, pageResultSchema);
   if (cached) {
-    await context.record?.({ type: "page_cache_hit", message: "Reused cached page extraction.", data: { cacheHit: true } });
+    await context.record?.({ type: "page_cache_hit", message: "Reused cached page extraction.", data: { cacheHit: true, url: url.toString() } });
     return cached;
   }
   fetchLimit ??= pLimit(Math.min(3, getEnv().MAX_CONCURRENT_FETCHES));
   return fetchLimit(async () => {
     const deadline = Date.now() + 25_000;
     for (let attempt = 1; attempt <= 2; attempt++) {
+      let phase = "robots";
       try {
+        await context.record?.({ type: "page_fetch_started", message: "Checking robots.txt before fetching this public page.", data: { attempt, url: url.toString(), robotsUrl: new URL("/robots.txt", url).toString() } });
         const signal = AbortSignal.timeout(Math.max(1, Math.min(10_000, deadline - Date.now())));
         const robotsUrl = new URL("/robots.txt", url).toString();
         const robots = await publicGet(robotsUrl, signal);
         if (robots.status !== 404 && (robots.status !== 200 || robotsParser(robotsUrl, robots.body).isAllowed(url.toString(), USER_AGENT) !== true)) {
           return { ...initial, fetchStatus: "blocked", notes: ["Public access policy could not be established or robots.txt disallows extraction."] };
         }
+        phase = "page";
+        await context.record?.({ type: "page_request_started", message: "Fetching public page HTML.", data: { attempt, url: url.toString() } });
         const response = await publicGet(url.toString(), signal);
         if ([401, 403, 429].includes(response.status)) return { ...initial, fetchStatus: "blocked", notes: ["Page access is restricted. No bypass was attempted."] };
         if (response.status === 404 || response.status === 410) return { ...initial, fetchStatus: "not_found", notes: ["Public page was not found."] };
-        if (response.status !== 200) throw new Error("Public page request failed.");
+        if (response.status !== 200) throw new Error(`Public page request failed (HTTP ${response.status}).`);
         if (!/text\/html|application\/xhtml\+xml/.test(response.contentType)) return { ...initial, fetchStatus: "unsupported", notes: ["Only HTML pages are supported for evidence extraction."] };
+        phase = "extraction";
         const extracted = extractPage(response.body, response.url);
         if (!extracted.textExcerpt) throw new Error("Page had no readable evidence text.");
         const result: PageResult = { ...initial, ...extracted, fetchStatus: "fetched", notes: response.url !== raw ? ["Followed a same-origin public redirect."] : [] };
         await writeCache("page", hash, result);
-        await context.record?.({ type: "page_fetched", message: "Extracted bounded public-page text.", data: { attempt } });
+        await context.record?.({ type: "page_fetched", message: "Extracted bounded public-page text.", data: { attempt, url: response.url, requestedUrl: url.toString() } });
         return result;
       } catch (error) {
         if (error instanceof AppError) {
           if (error.code === "invalid_url") return { ...initial, fetchStatus: "blocked", notes: [error.safeMessage] };
           throw error;
         }
-        await context.record?.({ type: "page_fetch_failed", message: "Public page extraction failed.", data: { attempt } });
-        if (attempt === 2) return { ...initial, fetchStatus: error instanceof Error && /timeout|abort/i.test(error.name + error.message) ? "timed_out" : "failed", notes: ["Extraction failed after one retry; failure remains in the source ledger."] };
+        const reason = fetchFailureReason(error);
+        await context.record?.({ type: "page_fetch_failed", message: `Public page ${phase} failed (${reason}).`, data: { attempt, url: url.toString(), phase, reason } });
+        if (attempt === 2) return { ...initial, fetchStatus: reason === "timeout" ? "timed_out" : "failed", notes: [`Public page ${phase} failed (${reason}) after one retry; failure remains in the source ledger.`] };
       }
     }
     return initial;

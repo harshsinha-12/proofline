@@ -38,6 +38,7 @@ export async function requestStructured<I extends z.ZodType, O extends z.ZodType
   for (let attempt = 1; attempt <= 2; attempt++) {
     await requireRateLimit("openai");
     const started = Date.now();
+    await context.record?.({ type: "model_request_started", message: "Calling OpenAI for structured research output.", data: { purpose: contract.purpose, model: getModelRequest(contract.purpose).model, attempt } });
     try {
       const response = await client.responses.create({
         ...getModelRequest(contract.purpose), store: false, max_output_tokens: 4_000,
@@ -46,9 +47,9 @@ export async function requestStructured<I extends z.ZodType, O extends z.ZodType
           { role: "user", content: JSON.stringify(validated) },
         ],
         text: { format },
-      });
+      }, { signal: context.signal });
       await context.record?.({ type: "model_request", message: "Structured model request completed.", data: {
-        purpose: contract.purpose, latencyMs: Date.now() - started, attempt,
+        purpose: contract.purpose, model: getModelRequest(contract.purpose).model, latencyMs: Date.now() - started, attempt,
         inputTokens: response.usage?.input_tokens ?? 0, outputTokens: response.usage?.output_tokens ?? 0,
       } });
       if (response.output.some((item) => item.type === "message" && item.content.some((content) => content.type === "refusal"))) {

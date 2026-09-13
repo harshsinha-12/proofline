@@ -6,7 +6,7 @@ export type ProviderEvent = {
   message: string;
   data?: Record<string, unknown>;
 };
-export type ProviderContext = { record?: (event: ProviderEvent) => Promise<void> };
+export type ProviderContext = { record?: (event: ProviderEvent) => Promise<void>; signal?: AbortSignal };
 
 export type PromptContract<I extends z.ZodType = z.ZodType, O extends z.ZodType = z.ZodType> = {
   purpose: ModelPurpose;

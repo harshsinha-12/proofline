@@ -79,7 +79,7 @@ export const researchRunSchema = z.object({
   gaps: z.array(gapFindingSchema).length(3).optional(),
   retryAfter: z.string().optional(),
   pipeline: z.object({
-    identityCandidateIds: z.array(z.string()).max(3).default([]),
+    identityCandidateIds: z.array(z.string()).max(12).default([]),
     queries: z.array(z.object({ query: z.string(), purpose: z.string(), preferredSourceType: sourceKindSchema, domainHint: z.string().optional() })).max(12).default([]),
     attempts: z.record(z.string(), z.number().int()).default({}),
     adversarialPlans: z.record(z.string(), adversarialPlanOutputSchema).default({}),

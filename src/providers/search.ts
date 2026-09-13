@@ -32,6 +32,7 @@ export async function search(request: SearchRequest, context: ProviderContext = 
     return cached;
   }
   await requireRateLimit("search");
+  await context.record?.({ type: "search_started", message: "Searching public sources.", data: { query, provider: env.SEARCH_PROVIDER, ...(env.SEARCH_PROVIDER === "openai" ? { model: getModelRequest("research_plan").model } : {}) } });
   const started = Date.now();
   let results: SearchResult[] = [];
   if (env.SEARCH_PROVIDER === "openai") {
