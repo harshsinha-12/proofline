@@ -237,7 +237,7 @@ export function ResearchWorkspace({ runId }: { runId: string }) {
       ) : null}
       {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
 
-      <ResearchProgress run={run} polling={polling} />
+      <ResearchProgress run={run} claims={claims} polling={polling} />
       <ResearchActivity run={run} events={events} polling={polling} />
       {!fixtureMode && ACTIVE_STAGES.has(run.stage) && (!run.identityStatus || run.identityStatus === "resolved") && !polling ? (
         <Button variant="outline" onClick={() => setResumeCount((count) => count + 1)}>Resume research</Button>

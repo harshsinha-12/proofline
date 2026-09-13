@@ -5,6 +5,7 @@ import type { Claim } from "@/schemas/claim";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { STATUS_LABELS } from "@/lib/labels";
+import { singleSourceEvidence } from "@/lib/claim-research";
 
 export function ClaimCard({
   claim,
@@ -18,6 +19,7 @@ export function ClaimCard({
   const [note, setNote] = useState(claim.humanNote ?? "");
   const [pending, setPending] = useState(false);
   const canApprove = claim.status === "verified";
+  const singleSource = singleSourceEvidence(claim);
 
   async function submit(decision: Claim["humanDecision"]) {
     setPending(true);
@@ -40,6 +42,14 @@ export function ClaimCard({
       </div>
       <p className="mt-3 text-[1.05rem] leading-6 text-foreground">{claim.statement}</p>
       <p className="mt-3 text-sm leading-6 text-muted-foreground">{claim.statusReason}</p>
+      {singleSource ? (
+        <aside className="mt-3 space-y-2 border-l-2 border-accent pl-3 text-sm">
+          <p className="font-medium">Single-source support · independent confirmation missing</p>
+          <p className="text-muted-foreground">Source attribution for review: <a className="underline" href={singleSource.url} target="_blank" rel="noopener noreferrer">{singleSource.title}</a> states:</p>
+          <blockquote className="text-muted-foreground">“{singleSource.excerpt}”</blockquote>
+          <p className="text-xs text-muted-foreground">This records what the source says. It does not independently verify the underlying claim and is not eligible for the diagnostic.</p>
+        </aside>
+      ) : null}
       {claim.asOfDate ? <p className="mt-1 text-xs text-muted-foreground">As of {claim.asOfDate}</p> : null}
       <EvidencePanel claim={claim} />
       {readOnly ? null : (

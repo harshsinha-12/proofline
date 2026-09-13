@@ -1,21 +1,33 @@
 "use client";
 
 import type { ResearchRun } from "@/schemas/run";
-import { FETCH_LABELS, STAGE_LABELS } from "@/lib/labels";
-import { getResearchProgress } from "@/lib/research-progress";
+import type { Claim } from "@/schemas/claim";
+import { FETCH_LABELS, STAGE_LABELS, STATUS_LABELS } from "@/lib/labels";
+import { claimStatusCounts, getResearchProgress } from "@/lib/research-progress";
 import { LoaderCircle } from "lucide-react";
 
-export function ResearchProgress({ run, polling = false }: { run: ResearchRun; polling?: boolean }) {
+export function ResearchProgress({ run, claims = [], polling = false }: { run: ResearchRun; claims?: Claim[]; polling?: boolean }) {
   const research = getResearchProgress(run);
   const needsHint = run.identityStatus && run.identityStatus !== "resolved";
   const active = polling && !research.ready && run.stage !== "failed" && !needsHint;
+  const counts = claimStatusCounts(claims);
+  const classified = claims.filter((claim) => claim.status !== "pending");
   const progress = [
     `${run.progress.sourcesDiscovered} sources discovered`,
     `${run.progress.sourcesFetched} sources fetched`,
     `${run.progress.claimsExtracted} claims extracted`,
     `${run.progress.checksCompleted} checks completed`,
-    `${run.progress.verifiedClaims} verified`,
-    `${run.progress.excludedClaims} excluded`,
+    classified.length
+      ? `${counts.verified} ${STATUS_LABELS.verified.toLowerCase()}`
+      : `${run.progress.verifiedClaims} ${STATUS_LABELS.verified.toLowerCase()}`,
+    ...(classified.length
+      ? [
+          `${counts.partiallyVerified} ${STATUS_LABELS.partially_verified.toLowerCase()}`,
+          `${counts.unverified} ${STATUS_LABELS.unverified.toLowerCase()}`,
+          `${counts.conflict} ${STATUS_LABELS.conflict.toLowerCase()}`,
+          `${counts.rejected} ${STATUS_LABELS.rejected.toLowerCase()}`,
+        ]
+      : [`${run.progress.excludedClaims} excluded`]),
   ];
 
   return (

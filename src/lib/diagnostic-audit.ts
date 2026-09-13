@@ -1,5 +1,5 @@
 import { AppError } from "@/lib/errors";
-import { extractNumbers } from "@/lib/numbers";
+import { extractNumbers, hasUnattributedNumber } from "@/lib/numbers";
 import type { Claim, HumanDecision } from "@/schemas/claim";
 import { diagnosticSchema, type Diagnostic } from "@/schemas/diagnostic";
 import type { ResearchRun } from "@/schemas/run";
@@ -81,13 +81,13 @@ export function auditDiagnostic(output: unknown, approvedClaims: Claim[], roleLi
   }
   if (localCitations.some((id) => !diagnostic.citationClaimIds.includes(id))) issues.push("Citation registry does not include every inline claim reference.");
   const text = prose(diagnostic).join("\n");
-  const allowedNumbers = new Set(approvedClaims.filter(isEligibleClaim).flatMap((claim) => extractNumbers(claim.statement)));
+  const allowedFacts = approvedClaims.filter(isEligibleClaim).map((claim) => claim.statement);
   for (const number of new Set(extractNumbers(text))) {
-    if (!allowedNumbers.has(number)) issues.push(`Number absent from approved facts: ${number}.`);
+    if (hasUnattributedNumber(number, allowedFacts)) issues.push(`Number absent from approved facts: ${number}.`);
   }
   for (const signal of diagnostic.credibilitySignals) {
-    const citedNumbers = new Set(signal.claimIds.flatMap((id) => extractNumbers(facts.get(id)?.statement ?? "")));
-    if (extractNumbers(signal.text).some((number) => !citedNumbers.has(number))) issues.push("A credibility signal uses a number absent from its cited facts.");
+    const cited = signal.claimIds.map((id) => facts.get(id)?.statement ?? "");
+    if (hasUnattributedNumber(signal.text, cited)) issues.push("A credibility signal uses a number absent from its cited facts.");
   }
   if (text.includes("—")) issues.push("Em dashes are forbidden.");
   if (text.includes("#")) issues.push("Hashtags are forbidden.");

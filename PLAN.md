@@ -587,14 +587,14 @@ Diagnostic structure from the README: header, current positioning, three credibi
 
 ## Phase 4 — Harden the demo
 
-**Status: in progress (2026-09-13).** The golden fixture, reliability tests, and limitations rewrite are in. Live end-to-end re-run against current `getstake.com` still cannot fetch first-party HTML from this network. Vercel deploy is not done.
+**Status: in progress (2026-09-13).** The golden fixture is the sanitized live ledger from `run_25973027de144662979b57e8` (0 verified, no approved diagnostic). Reliability tests and the limitations rewrite are in. Live `getstake.com` still cannot fetch first-party HTML from this network. Vercel deploy is not done.
 
 
 ### Step 4.1 — Golden fixture
 
-**Status: implemented.** `fixtures/demo-run.json` is a sanitized approved run. Live Stake pages timed out, so first-party excerpts are public Wayback snapshots of Stake's own HTML, plus The National. Co-CEO and the `$6bn` career-volume claim are present as excluded partials. Secrets, raw HTML, and `pipeline` internals are stripped. Rebuild with `npm run fixture:demo`.
+**Status: implemented.** `fixtures/demo-run.json` is the sanitized live ledger from `run_25973027de144662979b57e8`. It is awaiting human review: 18 sources, 8 fetched, 30 claims, 0 verified, no approved diagnostic. Secrets, raw HTML, and `pipeline` internals are stripped. Rebuild with `npm run fixture:export -- <run JSON or API URL>`.
 
-Commit `fixtures/demo-run.json`: a sanitized completed run with sources, claims, both checks, a refusal example, and an approved diagnostic. Strip secrets, raw HTML, and provider keys.
+The original spec wanted a completed run with an approved diagnostic. This live subject run does not have one, and we do not fabricate verified claims to create it. The committed fixture is therefore the sanitized review ledger: sources, claims, both checks, and refusals, with no approved diagnostic.
 
 If Redis data is missing, load this fixture as read-only and label fixture mode in the execution view. The deployed demo must not be empty during review.
 

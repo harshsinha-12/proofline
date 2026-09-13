@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createResearchRun } from "@/lib/client";
-import { DEMO_LINKEDIN_URL, DEMO_RUN_ID } from "@/lib/demo";
+import { DEMO_LINKEDIN_URL, DEMO_LIVE_RUN_ID } from "@/lib/demo";
 import { isLinkedInProfileUrl } from "@/lib/profile-url";
 
 export function ResearchIntake() {
@@ -65,7 +65,7 @@ export function ResearchIntake() {
       {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" disabled={pending}>{pending ? "Starting" : "Start evidence review"}</Button>
-        <Link className="text-sm text-accent underline-offset-4 hover:underline" href={`/research/${DEMO_RUN_ID}`}>
+        <Link className="text-sm text-accent underline-offset-4 hover:underline" href={`/research/${DEMO_LIVE_RUN_ID}`}>
           Open precomputed demo run
         </Link>
       </div>

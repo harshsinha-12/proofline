@@ -1120,7 +1120,7 @@
         "checkedAt": "2026-09-13T06:45:18.393Z"
       },
       "status": "rejected",
-      "statusReason": "A quantitative detail has no explicitly attributable qualifying source.",
+      "statusReason": "The wording is website interface chrome, not a business fact.",
       "humanDecision": "pending",
       "createdAt": "2026-09-13T05:44:03.114Z",
       "updatedAt": "2026-09-13T07:51:30.126Z"
@@ -1192,7 +1192,7 @@
       "statement": "Manar Mahmassani holds a CFA Level II certificate.",
       "category": "career",
       "materiality": "medium",
-      "containsNumber": true,
+      "containsNumber": false,
       "timeSensitive": false,
       "originSourceIds": [
         "src_a9835a979a0ac65e"
@@ -1233,8 +1233,8 @@
         ],
         "checkedAt": "2026-09-13T06:50:38.181Z"
       },
-      "status": "rejected",
-      "statusReason": "The quantitative wording cannot be deterministically attributed to a numeric evidence excerpt.",
+      "status": "unverified",
+      "statusReason": "Only secondary or non-qualifying support is available.",
       "humanDecision": "pending",
       "createdAt": "2026-09-13T05:46:05.781Z",
       "updatedAt": "2026-09-13T07:52:33.029Z"
@@ -1533,8 +1533,8 @@
         ],
         "checkedAt": "2026-09-13T07:03:52.480Z"
       },
-      "status": "unverified",
-      "statusReason": "Only secondary or non-qualifying support is available.",
+      "status": "rejected",
+      "statusReason": "The wording is website interface chrome, not a business fact.",
       "humanDecision": "pending",
       "createdAt": "2026-09-13T05:44:06.245Z",
       "updatedAt": "2026-09-13T07:55:48.745Z"

@@ -30,7 +30,7 @@ async function main() {
     ...claim,
     ...classifyClaim(claim, { sources, identityAmbiguous: parsedRun.identityStatus !== "resolved" }),
   }));
-  const events = executionEventSchema.array().max(500).parse((record.events ?? []).slice(-500)).map((event) => ({
+  const events = executionEventSchema.array().max(500).parse((Array.isArray(record.events) ? record.events : []).slice(-500)).map((event) => ({
     ...event,
     message: redactSecrets(event.message),
     data: sanitizeEventData(event.data),
