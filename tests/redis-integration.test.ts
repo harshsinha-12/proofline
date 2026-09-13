@@ -1,6 +1,6 @@
 import Redis from "ioredis";
 import { afterAll, describe, expect, it, vi } from "vitest";
-import { makeClaim, makeSource, now } from "./helpers/fixtures";
+import { makeClaim, makeSource, currentTimestamp } from "./helpers/fixtures";
 
 const state = vi.hoisted(() => ({ client: undefined as Redis | undefined, prefix: `proofline:integration:${Date.now()}` }));
 vi.mock("@/lib/redis", async () => {
@@ -20,13 +20,14 @@ describe.skipIf(!process.env.REDIS_TEST_SOCKET)("local Redis socket integration"
   it("round-trips ledgers, runs Lua commits, caps events, and replays checkpoints safely", async () => {
     const run = await createRun("linkedin.com/in/alex");
     try {
-      await saveSource(run.id, makeSource()); await saveClaim(run.id, makeClaim());
-      expect(await getSources(run.id)).toEqual([makeSource()]); expect(await getClaims(run.id)).toEqual([makeClaim()]);
+      const source = makeSource(); const claim = makeClaim();
+      await saveSource(run.id, source); await saveClaim(run.id, claim);
+      expect(await getSources(run.id)).toEqual([source]); expect(await getClaims(run.id)).toEqual([claim]);
       const token = await acquireRunLock(run.id);
       await expect(acquireRunLock(run.id)).rejects.toMatchObject({ status: 409 });
       expect(await releaseRunLock(run.id, "wrong_owner")).toBe(false);
       try {
-        for (let index = 0; index < 505; index++) await appendEvent(run.id, { id: `event_${index}`, at: now, stage: "created", type: "stage", message: "Progress." }, token);
+        for (let index = 0; index < 505; index++) await appendEvent(run.id, { id: `event_${index}`, at: currentTimestamp(), stage: "created", type: "stage", message: "Progress." }, token);
       } finally { await releaseRunLock(run.id, token); }
       expect(await getEvents(run.id)).toHaveLength(500);
       const checkpoint = await completeStage(run.id, "identity:v1", "planning_research");

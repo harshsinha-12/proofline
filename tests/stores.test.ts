@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MemoryRedis } from "./helpers/memory-redis";
-import { makeClaim, makeSource, makeDiagnostic, now, verifiedClaims } from "./helpers/fixtures";
+import { makeClaim, makeSource, makeDiagnostic, currentTimestamp, verifiedClaims } from "./helpers/fixtures";
 
 const state = vi.hoisted(() => ({ redis: undefined as MemoryRedis | undefined }));
 vi.mock("@/lib/redis", async () => {
@@ -15,7 +15,7 @@ import { getClaim, getClaims, saveClaim, updateClaimReview, approveAllVerifiedCl
 import { getSource, getSources, saveSource } from "@/lib/source-store";
 import { getDemoFixture, parseDemoFixture } from "@/lib/demo-fixture";
 import { resetEnvCache } from "@/lib/env";
-import { generateAuditedDraft } from "@/lib/diagnostic-store";
+import { generateAuditedDraft, approveDiagnostic, getApprovedSnapshot } from "@/lib/diagnostic-store";
 
 beforeEach(() => {
   state.redis!.reset();
@@ -26,12 +26,17 @@ beforeEach(() => {
 afterEach(() => { vi.useRealTimers(); vi.unstubAllEnvs(); vi.restoreAllMocks(); resetEnvCache(); });
 
 describe("Redis evidence stores", () => {
+  it("accepts an explicit HTTPS manual fallback that is not a LinkedIn URL", async () => {
+    const run = await createRun("https://www.stake.com/about", undefined, { allowManualUrl: true });
+    expect(run.linkedInUrl).toBe("https://www.stake.com/about");
+    await expect(createRun("https://www.stake.com/about")).rejects.toMatchObject({ code: "invalid_url" });
+  });
   it("round-trips run metadata, sources, claims and events", async () => {
     const run = await createRun("https://www.linkedin.com/in/alex");
     expect(await getRun(run.id)).toEqual(run);
     const source = makeSource(); const claim = makeClaim();
     await saveSource(run.id, source); await saveClaim(run.id, claim);
-    const event = { id: "event_a", at: now, stage: "created" as const, type: "stage", message: "Started." };
+    const event = { id: "event_a", at: currentTimestamp(), stage: "created" as const, type: "stage", message: "Started." };
     await appendEvent(run.id, event);
     expect(await getSource(run.id, source.id)).toEqual(source);
     expect(await getClaim(run.id, claim.id)).toEqual(claim);
@@ -54,7 +59,7 @@ describe("Redis evidence stores", () => {
     const run = await createRun("linkedin.com/in/alex");
     const token = await acquireRunLock(run.id);
     try {
-      for (let index = 0; index < 505; index++) await appendEvent(run.id, { id: `event_${index}`, at: now, stage: "created", type: "stage", message: `Event ${index}` }, token);
+      for (let index = 0; index < 505; index++) await appendEvent(run.id, { id: `event_${index}`, at: currentTimestamp(), stage: "created", type: "stage", message: `Event ${index}` }, token);
     } finally { await releaseRunLock(run.id, token); }
     const events = await getEvents(run.id);
     expect(events).toHaveLength(500); expect(events[0].id).toBe("event_5"); expect(events[499].id).toBe("event_504");
@@ -81,7 +86,7 @@ describe("Redis evidence stores", () => {
     vi.useFakeTimers();
     const run = await createRun("linkedin.com/in/alex");
     await saveSource(run.id, makeSource()); await saveClaim(run.id, makeClaim());
-    await appendEvent(run.id, { id: "event", at: now, stage: "created", type: "stage", message: "Started." });
+    await appendEvent(run.id, { id: "event", at: currentTimestamp(), stage: "created", type: "stage", message: "Started." });
     vi.advanceTimersByTime(600_000);
     await completeStage(run.id, "step", "resolving_identity");
     for (const suffix of ["", ":sources", ":claims", ":events", ":source:source_a", ":claim:claim_a"]) {
@@ -101,7 +106,7 @@ describe("Redis evidence stores", () => {
     const run = await createRun("linkedin.com/in/alex");
     const claim = makeClaim({ status: "verified", humanDecision: "approved" });
     await saveClaim(run.id, claim);
-    const approved = { ...run, stage: "approved" as const, approvedAt: now, approvedBy: "Reviewer", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) };
+    const approved = { ...run, stage: "approved" as const, approvedAt: currentTimestamp(), approvedBy: "Reviewer", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) };
     await state.redis!.set(`proofline:test:run:${run.id}`, JSON.stringify(approved));
     await state.redis!.set(`proofline:test:run:${run.id}:snapshot`, "snapshot");
     const edited = await saveClaim(run.id, { ...claim, statement: "Alex founded Another Company." });
@@ -113,7 +118,7 @@ describe("Redis evidence stores", () => {
   });
   it("redacts secrets and drops raw page/provider/chain-of-thought payloads from events", async () => {
     const run = await createRun("linkedin.com/in/alex");
-    await appendEvent(run.id, { id: "event", at: now, stage: "created", type: "error", message: "Bearer abc123", data: { query: "sk-secret123", rawHtml: "RAW", chainOfThought: "PRIVATE", rawProviderPayload: "PAYLOAD", latencyMs: 50 } });
+    await appendEvent(run.id, { id: "event", at: currentTimestamp(), stage: "created", type: "error", message: "Bearer abc123", data: { query: "sk-secret123", rawHtml: "RAW", chainOfThought: "PRIVATE", rawProviderPayload: "PAYLOAD", latencyMs: 50 } });
     const events = await getEvents(run.id);
     expect(events[0].message).toBe("[redacted]");
     expect(events[0].data).toEqual({ query: "[redacted]", latencyMs: 50 });
@@ -131,7 +136,7 @@ describe("Redis evidence stores", () => {
   });
   it("cannot edit an approved diagnostic through generic run updates", async () => {
     const run = await createRun("linkedin.com/in/alex");
-    const approved = { ...run, stage: "approved" as const, approvedAt: now, approvedBy: "Reviewer", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) };
+    const approved = { ...run, stage: "approved" as const, approvedAt: currentTimestamp(), approvedBy: "Reviewer", diagnostic: makeDiagnostic({ reviewStatus: "approved" }) };
     await state.redis!.set(`proofline:test:run:${run.id}`, JSON.stringify(approved));
     await expect(saveRun({ ...approved, diagnostic: { ...approved.diagnostic, currentPositioning: "Unaudited rewrite." } })).rejects.toMatchObject({ code: "approval_not_allowed" });
   });
@@ -164,5 +169,19 @@ describe("Redis evidence stores", () => {
     const events = await getEvents(run.id);
     expect(events).toHaveLength(1); expect(events[0].type).toBe("diagnostic_audit_failed"); expect(events[0].data?.attempt).toBe(1);
     expect(generate).toHaveBeenCalledTimes(2);
+  });
+  it("writes an immutable snapshot that generic run updates cannot restore after invalidation", async () => {
+    const run = await createRun("linkedin.com/in/alex");
+    for (const claim of verifiedClaims()) await saveClaim(run.id, claim);
+    await saveRun({ ...run, stage: "awaiting_human_review", diagnostic: makeDiagnostic({ reviewStatus: "draft" }) });
+    const approved = await approveDiagnostic(run.id, true, "Harsh Sinha");
+    expect(approved.run.stage).toBe("approved");
+    expect(approved.run.diagnostic?.reviewStatus).toBe("approved");
+    const snapshot = await getApprovedSnapshot(run.id);
+    expect(snapshot?.hash).toBe(approved.snapshotHash);
+    await expect(approveDiagnostic(run.id, true, "Harsh Sinha")).rejects.toMatchObject({ code: "approval_not_allowed" });
+    await updateClaimReview(run.id, "identity", "excluded");
+    expect(await getApprovedSnapshot(run.id)).toBeNull();
+    expect((await getRun(run.id))?.stage).toBe("awaiting_human_review");
   });
 });

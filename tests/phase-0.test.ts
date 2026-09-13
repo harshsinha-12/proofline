@@ -32,7 +32,7 @@ describe("parseEnv", () => {
     expect(env.REDIS_HOST).toBe("redis.example.com");
     expect(env.REDIS_PORT).toBe(6379);
     expect(env.REDIS_KEY_PREFIX).toBe("proofline:dev");
-    expect(env.SEARCH_PROVIDER).toBe("tavily");
+    expect(env.SEARCH_PROVIDER).toBe("openai");
   });
 
   it("does not read a model id from the environment", () => {
